@@ -4,16 +4,8 @@ import type { SelectTab } from "@/components/SelectTab";
 import { login } from "@/api/Login";
 import router from "@/router";
 import { useRouter } from "vue-router";
-
+import type { LoginUser } from "@/types"
 import './Login.css'
-
-export interface LoginUser {
-    loginId: string,
-    type: string,
-    account: string,
-    password: string,
-    validateCode: string
-}
 
 const loginType: SelectTab[] = [
     { key: "account", name: '账号' },
