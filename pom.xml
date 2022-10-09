@@ -4,6 +4,7 @@
     <modules>
         <module>fortress-translator</module>
         <module>fortress-common</module>
+        <module>fortress-system</module>
     </modules>
 
     <parent>

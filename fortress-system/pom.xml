@@ -4,8 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.codebro</groupId>
-        <artifactId>fortress-system</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <artifactId>fortress</artifactId>
+        <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>fortress-system</artifactId>
     <version>0.0.1-SNAPSHOT</version>
