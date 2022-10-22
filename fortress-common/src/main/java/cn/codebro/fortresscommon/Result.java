@@ -30,6 +30,14 @@ public class Result {
         this.message = message;
     }
 
+    public Object getData() {
+        return data;
+    }
+
+    private void setData(Object data) {
+        this.data = data;
+    }
+
     public static Result success() {
         return new Result(200, "执行成功");
     }
@@ -44,4 +52,12 @@ public class Result {
         return new Result(400, "系统异常");
     }
 
+    @Override
+    public String toString() {
+        return "Result{" +
+                "code=" + code +
+                ", message='" + message + '\'' +
+                ", data=" + data +
+                '}';
+    }
 }

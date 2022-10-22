@@ -1,6 +1,8 @@
-import { defineComponent, reactive } from "vue";
-import type { User } from "@/types"
+import { defineComponent, reactive, onMounted } from "vue";
+import type { ApiResult, User, Page } from "@/types"
 import { Column } from "element-plus";
+import * as UserApi from "@/api/User"
+
 
 export default defineComponent({
     setup() {
@@ -18,7 +20,9 @@ export default defineComponent({
                     order: 0
                 }
             ],
-            searchKey: ""
+            searchKey: "",
+            page: 1,
+            pageSize: 10,
         })
         const handleEdit = (index: number, row: User) => {
             console.log(index, row)
@@ -29,6 +33,13 @@ export default defineComponent({
         const handleSelectionChange = () => {
             console.log()
         }
+
+        onMounted(() => {
+            UserApi.page(data.page, data.pageSize).then((result: ApiResult<Page<User>>) => {
+                console.log(result)
+            })
+        })
+
         return () => (
             <>
                 <el-row style={{ marginBottom: '10px' }} justify="space-between">

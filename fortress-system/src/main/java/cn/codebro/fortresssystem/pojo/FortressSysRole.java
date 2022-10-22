@@ -1,12 +1,13 @@
 package cn.codebro.fortresssystem.pojo;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author Guo wentao
  * @date 2022/10/9
  */
-public class FortressSysRole {
+public class FortressSysRole implements Serializable {
 
     private String id;
     private String name;

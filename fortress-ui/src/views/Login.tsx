@@ -1,10 +1,10 @@
 import { defineComponent, reactive, ref } from "vue";
 import SelectTabCom from "@/components/SelectTab";
 import type { SelectTab } from "@/components/SelectTab";
-import { login } from "@/api/Login";
+import { login } from "@/api/User";
 import router from "@/router";
 import { useRouter } from "vue-router";
-import type { LoginUser } from "@/types"
+import type { ApiResult, User, LoginUser } from "@/types"
 import './Login.css'
 
 const loginType: SelectTab[] = [
@@ -57,7 +57,7 @@ const handleDynamicRouter = () => {
     routes.map(item => router.addRoute(item))
 }
 
-const PhoneValidateCodeCom = defineComponent({
+export const PhoneValidateCodeCom = defineComponent({
     props: {
         validateCode: String
     },
@@ -112,7 +112,7 @@ export default defineComponent({
             loginForm.type = item.key
         }
         const doLogin = () => {
-            login(loginForm).then(resp => {
+            login(loginForm).then((resp: ApiResult<User>) => {
                 console.log("result", resp)
                 handleDynamicRouter()
                 $router.push({ path: '/' })

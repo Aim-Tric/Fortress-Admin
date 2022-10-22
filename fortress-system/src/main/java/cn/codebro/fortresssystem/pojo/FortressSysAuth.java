@@ -1,10 +1,12 @@
 package cn.codebro.fortresssystem.pojo;
 
+import java.io.Serializable;
+
 /**
  * @author Guo wentao
  * @date 2022/10/9
  */
-public class FortressSysAuth {
+public class FortressSysAuth implements Serializable {
     private String id;
     private String name;
     private String identity;

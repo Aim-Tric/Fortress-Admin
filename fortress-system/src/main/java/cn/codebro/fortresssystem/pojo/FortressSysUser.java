@@ -1,10 +1,18 @@
 package cn.codebro.fortresssystem.pojo;
 
+import cn.codebro.fortresscommon.Model;
+import com.baomidou.mybatisplus.annotation.*;
+
+import java.io.Serializable;
+
 /**
  * @author Guo wentao
  * @date 2022/10/9
  */
-public class FortressSysUser {
+@TableName(value = "f_user", excludeProperty = {"post", "dept", "role"})
+public class FortressSysUser extends Model implements Serializable {
+    @TableId
+    @TableField(fill = FieldFill.INSERT)
     private String id;
     private String username;
     private String password;
@@ -12,7 +20,7 @@ public class FortressSysUser {
     private Integer sex;
     private String phone;
     private String email;
-
+    private Integer status;
     private FortressSysPost post;
     private FortressSysDept dept;
     private FortressSysDept role;
@@ -73,6 +81,14 @@ public class FortressSysUser {
         this.email = email;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     public FortressSysPost getPost() {
         return post;
     }
@@ -95,5 +111,22 @@ public class FortressSysUser {
 
     public void setRole(FortressSysDept role) {
         this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "FortressSysUser{" +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", sex=" + sex +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", status=" + status +
+                ", post=" + post +
+                ", dept=" + dept +
+                ", role=" + role +
+                '}';
     }
 }

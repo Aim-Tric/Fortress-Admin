@@ -1,60 +1,57 @@
 package cn.codebro.fortresssystem.controller;
 
 import cn.codebro.fortresscommon.Result;
-import cn.codebro.fortresssystem.pojo.FortressSysUser;
+import cn.codebro.fortresssystem.pojo.FortressSysDept;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * @author Guo wentao
  * @date 2022/10/9
  */
 @RestController
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/dept")
+public class DeptController {
     private static final int DEFAULT_PAGE_SIZE = 10;
 
-    private final IService<FortressSysUser> userService;
+    private final IService<FortressSysDept> deptService;
 
-    public UserController(IService<FortressSysUser> userService) {
-        this.userService = userService;
+    public DeptController(IService<FortressSysDept> deptService) {
+        this.deptService = deptService;
     }
 
     @GetMapping("/p/{page}/{pageSize}")
     public Result page(@PathVariable int page, @PathVariable(required = false) int pageSize) {
-        return Result.success(userService.page(new Page<>(page, pageSize == 0 ? DEFAULT_PAGE_SIZE : pageSize)));
+        return Result.success(deptService.page(new Page<>(page, pageSize == 0 ? DEFAULT_PAGE_SIZE : pageSize)));
     }
 
     @GetMapping
     public Result getById(String id) {
-        FortressSysUser user = new FortressSysUser();
-        user.setId(id);
-        return Result.success(userService.getOne(new QueryWrapper<>(user)));
+        FortressSysDept dept = new FortressSysDept();
+        dept.setId(id);
+        return Result.success(deptService.getOne(new QueryWrapper<>(dept)));
     }
 
     @PostMapping
-    public Result add(FortressSysUser user) {
-        userService.save(user);
+    public Result add(FortressSysDept dept) {
+        deptService.save(dept);
         return Result.success();
     }
 
     @PutMapping
-    public Result update(FortressSysUser user) {
-        userService.updateById(user);
+    public Result update(FortressSysDept dept) {
+        deptService.updateById(dept);
         return Result.success();
     }
 
     @DeleteMapping
     public Result delete(String id) {
-        FortressSysUser user = new FortressSysUser();
-        user.setId(id);
-        userService.removeById(user);
+        FortressSysDept dept = new FortressSysDept();
+        dept.setId(id);
+        deptService.removeById(dept);
         return Result.success();
     }
 }

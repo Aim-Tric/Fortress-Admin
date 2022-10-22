@@ -63,3 +63,8 @@ export interface ApiResult<T = {} | []> {
     message: string,
     data?: T
 }
+
+export interface Page<T = {} | []> {
+    rows: any[],
+    total: number
+}
