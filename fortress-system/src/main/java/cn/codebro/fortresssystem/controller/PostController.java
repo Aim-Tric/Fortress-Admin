@@ -1,9 +1,8 @@
 package cn.codebro.fortresssystem.controller;
 
 import cn.codebro.fortresscommon.Result;
-import cn.codebro.fortresssystem.pojo.FortressSysPost;
+import cn.codebro.fortresssystem.pojo.Post;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +16,9 @@ import org.springframework.web.bind.annotation.*;
 public class PostController {
     private static final int DEFAULT_PAGE_SIZE = 10;
 
-    private final IService<FortressSysPost> postService;
+    private final IService<Post> postService;
 
-    public PostController(IService<FortressSysPost> postService) {
+    public PostController(IService<Post> postService) {
         this.postService = postService;
     }
 
@@ -30,26 +29,26 @@ public class PostController {
 
     @GetMapping
     public Result getById(String id) {
-        FortressSysPost post = new FortressSysPost();
+        Post post = new Post();
         post.setId(id);
         return Result.success(postService.getOne(new QueryWrapper<>(post)));
     }
 
     @PostMapping
-    public Result add(FortressSysPost post) {
+    public Result add(Post post) {
         postService.save(post);
         return Result.success();
     }
 
     @PutMapping
-    public Result update(FortressSysPost post) {
+    public Result update(Post post) {
         postService.updateById(post);
         return Result.success();
     }
 
     @DeleteMapping
     public Result delete(String id) {
-        FortressSysPost post = new FortressSysPost();
+        Post post = new Post();
         post.setId(id);
         postService.removeById(post);
         return Result.success();

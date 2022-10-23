@@ -24,12 +24,15 @@ export default defineComponent({
             page: 1,
             pageSize: 10,
         })
+
         const handleEdit = (index: number, row: User) => {
             console.log(index, row)
         }
+
         const handleDelete = (index: number, row: User) => {
             console.log(index, row)
         }
+
         const handleSelectionChange = () => {
             console.log()
         }
@@ -97,6 +100,10 @@ export default defineComponent({
                     }>
                     </el-table-column>
                 </el-table>
+
+                <el-pagination layout="prev, pager, next" total={1000}
+                    onSizeChange="handleSizeChange"
+                    onCurrentChange="handleCurrentChange" />
             </>
         )
     }

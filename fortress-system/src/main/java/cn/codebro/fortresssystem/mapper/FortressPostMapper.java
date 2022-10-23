@@ -1,6 +1,6 @@
 package cn.codebro.fortresssystem.mapper;
 
-import cn.codebro.fortresssystem.pojo.FortressSysPost;
+import cn.codebro.fortresssystem.pojo.Post;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -9,5 +9,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2022/10/9
  */
 @Mapper
-public interface FortressPostMapper extends BaseMapper<FortressSysPost> {
+public interface FortressPostMapper extends BaseMapper<Post> {
 }

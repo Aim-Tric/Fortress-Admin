@@ -10,9 +10,8 @@ import java.io.Serializable;
  * @date 2022/10/9
  */
 @TableName(value = "f_user", excludeProperty = {"post", "dept", "role"})
-public class FortressSysUser extends Model implements Serializable {
+public class User extends Model implements Serializable {
     @TableId
-    @TableField(fill = FieldFill.INSERT)
     private String id;
     private String username;
     private String password;
@@ -21,9 +20,9 @@ public class FortressSysUser extends Model implements Serializable {
     private String phone;
     private String email;
     private Integer status;
-    private FortressSysPost post;
-    private FortressSysDept dept;
-    private FortressSysDept role;
+    private Post post;
+    private Dept dept;
+    private Dept role;
 
     public String getId() {
         return id;
@@ -89,27 +88,27 @@ public class FortressSysUser extends Model implements Serializable {
         this.status = status;
     }
 
-    public FortressSysPost getPost() {
+    public Post getPost() {
         return post;
     }
 
-    public void setPost(FortressSysPost post) {
+    public void setPost(Post post) {
         this.post = post;
     }
 
-    public FortressSysDept getDept() {
+    public Dept getDept() {
         return dept;
     }
 
-    public void setDept(FortressSysDept dept) {
+    public void setDept(Dept dept) {
         this.dept = dept;
     }
 
-    public FortressSysDept getRole() {
+    public Dept getRole() {
         return role;
     }
 
-    public void setRole(FortressSysDept role) {
+    public void setRole(Dept role) {
         this.role = role;
     }
 

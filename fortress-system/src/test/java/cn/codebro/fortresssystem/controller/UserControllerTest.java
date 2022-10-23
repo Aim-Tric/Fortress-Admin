@@ -1,14 +1,12 @@
 package cn.codebro.fortresssystem.controller;
 
 import cn.codebro.fortresscommon.Result;
-import cn.codebro.fortresssystem.mapper.FortressUserMapper;
-import cn.codebro.fortresssystem.pojo.FortressSysUser;
+import cn.codebro.fortresssystem.pojo.User;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
-import java.util.Date;
 
 /**
  * @author Guo wentao
@@ -25,12 +23,12 @@ public class UserControllerTest {
     public void page() {
         int page = 1, pageSize = 10;
         Result result = controller.page(page, pageSize);
-        System.out.println(((Page<FortressSysUser>) result.getData()).getRecords());
+        System.out.println(((Page<User>) result.getData()).getRecords());
     }
 
     @Test
     public void add() {
-        FortressSysUser user = new FortressSysUser();
+        User user = new User();
         user.setUsername("Tric2");
         user.setNickname("Tric2");
         user.setPassword("123456");
@@ -48,7 +46,7 @@ public class UserControllerTest {
 
     @Test
     public void update() {
-        FortressSysUser user = new FortressSysUser();
+        User user = new User();
         user.setId("1582963233648062465");
         user.setUsername("Tric");
         user.setNickname("Tric");

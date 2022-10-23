@@ -1,7 +1,7 @@
 package cn.codebro.fortresssystem.service.impl;
 
 import cn.codebro.fortresssystem.mapper.FortressPostMapper;
-import cn.codebro.fortresssystem.pojo.FortressSysPost;
+import cn.codebro.fortresssystem.pojo.Post;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -10,5 +10,5 @@ import org.springframework.stereotype.Service;
  * @date 2022/10/9
  */
 @Service
-public class PostServiceImpl extends ServiceImpl<FortressPostMapper, FortressSysPost> {
+public class PostServiceImpl extends ServiceImpl<FortressPostMapper, Post> {
 }

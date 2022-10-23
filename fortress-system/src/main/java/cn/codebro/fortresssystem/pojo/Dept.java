@@ -1,5 +1,9 @@
 package cn.codebro.fortresssystem.pojo;
 
+import cn.codebro.fortresscommon.Model;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -7,11 +11,13 @@ import java.util.List;
  * @author Guo wentao
  * @date 2022/10/9
  */
-public class FortressSysDept implements Serializable {
+@TableName(value = "f_dept")
+public class Dept extends Model implements Serializable {
+    @TableId
     private String id;
     private String name;
     private String parentId;
-    private List<FortressSysPost> posts;
+    private List<Post> posts;
 
     public String getId() {
         return id;
@@ -37,11 +43,11 @@ public class FortressSysDept implements Serializable {
         this.parentId = parentId;
     }
 
-    public List<FortressSysPost> getPosts() {
+    public List<Post> getPosts() {
         return posts;
     }
 
-    public void setPosts(List<FortressSysPost> posts) {
+    public void setPosts(List<Post> posts) {
         this.posts = posts;
     }
 }

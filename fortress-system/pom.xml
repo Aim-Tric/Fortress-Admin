@@ -45,7 +45,10 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-spring-boot-starter</artifactId>
+        </dependency>
         <dependency>
             <groupId>cn.codebro</groupId>
             <artifactId>fortress-common</artifactId>
