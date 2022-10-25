@@ -9,9 +9,7 @@ import java.io.Serializable;
  * @author Guo wentao
  * @date 2022/10/9
  */
-@TableName(value = "f_user", excludeProperty = {"post", "dept", "role"})
 public class User extends Model implements Serializable {
-    @TableId
     private String id;
     private String username;
     private String password;

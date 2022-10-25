@@ -1,6 +1,7 @@
 package cn.codebro.fortresssystem.service;
 
 import cn.codebro.fortresssystem.pojo.User;
+import cn.codebro.fortresssystem.pojo.dto.UserDTO;
 
 /**
  * @author Guo wentao
@@ -9,8 +10,11 @@ import cn.codebro.fortresssystem.pojo.User;
  */
 public interface IAccountService {
 
-    void login(String username, String password, Integer type);
+    void login(String username, String password, String type);
 
-    void register(User user);
+    void register(UserDTO user);
 
+    UserDTO getLoginUser();
+
+    boolean isLogin();
 }

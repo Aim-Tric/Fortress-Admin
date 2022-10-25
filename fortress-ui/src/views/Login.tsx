@@ -2,9 +2,9 @@ import { defineComponent, reactive, ref } from "vue";
 import SelectTabCom from "@/components/SelectTab";
 import type { SelectTab } from "@/components/SelectTab";
 import { login } from "@/api/User";
-import router from "@/router";
-import { useRouter } from "vue-router";
-import type { ApiResult, User, LoginUser } from "@/types"
+import { useRouter, useRoute } from "vue-router";
+import type { LoginUser } from "@/types"
+import CryptoJS from 'crypto-js'
 import './Login.css'
 
 const loginType: SelectTab[] = [
@@ -24,37 +24,6 @@ const checkLoginIsSuccess = (loginId: string) => {
     // 登录检查
     console.log("检查loginId是否已经验证成功", loginId)
     return count++ > 10
-}
-
-// 根据登录用户生成对应的动态路由
-const handleDynamicRouter = () => {
-    // auto redirect to the index page and handle the activate dynamic router generation;
-    console.log("根据登录用户生成对应的动态路由")
-
-    const routes = [
-        {
-            path: '/',
-            redirect: '/home',
-            name: 'StandardLayout',
-            component: () => import('@/layout/AdminLayout/AdminLayout'),
-            children: [{
-                path: '/home',
-                name: 'Home',
-                component: () => import('@/views/Index')
-            },
-            {
-                path: '/user',
-                name: 'User',
-                component: () => import('@/views/system/user/Index')
-            },
-            {
-                path: '/role',
-                name: 'Role',
-                component: () => import('@/views/system/role/Index')
-            }]
-        }
-    ]
-    routes.map(item => router.addRoute(item))
 }
 
 export const PhoneValidateCodeCom = defineComponent({
@@ -95,8 +64,18 @@ export const PhoneValidateCodeCom = defineComponent({
 
 export default defineComponent({
     setup() {
-        const $router = useRouter();
+        const $router = useRouter()
+        const $route = useRoute()
         const loginForm: LoginUser = reactive({ loginId: "1", type: 'account', account: '', password: '', validateCode: '' })
+
+        const loginSuccess = () => {
+            let redirect = '/'
+            if ($route.query.redirect) {
+                redirect = decodeURIComponent($route.query.redirect as string)
+            }
+            $router.push({ path: redirect })
+        }
+
         let timer: NodeJS.Timer | undefined
         const onSelectTabItemChange = (item: SelectTab) => {
             if (!isAccountLogin(item.key)) {
@@ -105,19 +84,18 @@ export default defineComponent({
                         if (checkLoginIsSuccess(loginForm.loginId)) {
                             clearInterval(timer)
                             timer = undefined
-                            handleDynamicRouter()
+                            loginSuccess()
                         }
                     }, 800))
             }
             loginForm.type = item.key
         }
+
         const doLogin = () => {
-            login(loginForm).then((resp: ApiResult<User>) => {
-                console.log("result", resp)
-                handleDynamicRouter()
-                $router.push({ path: '/' })
-            })
+            loginForm.password = CryptoJS.enc.Base64.stringify(CryptoJS.MD5(loginForm.password))
+            login(loginForm).then(() => loginSuccess())
         }
+
         return () => (
             <div style="position: related;">
                 <el-row style={{ top: '300px' }}>

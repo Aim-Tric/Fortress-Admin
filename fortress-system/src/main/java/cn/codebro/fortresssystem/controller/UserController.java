@@ -2,6 +2,8 @@ package cn.codebro.fortresssystem.controller;
 
 import cn.codebro.fortresscommon.Result;
 import cn.codebro.fortresssystem.pojo.User;
+import cn.codebro.fortresssystem.pojo.dto.UserDTO;
+import cn.codebro.fortresssystem.service.IUserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -16,9 +18,9 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private static final int DEFAULT_PAGE_SIZE = 10;
 
-    private final IService<User> userService;
+    private final IService<UserDTO> userService;
 
-    public UserController(IService<User> userService) {
+    public UserController(IService<UserDTO> userService) {
         this.userService = userService;
     }
 
@@ -27,27 +29,27 @@ public class UserController {
         return Result.success(userService.page(new Page<>(page, pageSize == 0 ? DEFAULT_PAGE_SIZE : pageSize)));
     }
 
-    @GetMapping
-    public Result getById(String id) {
-        User user = new User();
+    @GetMapping("/{id}")
+    public Result getById(@PathVariable String id) {
+        UserDTO user = new UserDTO();
         user.setId(id);
         return Result.success(userService.getOne(new QueryWrapper<>(user)));
     }
 
     @PostMapping
-    public Result add(User user) {
+    public Result add(@RequestBody UserDTO user) {
         userService.save(user);
         return Result.success();
     }
 
     @PutMapping
-    public Result update(User user) {
+    public Result update(@RequestBody UserDTO user) {
         userService.updateById(user);
         return Result.success();
     }
 
-    @DeleteMapping
-    public Result delete(String id) {
+    @DeleteMapping("/{id}")
+    public Result delete(@PathVariable String id) {
         User user = new User();
         user.setId(id);
         userService.removeById(user);

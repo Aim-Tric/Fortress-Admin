@@ -7,7 +7,7 @@ package cn.codebro.fortresssystem.pojo;
  */
 public class LoginUser {
     private String loginId;
-    private Integer type;
+    private String type;
     private String account;
     private String password;
     private String validateCode;
@@ -21,11 +21,11 @@ public class LoginUser {
         return this;
     }
 
-    public Integer getType() {
+    public String getType() {
         return type;
     }
 
-    public LoginUser setType(Integer type) {
+    public LoginUser setType(String type) {
         this.type = type;
         return this;
     }

@@ -10,7 +10,7 @@ export interface User {
     post: string,
     dept: string,
     role: string,
-    order: number
+    orderNum: number
 }
 
 export interface LoginUser {
@@ -24,37 +24,39 @@ export interface LoginUser {
 export interface Post {
     id: string,
     name: string,
-    order: number
+    orderNum: number
 }
 
 export interface Dept {
     id: string,
     parentId: string,
     name: string,
-    order: number,
-    posts: Post[]
+    orderNum: number,
+    posts?: Post[]
 }
 
 export interface Role {
     id: string,
     name: string,
-    order: number,
-    auths: Auth[]
+    identify: string,
+    status: number,
+    orderNum: number,
+    auths?: Auth[]
 }
 
 export interface Group {
     id: string,
     parentId: string,
     name: string,
-    auths: Auth[],
-    users: User[]
+    auths?: Auth[],
+    users?: User[]
 }
 
 export interface Auth {
     id: string,
     name: string,
     identity: string,
-    order: number
+    orderNum: number
 }
 
 
@@ -65,6 +67,8 @@ export interface ApiResult<T = {} | []> {
 }
 
 export interface Page<T = {} | []> {
-    rows: any[],
-    total: number
+    records: T[],
+    total: number,
+    size: number,
+    current: number
 }
