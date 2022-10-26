@@ -27,27 +27,27 @@ public class AuthController {
         return Result.success(authService.page(new Page<>(page, pageSize == 0 ? DEFAULT_PAGE_SIZE : pageSize)));
     }
 
-    @GetMapping
-    public Result getById(String id) {
+    @GetMapping("/{id}")
+    public Result getById(@PathVariable String id) {
         Auth auth = new Auth();
         auth.setId(id);
         return Result.success(authService.getOne(new QueryWrapper<>(auth)));
     }
 
     @PostMapping
-    public Result add(Auth auth) {
+    public Result add(@RequestBody Auth auth) {
         authService.save(auth);
         return Result.success();
     }
 
     @PutMapping
-    public Result update(Auth auth) {
+    public Result update(@RequestBody Auth auth) {
         authService.updateById(auth);
         return Result.success();
     }
 
-    @DeleteMapping
-    public Result delete(String id) {
+    @DeleteMapping("/{id}")
+    public Result delete(@PathVariable String id) {
         Auth auth = new Auth();
         auth.setId(id);
         authService.removeById(auth);

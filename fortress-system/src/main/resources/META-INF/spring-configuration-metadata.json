@@ -1,0 +1,16 @@
+{
+  "properties": [
+    {
+      "name": "fortress.admin-account",
+      "type": "java.lang.String",
+      "description": "The account that admin uses to login to the system",
+      "sourceType": "cn.codebro.fortresssystem.config.system.SystemProperty"
+    },
+    {
+      "name": "fortress.admin-password",
+      "type": "java.lang.String",
+      "description": "The password that admin uses to login to the system",
+      "sourceType": "cn.codebro.fortresssystem.config.system.SystemProperty"
+    }
+  ]
+}

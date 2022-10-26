@@ -3,6 +3,7 @@ package cn.codebro.fortresssystem.service.impl;
 import cn.codebro.fortresscommon.exception.IncorrectUsernameOrPasswordException;
 import cn.codebro.fortresscommon.exception.UnknownUserException;
 import cn.codebro.fortresscommon.exception.UserExistException;
+import cn.codebro.fortresssystem.config.system.SystemProperty;
 import cn.codebro.fortresssystem.mapper.FortressUserMapper;
 import cn.codebro.fortresssystem.pojo.dto.UserDTO;
 import cn.codebro.fortresssystem.service.IAccountService;
@@ -15,6 +16,7 @@ import com.baomidou.mybatisplus.core.toolkit.EncryptUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;

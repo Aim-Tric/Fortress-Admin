@@ -27,27 +27,27 @@ public class RoleController {
         return Result.success(roleService.page(new Page<>(page, pageSize == 0 ? DEFAULT_PAGE_SIZE : pageSize)));
     }
 
-    @GetMapping
-    public Result getById(String id) {
+    @GetMapping("/{id}")
+    public Result getById(@PathVariable String id) {
         Role role = new Role();
         role.setId(id);
         return Result.success(roleService.getOne(new QueryWrapper<>(role)));
     }
 
     @PostMapping
-    public Result add(Role role) {
+    public Result add(@RequestBody Role role) {
         roleService.save(role);
         return Result.success();
     }
 
     @PutMapping
-    public Result update(Role role) {
+    public Result update(@RequestBody Role role) {
         roleService.updateById(role);
         return Result.success();
     }
 
-    @DeleteMapping
-    public Result delete(String id) {
+    @DeleteMapping("/{id}")
+    public Result delete(@PathVariable String id) {
         Role role = new Role();
         role.setId(id);
         roleService.removeById(role);

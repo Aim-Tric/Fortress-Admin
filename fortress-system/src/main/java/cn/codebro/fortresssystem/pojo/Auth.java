@@ -14,31 +14,43 @@ import java.io.Serializable;
 public class Auth extends Model implements Serializable {
     @TableId
     private String id;
+    private String parent;
     private String name;
-    private String identity;
+    private String identify;
 
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public Auth setId(String id) {
         this.id = id;
+        return this;
+    }
+
+    public String getParent() {
+        return parent;
+    }
+
+    public Auth setParent(String parent) {
+        this.parent = parent;
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public Auth setName(String name) {
         this.name = name;
+        return this;
     }
 
-    public String getIdentity() {
-        return identity;
+    public String getIdentify() {
+        return identify;
     }
 
-    public void setIdentity(String identity) {
-        this.identity = identity;
+    public Auth setIdentify(String identify) {
+        this.identify = identify;
+        return this;
     }
-
 }

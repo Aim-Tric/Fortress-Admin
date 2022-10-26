@@ -16,22 +16,34 @@ public class Role extends Model implements Serializable {
     @TableId
     private String id;
     private String name;
+    private String identify;
     private List<Auth> auths;
 
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public Role setId(String id) {
         this.id = id;
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public Role setName(String name) {
         this.name = name;
+        return this;
+    }
+
+    public String getIdentify() {
+        return identify;
+    }
+
+    public Role setIdentify(String identify) {
+        this.identify = identify;
+        return this;
     }
 
     public List<Auth> getAuths() {

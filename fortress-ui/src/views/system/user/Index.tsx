@@ -29,7 +29,7 @@ export default defineComponent({
         const pageInfo = ref<Page<User>>({
             records: [],
             current: 1,
-            size: 1,
+            size: 10,
             total: 0
         })
         const searchKey = ref<string>("")
@@ -174,9 +174,10 @@ export default defineComponent({
                     </el-table-column>
                 </el-table>
 
-                <el-pagination layout="prev, pager, next" total={pageInfo.value.total}
-                    page-size={pageInfo.value.size}
-                    current-page={pageInfo.value.current}
+                <el-pagination
+                    layout="total, sizes, prev, pager, next, jumper"
+                    total={pageInfo.value.total}
+                    v-models={[[pageInfo.value.size, 'page-size'], [pageInfo.value.current, 'current-page']]}
                     onSizeChange={loadByPage}
                     onCurrentChange={loadByPage} />
 

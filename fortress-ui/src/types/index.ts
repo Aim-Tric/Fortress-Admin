@@ -54,8 +54,10 @@ export interface Group {
 
 export interface Auth {
     id: string,
+    parent: string,
     name: string,
-    identity: string,
+    identify: string,
+    status: number,
     orderNum: number
 }
 

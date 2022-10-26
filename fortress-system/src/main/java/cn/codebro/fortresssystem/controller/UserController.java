@@ -26,7 +26,8 @@ public class UserController {
 
     @GetMapping("/p/{page}/{pageSize}")
     public Result page(@PathVariable int page, @PathVariable(required = false) int pageSize) {
-        return Result.success(userService.page(new Page<>(page, pageSize == 0 ? DEFAULT_PAGE_SIZE : pageSize)));
+        Page<UserDTO> result = userService.page(new Page<>(page, pageSize == 0 ? DEFAULT_PAGE_SIZE : pageSize));
+        return Result.success(result);
     }
 
     @GetMapping("/{id}")

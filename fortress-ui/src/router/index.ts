@@ -28,6 +28,11 @@ const routes: Array<RouteRecordRaw> = [
       path: '/role',
       name: 'Role',
       component: () => import('@/views/system/role/Index')
+    },
+    {
+      path: '/auth',
+      name: 'Auth',
+      component: () => import('@/views/system/auth/Index')
     }]
   },
   {
