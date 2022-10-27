@@ -74,3 +74,9 @@ export interface Page<T = {} | []> {
     size: number,
     current: number
 }
+
+export interface TreeNode<T> {
+    record: T,
+    children: T[],
+    hasChildren: boolean
+}

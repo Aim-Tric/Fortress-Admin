@@ -2,6 +2,7 @@ package cn.codebro.fortresssystem.controller;
 
 import cn.codebro.fortresscommon.Result;
 import cn.codebro.fortresssystem.pojo.Post;
+import cn.codebro.fortresssystem.service.IPostService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -16,9 +17,9 @@ import org.springframework.web.bind.annotation.*;
 public class PostController {
     private static final int DEFAULT_PAGE_SIZE = 10;
 
-    private final IService<Post> postService;
+    private final IPostService postService;
 
-    public PostController(IService<Post> postService) {
+    public PostController(IPostService postService) {
         this.postService = postService;
     }
 

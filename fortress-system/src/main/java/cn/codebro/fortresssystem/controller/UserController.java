@@ -6,7 +6,6 @@ import cn.codebro.fortresssystem.pojo.dto.UserDTO;
 import cn.codebro.fortresssystem.service.IUserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -18,9 +17,9 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private static final int DEFAULT_PAGE_SIZE = 10;
 
-    private final IService<UserDTO> userService;
+    private final IUserService userService;
 
-    public UserController(IService<UserDTO> userService) {
+    public UserController(IUserService userService) {
         this.userService = userService;
     }
 

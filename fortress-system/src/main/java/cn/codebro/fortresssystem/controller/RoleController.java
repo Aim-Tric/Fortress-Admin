@@ -2,9 +2,9 @@ package cn.codebro.fortresssystem.controller;
 
 import cn.codebro.fortresscommon.Result;
 import cn.codebro.fortresssystem.pojo.Role;
+import cn.codebro.fortresssystem.service.IRoleService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.*;
 public class RoleController {
     private static final int DEFAULT_PAGE_SIZE = 10;
 
-    private final IService<Role> roleService;
+    private final IRoleService roleService;
 
-    public RoleController(IService<Role> roleService) {
+    public RoleController(IRoleService roleService) {
         this.roleService = roleService;
     }
 

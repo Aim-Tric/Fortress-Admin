@@ -2,9 +2,9 @@ package cn.codebro.fortresssystem.controller;
 
 import cn.codebro.fortresscommon.Result;
 import cn.codebro.fortresssystem.pojo.Auth;
+import cn.codebro.fortresssystem.service.IAuthService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private static final int DEFAULT_PAGE_SIZE = 10;
 
-    private final IService<Auth> authService;
+    private final IAuthService authService;
 
-    public AuthController(IService<Auth> authService) {
+    public AuthController(IAuthService authService) {
         this.authService = authService;
     }
 
