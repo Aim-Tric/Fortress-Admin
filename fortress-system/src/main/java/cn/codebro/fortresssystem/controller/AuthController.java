@@ -22,9 +22,9 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @GetMapping("/p/{page}/{pageSize}")
-    public Result page(@PathVariable int page, @PathVariable(required = false) int pageSize) {
-        return Result.success(authService.page(new Page<>(page, pageSize == 0 ? DEFAULT_PAGE_SIZE : pageSize)));
+    @GetMapping("/tree")
+    public Result getAllAsTree() {
+        return Result.success(authService.getAllAsTree());
     }
 
     @GetMapping("/{id}")

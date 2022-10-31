@@ -1,5 +1,5 @@
 import { defineComponent, onMounted, ref, markRaw } from "vue";
-import type { Page, Auth } from "@/types"
+import type { TreeNode, Auth } from "@/types"
 import { Column, FormInstance, ElMessageBox, ElMessage } from "element-plus";
 import { Delete } from '@element-plus/icons-vue'
 import * as AuthApi from '@/api/Auth'
@@ -15,12 +15,8 @@ class AUTH_TEMPLATE implements Auth {
 
 export default defineComponent({
     setup() {
-        const pageInfo = ref<Page<Auth>>({
-            records: [],
-            current: 1,
-            size: 10,
-            total: 0
-        })
+        const pageInfo = ref<TreeNode<Auth>[]>([])
+        const parentSelectorOptions = ref<TreeNode<Auth>[]>([])
         const searchKey = ref<string>('')
         const editDialogOpen = ref<boolean>(false)
         const editInfo = ref<Auth>(new AUTH_TEMPLATE())
@@ -28,14 +24,15 @@ export default defineComponent({
         const formInstance = ref<FormInstance>()
 
         const onCreate = () => {
+            editInfo.value = new AUTH_TEMPLATE()
             editDialogTitle.value = "新建权限"
             editDialogOpen.value = true
         }
 
-        const onEdit = (index: number, row: Auth) => {
+        const onEdit = (index: number, row: TreeNode<Auth>) => {
             editDialogTitle.value = "编辑权限"
             editDialogOpen.value = true
-            editInfo.value = row
+            editInfo.value = row.record
         }
 
         const onCancel = () => {
@@ -53,7 +50,7 @@ export default defineComponent({
                     callback: (action: string) => {
                         if (action === 'confirm') {
                             AuthApi.remove(row.id).then(() => {
-                                loadByPage()
+                                loadAsTree()
                                 ElMessage({
                                     message: '删除成功！',
                                     type: 'success',
@@ -74,7 +71,7 @@ export default defineComponent({
         const doCreate = () => {
             AuthApi.add(editInfo.value).then(() => {
                 onCancel()
-                loadByPage()
+                loadAsTree()
                 ElMessage({
                     message: '添加成功！',
                     type: 'success',
@@ -88,18 +85,45 @@ export default defineComponent({
             })
         }
 
+        const doUpdate = () => {
+            AuthApi.update(editInfo.value).then(() => {
+                onCancel()
+                loadAsTree()
+                ElMessage({
+                    message: '更新成功！',
+                    type: 'success',
+                })
+            }).catch(error => {
+                console.log("add user occur error: ", error)
+                ElMessage({
+                    message: '更新失败！',
+                    type: 'error',
+                })
+            })
+        }
+
+        const doSubmit = () => {
+            if (editInfo.value.id) {
+                doUpdate()
+            } else {
+                doCreate()
+            }
+        }
+
         const handleSelectionChange = () => {
             console.log()
         }
 
-        const loadByPage = () => {
-            AuthApi.page(pageInfo.value.current, pageInfo.value.size).then((result: Page<Auth>) => {
+        const loadAsTree = () => {
+            AuthApi.getAsTree().then((result: TreeNode<Auth>[]) => {
                 pageInfo.value = result
+                parentSelectorOptions.value = result
+                console.log(pageInfo.value)
             })
         }
 
         onMounted(() => {
-            loadByPage()
+            loadAsTree()
         })
 
         return () => (
@@ -120,15 +144,16 @@ export default defineComponent({
                     </el-col>
                 </el-row>
                 <el-table
-                    data={pageInfo.value.records}
-                    style="width: 100%"
+                    data={pageInfo.value}
+                    style={{ width: '100%' }}
                     onSelectionChange={handleSelectionChange}
-                    tree-props={{ children: 'children', hasChildren: 'hasChildren' }}
+                    row-key="id"
+                    default-expand-all
                 >
                     <el-table-column type="selection" width="55" />
-                    <el-table-column label="权限名称" width="180" property="name" />
-                    <el-table-column label="权限标识" width="180" property="identify" />
-                    <el-table-column label="序号" width="180" property="orderNum" />
+                    <el-table-column label="权限名称" width="180" prop="name" />
+                    <el-table-column label="权限标识" width="180" prop="identify" />
+                    <el-table-column label="序号" width="180" prop="orderNum" />
                     <el-table-column label="操作" v-slots={
                         {
                             default: (scope: Column<Auth>) => (
@@ -146,18 +171,11 @@ export default defineComponent({
                     </el-table-column>
                 </el-table>
 
-                <el-pagination
-                    layout="total, sizes, prev, pager, next, jumper"
-                    total={pageInfo.value.total}
-                    v-models={[[pageInfo.value.size, 'page-size'], [pageInfo.value.current, 'current-page']]}
-                    onSizeChange={loadByPage}
-                    onCurrentChange={loadByPage} />
-
                 <el-dialog v-model={editDialogOpen.value} title={editDialogTitle.value} v-slots={{
                     footer: () => (
                         <>
                             <el-button onClick={onCancel}>取消</el-button>
-                            <el-button type="primary" onClick={doCreate}>确定</el-button>
+                            <el-button type="primary" onClick={doSubmit}>确定</el-button>
                         </>
                     )
                 }}>
@@ -169,7 +187,19 @@ export default defineComponent({
                             <el-input v-model={editInfo.value.identify} placeholder="请输入权限标识" />
                         </el-form-item>
                         <el-form-item label="父级权限">
-
+                            <el-tree-select
+                                v-model={editInfo.value.parent}
+                                data={parentSelectorOptions.value}
+                                node-key="id"
+                                render-after-expand={false}
+                                default-checked-keys={editInfo.value.parent}
+                                show-checkbox
+                                props={{
+                                    label: function (data: TreeNode<Auth>) {
+                                        return data.record.name
+                                    }
+                                }}
+                            />
                         </el-form-item>
                         <el-form-item label="排序">
                             <el-input v-model={editInfo.value.orderNum} type="number" placeholder="请输入序号" />

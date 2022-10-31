@@ -1,8 +1,10 @@
 package cn.codebro.fortresssystem.service;
 
-import cn.codebro.fortresscommon.TreeVO;
+import cn.codebro.fortresscommon.Treetify;
 import cn.codebro.fortresssystem.pojo.Auth;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * @author Guo wentao
@@ -14,5 +16,6 @@ public interface IAuthService extends IService<Auth> {
      *
      * @return 树形结构的权限列表
      */
-    TreeVO<Auth> getAllAsTree();
+    List<Treetify<String, Auth>> getAllAsTree();
+    
 }

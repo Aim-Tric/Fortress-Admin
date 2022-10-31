@@ -1,4 +1,4 @@
-import type { Auth, Page } from "@/types"
+import type { Auth, TreeNode } from "@/types"
 import { request } from "@/utils/request"
 
 export const add = (auth: Auth): Promise<Auth> => {
@@ -13,8 +13,8 @@ export const update = (auth: Auth): Promise<Auth> => {
     return request.put('/auth', JSON.stringify(auth))
 }
 
-export const page = (page: number, size = 10): Promise<Page<Auth>> => {
-    return request.get(`/auth/p/${page}/${size}`)
+export const getAsTree = (): Promise<TreeNode<Auth>[]> => {
+    return request.get(`/auth/tree`)
 }
 
 export const getById = (id: string): Promise<Auth> => {

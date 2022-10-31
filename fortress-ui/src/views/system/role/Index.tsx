@@ -79,12 +79,38 @@ export default defineComponent({
                     type: 'success',
                 })
             }).catch(error => {
-                console.log("add user occur error: ", error)
+                console.log("add role occur error: ", error)
                 ElMessage({
                     message: '创建失败！',
                     type: 'error',
                 })
             })
+        }
+
+        const doUpdate = () => {
+            RoleApi.update(editInfo.value).then(() => {
+                onCancel()
+                loadByPage()
+                ElMessage({
+                    message: '更新成功！',
+                    type: 'success',
+                })
+            }).catch(error => {
+                console.log("update role occur error: ", error)
+                ElMessage({
+                    message: '更新失败！',
+                    type: 'error',
+                })
+            })
+        }
+
+        const doSubmit = () => {
+            if (editInfo.value.id) {
+                doUpdate()
+            } else {
+                doCreate()
+            }
+
         }
 
         const handleSelectionChange = () => {
@@ -151,7 +177,7 @@ export default defineComponent({
                     footer: () => (
                         <>
                             <el-button onClick={onCancel}>取消</el-button>
-                            <el-button type="primary" onClick={doCreate}>确定</el-button>
+                            <el-button type="primary" onClick={doSubmit}>确定</el-button>
                         </>
                     )
                 }}>

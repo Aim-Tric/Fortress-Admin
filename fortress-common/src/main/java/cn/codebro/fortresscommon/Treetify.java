@@ -1,14 +1,22 @@
 package cn.codebro.fortresscommon;
 
+import java.util.Collection;
+
 /**
  * @author Guo wentao
  * @project fortress
  * @date 2022-10-27 00:15:09
  */
-public interface Treetify<K> {
+public interface Treetify<K, T> {
 
     K getId();
 
-    K getParentId();
+    K getParent();
+
+    boolean hasChildren();
+
+    Collection<Treetify<K, T>> getChildren();
+
+    void addChildren(Treetify<K, T> obj);
 
 }

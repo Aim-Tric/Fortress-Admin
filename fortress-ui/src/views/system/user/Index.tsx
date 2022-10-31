@@ -71,6 +71,32 @@ export default defineComponent({
             })
         }
 
+        const doUpdate = () => {
+            editInfo.value.password = CryptoJS.enc.Base64.stringify(CryptoJS.MD5("123456"))
+            UserApi.update(editInfo.value).then(() => {
+                onCancel()
+                loadByPage()
+                ElMessage({
+                    message: '更新成功！',
+                    type: 'success',
+                })
+            }).catch(error => {
+                console.log("update user occur error: ", error)
+                ElMessage({
+                    message: '更新失败！',
+                    type: 'error',
+                })
+            })
+        }
+
+        const doSubmit = () => {
+            if(editInfo.value.id) {
+                doUpdate()
+            } else {
+                doCreate()
+            }
+        }
+
         const onDelete = (index: number, row: User) => {
             ElMessageBox.confirm(
                 `您将要删除昵称为${row.nickname}的用户，此操作将不可逆转，确定要删除吗？`,
@@ -185,7 +211,7 @@ export default defineComponent({
                     footer: () => (
                         <>
                             <el-button onClick={onCancel}>取消</el-button>
-                            <el-button type="primary" onClick={doCreate}>确定</el-button>
+                            <el-button type="primary" onClick={doSubmit}>确定</el-button>
                         </>
                     )
                 }}>

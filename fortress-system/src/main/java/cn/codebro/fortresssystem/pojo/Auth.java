@@ -6,20 +6,21 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Guo wentao
  * @date 2022/10/9
  */
-@TableName(value = "f_auth")
-public class Auth extends Model implements Serializable, Treetify<String> {
+@TableName(value = "f_auth", excludeProperty = {"children"})
+public class Auth extends Model implements Serializable, Treetify<String, Auth> {
     @TableId
     private String id;
     private String parent;
     private String name;
     private String identify;
-    private List<Auth> children;
+    private List<Treetify<String, Auth>> children;
 
     @Override
     public String getId() {
@@ -31,8 +32,14 @@ public class Auth extends Model implements Serializable, Treetify<String> {
         return this;
     }
 
+    @Override
     public String getParent() {
         return parent;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return children != null && children.size() > 0;
     }
 
     public Auth setParent(String parent) {
@@ -58,17 +65,17 @@ public class Auth extends Model implements Serializable, Treetify<String> {
         return this;
     }
 
-    public List<Auth> getChildren() {
+    @Override
+    public List<Treetify<String, Auth>> getChildren() {
         return children;
     }
 
-    public Auth setChildren(List<Auth> children) {
-        this.children = children;
-        return this;
+    @Override
+    public void addChildren(Treetify<String, Auth> child) {
+        if (this.children == null) {
+            this.children = new ArrayList<>();
+        }
+        this.children.add(child);
     }
 
-    @Override
-    public String getParentId() {
-        return parent;
-    }
 }
