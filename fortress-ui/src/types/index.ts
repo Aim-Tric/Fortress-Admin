@@ -52,7 +52,7 @@ export interface Group {
     users?: User[]
 }
 
-export interface Auth {
+export interface Auth extends TreeNode<string, Auth> {
     id: string,
     parent: string,
     name: string,
@@ -75,8 +75,9 @@ export interface Page<T = {} | []> {
     current: number
 }
 
-export interface TreeNode<T> {
-    record: T,
+export interface TreeNode<K, T> {
+    id: K,
+    parent: K,
     children: T[],
     hasChildren: boolean
 }

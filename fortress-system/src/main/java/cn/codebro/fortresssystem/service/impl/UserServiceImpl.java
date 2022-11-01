@@ -1,5 +1,6 @@
 package cn.codebro.fortresssystem.service.impl;
 
+import cn.codebro.fortresscommon.exception.IllegalBusinessOperationException;
 import cn.codebro.fortresscommon.exception.IncorrectUsernameOrPasswordException;
 import cn.codebro.fortresscommon.exception.UnknownUserException;
 import cn.codebro.fortresscommon.exception.UserExistException;
@@ -34,7 +35,7 @@ public class UserServiceImpl extends ServiceImpl<FortressUserMapper, UserDTO> im
     @Override
     public void login(String account, String password, String type) {
         if (!StrUtil.equals("account", type) && !StrUtil.equals("phone", type)) {
-
+            throw IllegalBusinessOperationException.dump("不支持的登录类型：" + type);
         } else {
             String column;
             if (StrUtil.equals("account", type)) {
@@ -42,7 +43,7 @@ public class UserServiceImpl extends ServiceImpl<FortressUserMapper, UserDTO> im
             } else if (StrUtil.equals("phone", type)) {
                 column = "phone";
             } else {
-                throw new RuntimeException("不支持的登录类型：" + type);
+                throw IllegalBusinessOperationException.dump("不支持的登录类型：" + type);
             }
             QueryWrapper<UserDTO> query = new QueryWrapper<>();
             query.eq(column, account);

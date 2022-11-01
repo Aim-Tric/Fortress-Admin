@@ -1,4 +1,4 @@
-import type { Auth, TreeNode } from "@/types"
+import type { Auth } from "@/types"
 import { request } from "@/utils/request"
 
 export const add = (auth: Auth): Promise<Auth> => {
@@ -13,7 +13,7 @@ export const update = (auth: Auth): Promise<Auth> => {
     return request.put('/auth', JSON.stringify(auth))
 }
 
-export const getAsTree = (): Promise<TreeNode<Auth>[]> => {
+export const getAsTree = (): Promise<Auth[]> => {
     return request.get(`/auth/tree`)
 }
 

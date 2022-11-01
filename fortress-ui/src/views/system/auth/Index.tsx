@@ -1,5 +1,5 @@
 import { defineComponent, onMounted, ref, markRaw } from "vue";
-import type { TreeNode, Auth } from "@/types"
+import type { Auth } from "@/types"
 import { Column, FormInstance, ElMessageBox, ElMessage } from "element-plus";
 import { Delete } from '@element-plus/icons-vue'
 import * as AuthApi from '@/api/Auth'
@@ -11,15 +11,18 @@ class AUTH_TEMPLATE implements Auth {
     identify = ''
     status = 0
     orderNum = 0
+    children = []
+    hasChildren = false
 }
 
 export default defineComponent({
     setup() {
-        const pageInfo = ref<TreeNode<Auth>[]>([])
-        const parentSelectorOptions = ref<TreeNode<Auth>[]>([])
+        const pageInfo = ref<Auth[]>([])
+        const parentSelectorOptions = ref<Auth[]>([])
         const searchKey = ref<string>('')
         const editDialogOpen = ref<boolean>(false)
         const editInfo = ref<Auth>(new AUTH_TEMPLATE())
+        const defaultCheckedKeys = ref<string[]>([])
         const editDialogTitle = ref<string>('')
         const formInstance = ref<FormInstance>()
 
@@ -29,10 +32,10 @@ export default defineComponent({
             editDialogOpen.value = true
         }
 
-        const onEdit = (index: number, row: TreeNode<Auth>) => {
+        const onEdit = (index: number, row: Auth) => {
             editDialogTitle.value = "编辑权限"
             editDialogOpen.value = true
-            editInfo.value = row.record
+            editInfo.value = row
         }
 
         const onCancel = () => {
@@ -115,10 +118,9 @@ export default defineComponent({
         }
 
         const loadAsTree = () => {
-            AuthApi.getAsTree().then((result: TreeNode<Auth>[]) => {
+            AuthApi.getAsTree().then((result: Auth[]) => {
                 pageInfo.value = result
                 parentSelectorOptions.value = result
-                console.log(pageInfo.value)
             })
         }
 
@@ -191,13 +193,12 @@ export default defineComponent({
                                 v-model={editInfo.value.parent}
                                 data={parentSelectorOptions.value}
                                 node-key="id"
+                                default-expand-all
                                 render-after-expand={false}
-                                default-checked-keys={editInfo.value.parent}
+                                default-checked-keys={[]}
                                 show-checkbox
                                 props={{
-                                    label: function (data: TreeNode<Auth>) {
-                                        return data.record.name
-                                    }
+                                    label: 'name'
                                 }}
                             />
                         </el-form-item>

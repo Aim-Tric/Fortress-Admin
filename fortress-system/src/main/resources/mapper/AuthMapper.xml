@@ -1,0 +1,13 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.codebro.fortresssystem.mapper.FortressAuthMapper">
+
+    <select id="countDistributionInRole" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM f_role_auth
+        WHERE auth_id = #{id}
+    </select>
+
+</mapper>
