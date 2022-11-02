@@ -1,11 +1,13 @@
 package cn.codebro.fortresssystem.pojo;
 
+import java.io.Serializable;
+
 /**
  * @author Guo wentao
  * @project fortress
  * @date 2022-10-23 09:32:32
  */
-public class LoginUser {
+public class LoginUser implements Serializable {
     private String loginId;
     private String type;
     private String account;

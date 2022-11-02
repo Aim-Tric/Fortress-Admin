@@ -65,6 +65,11 @@ const menus: Menu[] = [{
         name: "权限管理",
         to: "auth",
         icon: "Document"
+    }, {
+        id: "6",
+        name: "菜单管理",
+        to: "menu",
+        icon: "Document"
     }]
 }]
 

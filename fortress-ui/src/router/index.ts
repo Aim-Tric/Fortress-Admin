@@ -33,7 +33,17 @@ const routes: Array<RouteRecordRaw> = [
       path: '/auth',
       name: 'Auth',
       component: () => import('@/views/system/auth/Index')
+    },
+    {
+      path: '/menu',
+      name: 'Menu',
+      component: () => import('@/views/system/menu/Index')
     }]
+  },
+  {
+    path: '/404',
+    name: 'NotFound',
+    component: () => import('@/views/404')
   },
   {
     path: '/:pathMatch(.*)*',

@@ -61,6 +61,19 @@ export interface Auth extends TreeNode<string, Auth> {
     orderNum: number
 }
 
+export interface Menu extends TreeNode<string, Menu> {
+    id: string,
+    parent: string,
+    name: string,
+    routeName: string,
+    pageTitle: string,
+    pagePath: string,
+    type: number,
+    componentPath: string,
+    status: number,
+    description: string,
+    orderNum: number
+}
 
 export interface ApiResult<T = {} | []> {
     code: number,

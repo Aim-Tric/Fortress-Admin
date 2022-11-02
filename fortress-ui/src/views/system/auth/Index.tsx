@@ -22,7 +22,6 @@ export default defineComponent({
         const searchKey = ref<string>('')
         const editDialogOpen = ref<boolean>(false)
         const editInfo = ref<Auth>(new AUTH_TEMPLATE())
-        const defaultCheckedKeys = ref<string[]>([])
         const editDialogTitle = ref<string>('')
         const formInstance = ref<FormInstance>()
 
@@ -59,7 +58,7 @@ export default defineComponent({
                                     type: 'success',
                                 })
                             }).catch(error => {
-                                console.log("delete user occur error: ", error)
+                                console.log("delete auth occur error: ", error)
                                 ElMessage({
                                     message: '删除失败！',
                                     type: 'error',
@@ -80,7 +79,7 @@ export default defineComponent({
                     type: 'success',
                 })
             }).catch(error => {
-                console.log("add user occur error: ", error)
+                console.log("add auth occur error: ", error)
                 ElMessage({
                     message: '创建失败！',
                     type: 'error',
@@ -97,7 +96,7 @@ export default defineComponent({
                     type: 'success',
                 })
             }).catch(error => {
-                console.log("add user occur error: ", error)
+                console.log("update auth occur error: ", error)
                 ElMessage({
                     message: '更新失败！',
                     type: 'error',
