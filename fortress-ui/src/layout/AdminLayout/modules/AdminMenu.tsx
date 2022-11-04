@@ -1,4 +1,5 @@
-import { defineComponent, resolveComponent, h } from "vue"
+import { defineComponent, resolveComponent, h, onMounted, ref } from "vue"
+import { getAsTree } from "@/api/Menu"
 
 export interface Menu {
     id: string,
@@ -37,52 +38,47 @@ const generateMenu = (item: Menu) => {
             {item.children.map((child) => generateMenu(child))}
         </el-sub-menu>
     );
-
 }
-
-const menus: Menu[] = [{
-    id: "1",
-    name: "首页",
-    to: "home",
-    icon: "Document"
-}, {
-    id: "2",
-    name: "系统管理",
-    to: "system",
-    icon: "Document",
-    children: [{
-        id: "3",
-        name: "用户管理",
-        to: "user",
-        icon: "Document"
-    }, {
-        id: "4",
-        name: "角色管理",
-        to: "role",
-        icon: "Document"
-    }, {
-        id: "5",
-        name: "权限管理",
-        to: "auth",
-        icon: "Document"
-    }, {
-        id: "6",
-        name: "菜单管理",
-        to: "menu",
-        icon: "Document"
-    }]
-}]
 
 export default defineComponent({
     setup() {
-        const handleOpen = (key: string, keyPath: string[]) => {
-            console.log(key, keyPath)
-        }
-
-        const handleClose = (key: string, keyPath: string[]) => {
-            console.log(key, keyPath)
-        }
-
+        const menus = ref<Menu[]>([{
+            id: "1",
+            name: "首页",
+            to: "home",
+            icon: "Document"
+        }, {
+            id: "2",
+            name: "系统管理",
+            to: "system",
+            icon: "Document",
+            children: [{
+                id: "3",
+                name: "用户管理",
+                to: "user",
+                icon: "Document"
+            }, {
+                id: "4",
+                name: "角色管理",
+                to: "role",
+                icon: "Document"
+            }, {
+                id: "5",
+                name: "权限管理",
+                to: "auth",
+                icon: "Document"
+            }, {
+                id: "6",
+                name: "菜单管理",
+                to: "menu",
+                icon: "Document"
+            }]
+        }])
+        onMounted(() => {
+            getAsTree().then(data => {
+                data.forEach(menu => menus.value.push(menu))
+            })
+        })
         return () => (
             <el-menu
                 router={true}
@@ -90,10 +86,8 @@ export default defineComponent({
                 style={
                     { minHeight: '100vh' }
                 }
-                onOpen={handleOpen}
-                onClose={handleClose}
             >
-                {menus.map((item) => generateMenu(item))}
+                {menus.value.map((item) => generateMenu(item))}
             </el-menu>
         )
     }

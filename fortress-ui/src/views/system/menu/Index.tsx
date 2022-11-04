@@ -20,6 +20,10 @@ class MENU_TEMPLATE implements Menu {
     hasChildren = false
 }
 
+const PAGE_TYPE_MAP = new Map<number, string>([[0, '目录'], [1, '页面'], [2, '按钮'], [3, '链接']])
+
+const STATUS = new Map<number, string>([[1, '正常'], [2, '隐藏']])
+
 export default defineComponent({
     setup() {
         const pageInfo = ref<Menu[]>([])
@@ -154,19 +158,28 @@ export default defineComponent({
                     style={{ width: '100%' }}
                     onSelectionChange={handleSelectionChange}
                     row-key="id"
+                    center
                     default-expand-all
                 >
                     <el-table-column type="selection" width="55" />
-                    <el-table-column label="菜单名称" width="180" prop="name" />
-                    <el-table-column label="路由名称" width="180" prop="routeName" />
-                    <el-table-column label="页面标题" width="180" prop="pageTitle" />
-                    <el-table-column label="页面路径" width="180" prop="pagePath" />
-                    <el-table-column label="类型" prop="type" />
+                    <el-table-column label="菜单名称" prop="name" />
+                    <el-table-column label="路由名称" prop="routeName" />
+                    <el-table-column label="页面标题" prop="pageTitle" />
+                    <el-table-column label="页面路径" prop="pagePath" />
+                    <el-table-column label="类型" prop="type" v-slots={{
+                        default: (scope: Column<Menu>) => (
+                            <el-tab>{PAGE_TYPE_MAP.get(scope.row.type)}</el-tab>
+                        )
+                    }} />
                     <el-table-column label="组件路径" prop="componentPath" />
-                    <el-table-column label="状态" prop="status" />
+                    <el-table-column label="状态" prop="status" v-slots={{
+                        default: (scope: Column<Menu>) => (
+                            <el-tab>{STATUS.get(scope.row.status)}</el-tab>
+                        )
+                    }} />
                     <el-table-column label="描述" prop="description" />
                     <el-table-column label="序号" prop="orderNum" />
-                    <el-table-column label="操作" v-slots={
+                    <el-table-column label="操作" width="150" v-slots={
                         {
                             default: (scope: Column<Menu>) => (
                                 <>
@@ -205,13 +218,21 @@ export default defineComponent({
                             <el-input v-model={editInfo.value.pagePath} placeholder="请输入页面路径" />
                         </el-form-item>
                         <el-form-item label="类型">
-                            <el-input v-model={editInfo.value.type} placeholder="请输入类型" />
+                            <el-select v-model={editInfo.value.type} placeholder="请选择菜单类型">
+                                <el-option label="目录" value={0} />
+                                <el-option label="页面" value={1} />
+                                <el-option label="按钮" value={2} />
+                                <el-option label="链接" value={3} />
+                            </el-select>
                         </el-form-item>
                         <el-form-item label="组件路径">
                             <el-input v-model={editInfo.value.componentPath} placeholder="请输入组件路径" />
                         </el-form-item>
                         <el-form-item label="状态">
-                            <el-input v-model={editInfo.value.status} placeholder="请输入组件路径" />
+                            <el-select v-model={editInfo.value.status} placeholder="请选择状态">
+                                <el-option label="正常" value={1} />
+                                <el-option label="隐藏" value={2} />
+                            </el-select>
                         </el-form-item>
                         <el-form-item label="描述">
                             <el-input v-model={editInfo.value.description} placeholder="请输入描述" />

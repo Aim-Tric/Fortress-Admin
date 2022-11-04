@@ -15,7 +15,7 @@ import java.util.List;
  * @project fortress
  * @date 2022-11-01 21:39:04
  */
-@TableName(value = "f_menu", excludeProperty = {"children", "requireRoles", "requireRoles"})
+@TableName(value = "f_menu", excludeProperty = {"children", "requireRoles", "requireAuths"})
 public class Menu extends Model implements Serializable, Treetify<String, Menu> {
     @TableId
     private String id;

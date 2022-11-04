@@ -48,7 +48,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/:pathMatch(.*)*',
     name: 'NullPointerPage',
-    redirect: '/login'
+    redirect: '/404'
   }
 ]
 
