@@ -15,12 +15,13 @@ import java.util.List;
  * @project fortress
  * @date 2022-11-01 21:39:04
  */
-@TableName(value = "f_menu", excludeProperty = {"children", "requireRoles", "requireAuths"})
+@TableName(value = "f_menu", excludeProperty = {"children"})
 public class Menu extends Model implements Serializable, Treetify<String, Menu> {
     @TableId
     private String id;
     private String parent;
     private String name;
+    private String iconName;
     private String routeName;
     private String pageTitle;
     private String pagePath;
@@ -30,9 +31,6 @@ public class Menu extends Model implements Serializable, Treetify<String, Menu> 
     private String description;
 
     private List<Treetify<String, Menu>> children;
-
-    private List<Role> requireRoles;
-    private List<Auth> requireAuths;
 
     @Override
     public String getId() {
@@ -78,6 +76,15 @@ public class Menu extends Model implements Serializable, Treetify<String, Menu> 
 
     public Menu setName(String name) {
         this.name = name;
+        return this;
+    }
+
+    public String getIconName() {
+        return iconName;
+    }
+
+    public Menu setIconName(String iconName) {
+        this.iconName = iconName;
         return this;
     }
 
@@ -137,24 +144,6 @@ public class Menu extends Model implements Serializable, Treetify<String, Menu> 
 
     public Menu setChildren(List<Treetify<String, Menu>> children) {
         this.children = children;
-        return this;
-    }
-
-    public List<Role> getRequireRoles() {
-        return requireRoles;
-    }
-
-    public Menu setRequireRoles(List<Role> requireRoles) {
-        this.requireRoles = requireRoles;
-        return this;
-    }
-
-    public List<Auth> getRequireAuths() {
-        return requireAuths;
-    }
-
-    public Menu setRequireAuths(List<Auth> requireAuths) {
-        this.requireAuths = requireAuths;
         return this;
     }
 

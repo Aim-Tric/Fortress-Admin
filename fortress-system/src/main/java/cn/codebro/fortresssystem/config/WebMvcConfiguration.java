@@ -3,6 +3,7 @@ package cn.codebro.fortresssystem.config;
 import cn.dev33.satoken.interceptor.SaInterceptor;
 import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpUtil;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @project fortress
  * @date 2022-11-01 14:56:06
  */
+@Configuration
 public class WebMvcConfiguration implements WebMvcConfigurer {
 
     @Override

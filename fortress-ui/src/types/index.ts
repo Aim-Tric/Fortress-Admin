@@ -65,6 +65,7 @@ export interface Menu extends TreeNode<string, Menu> {
     id: string,
     parent: string,
     name: string,
+    iconName: string,
     routeName: string,
     pageTitle: string,
     pagePath: string,
@@ -91,6 +92,6 @@ export interface Page<T = {} | []> {
 export interface TreeNode<K, T> {
     id: K,
     parent: K,
-    children: T[],
+    children?: T[],
     hasChildren: boolean
 }
