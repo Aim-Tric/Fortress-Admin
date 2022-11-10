@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import { isLogin, currentUser } from "@/api/User"
 import type { User } from "@/types"
-import useGlobalStore from "@/store/index"
+import { useGlobalStore } from "@/store/index"
 
 const routes: Array<RouteRecordRaw> = [
   {

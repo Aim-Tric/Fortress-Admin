@@ -3,6 +3,7 @@ import type { Menu } from "@/types"
 import { Column, FormInstance, ElMessageBox, ElMessage } from "element-plus";
 import { Delete } from '@element-plus/icons-vue'
 import * as MenuApi from '@/api/Menu'
+import { useEventPool } from "@/store/index"
 
 class MENU_TEMPLATE implements Menu {
     id = ''
@@ -34,6 +35,7 @@ export default defineComponent({
         const editInfo = ref<Menu>(new MENU_TEMPLATE())
         const editDialogTitle = ref<string>('')
         const formInstance = ref<FormInstance>()
+        const eventPool = useEventPool()
 
         const onCreate = () => {
             editInfo.value = new MENU_TEMPLATE()
@@ -62,6 +64,7 @@ export default defineComponent({
                     callback: (action: string) => {
                         if (action === 'confirm') {
                             MenuApi.remove(row.id).then(() => {
+                                eventPool.emit({ name: 'flushMenu' })
                                 loadAsTree()
                                 ElMessage({
                                     message: '删除成功！',
@@ -84,6 +87,7 @@ export default defineComponent({
             MenuApi.add(editInfo.value).then(() => {
                 onCancel()
                 loadAsTree()
+                eventPool.emit({ name: 'flushMenu' })
                 ElMessage({
                     message: '添加成功！',
                     type: 'success',
@@ -101,6 +105,7 @@ export default defineComponent({
             MenuApi.update(editInfo.value).then(() => {
                 onCancel()
                 loadAsTree()
+                eventPool.emit({ name: 'flushMenu' })
                 ElMessage({
                     message: '更新成功！',
                     type: 'success',

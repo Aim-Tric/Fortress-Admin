@@ -1,6 +1,7 @@
 import { defineComponent, resolveComponent, h, onMounted, ref } from "vue"
 import { getAsTree } from "@/api/Menu"
 import type { Menu } from "@/types"
+import { useEventPool } from "@/store"
 
 const iconTitle = (item: Menu) => {
     return (
@@ -29,98 +30,111 @@ const generateMenu = (item: Menu) => {
     );
 }
 
+const BASE_MENU_TEMPLATE = [{
+    id: "1",
+    parent: "",
+    name: "首页",
+    iconName: "Document",
+    routeName: "Index",
+    pageTitle: "首页",
+    pagePath: "home",
+    type: 0,
+    componentPath: "",
+    status: 0,
+    description: "",
+    orderNum: 1,
+    hasChildren: false
+}, {
+    id: "2",
+    parent: "",
+    name: "系统管理",
+    iconName: "Document",
+    routeName: "SystemManager",
+    pageTitle: "系统管理",
+    pagePath: "system",
+    type: 0,
+    componentPath: "",
+    status: 0,
+    description: "",
+    orderNum: 1,
+    hasChildren: true,
+    children: [{
+        id: "3",
+        parent: "",
+        name: "用户管理",
+        iconName: "Document",
+        routeName: "UserManager",
+        pageTitle: "用户管理",
+        pagePath: "user",
+        type: 0,
+        componentPath: "",
+        status: 0,
+        description: "",
+        orderNum: 1,
+        hasChildren: false
+    }, {
+        id: "4",
+        parent: "",
+        name: "角色管理",
+        iconName: "Document",
+        routeName: "RoleManager",
+        pageTitle: "角色管理",
+        pagePath: "role",
+        type: 0,
+        componentPath: "",
+        status: 0,
+        description: "",
+        orderNum: 1,
+        hasChildren: false
+    }, {
+        id: "5",
+        parent: "",
+        name: "权限管理",
+        iconName: "Document",
+        routeName: "AuthManager",
+        pageTitle: "权限管理",
+        pagePath: "auth",
+        type: 0,
+        componentPath: "",
+        status: 0,
+        description: "",
+        orderNum: 1,
+        hasChildren: false
+    }, {
+        id: "5",
+        parent: "",
+        name: "菜单管理",
+        iconName: "Document",
+        routeName: "MenuManager",
+        pageTitle: "菜单管理",
+        pagePath: "menu",
+        type: 0,
+        componentPath: "",
+        status: 0,
+        description: "",
+        orderNum: 1,
+        hasChildren: false
+    }]
+}]
+
 export default defineComponent({
     setup() {
-        const menus = ref<Menu[]>([{
-            id: "1",
-            parent: "",
-            name: "首页",
-            iconName: "Document",
-            routeName: "Index",
-            pageTitle: "首页",
-            pagePath: "home",
-            type: 0,
-            componentPath: "",
-            status: 0,
-            description: "",
-            orderNum: 1,
-            hasChildren: false
-        }, {
-            id: "2",
-            parent: "",
-            name: "系统管理",
-            iconName: "Document",
-            routeName: "SystemManager",
-            pageTitle: "系统管理",
-            pagePath: "system",
-            type: 0,
-            componentPath: "",
-            status: 0,
-            description: "",
-            orderNum: 1,
-            hasChildren: true,
-            children: [{
-                id: "3",
-                parent: "",
-                name: "用户管理",
-                iconName: "Document",
-                routeName: "UserManager",
-                pageTitle: "用户管理",
-                pagePath: "user",
-                type: 0,
-                componentPath: "",
-                status: 0,
-                description: "",
-                orderNum: 1,
-                hasChildren: false
-            }, {
-                id: "4",
-                parent: "",
-                name: "角色管理",
-                iconName: "Document",
-                routeName: "RoleManager",
-                pageTitle: "角色管理",
-                pagePath: "role",
-                type: 0,
-                componentPath: "",
-                status: 0,
-                description: "",
-                orderNum: 1,
-                hasChildren: false
-            }, {
-                id: "5",
-                parent: "",
-                name: "权限管理",
-                iconName: "Document",
-                routeName: "AuthManager",
-                pageTitle: "权限管理",
-                pagePath: "auth",
-                type: 0,
-                componentPath: "",
-                status: 0,
-                description: "",
-                orderNum: 1,
-                hasChildren: false
-            }, {
-                id: "5",
-                parent: "",
-                name: "菜单管理",
-                iconName: "Document",
-                routeName: "MenuManager",
-                pageTitle: "菜单管理",
-                pagePath: "menu",
-                type: 0,
-                componentPath: "",
-                status: 0,
-                description: "",
-                orderNum: 1,
-                hasChildren: false
-            }]
-        }])
-        onMounted(() => {
+        const menus = ref<Menu[]>(JSON.parse(JSON.stringify(BASE_MENU_TEMPLATE)))
+        const eventPool = useEventPool()
+        const loadAsTree = () => {
             getAsTree().then(data => {
-                data.forEach(menu => menus.value.push(menu))
+                const newMenu = JSON.parse(JSON.stringify(BASE_MENU_TEMPLATE))
+                data.forEach(menu => newMenu.push(menu))
+                menus.value = newMenu
             })
+        }
+        onMounted(() => {
+            eventPool.subscribe("flushMenu", {
+                handle() {
+                    loadAsTree()
+                }
+            })
+            loadAsTree()
         })
         return () => (
             <el-menu

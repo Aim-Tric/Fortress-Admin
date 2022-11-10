@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 import AdminMenu from "./modules/AdminMenu";
-import useGlobalStore from "@/store";
+import { useGlobalStore } from "@/store";
 
 export default defineComponent({
     setup() {
