@@ -1,9 +1,10 @@
-import { defineComponent, onMounted, ref, markRaw } from "vue";
+import { defineComponent, onMounted, ref, markRaw, resolveComponent, h } from "vue";
 import type { Menu } from "@/types"
 import { Column, FormInstance, ElMessageBox, ElMessage } from "element-plus";
 import { Delete } from '@element-plus/icons-vue'
 import * as MenuApi from '@/api/Menu'
 import { useEventPool } from "@/store/index"
+import * as icons from "@element-plus/icons-vue"
 
 class MENU_TEMPLATE implements Menu {
     id = ''
@@ -102,6 +103,7 @@ export default defineComponent({
         }
 
         const doUpdate = () => {
+            editInfo.value.children = []
             MenuApi.update(editInfo.value).then(() => {
                 onCancel()
                 loadAsTree()
@@ -213,6 +215,22 @@ export default defineComponent({
                     <el-form model={editInfo.value} ref={formInstance} label-width="80px">
                         <el-form-item label="菜单名称">
                             <el-input v-model={editInfo.value.name} placeholder="请输入菜单名称" />
+                        </el-form-item>
+                        <el-form-item label="菜单图标">
+                            <el-select v-model={editInfo.value.iconName} placeholder="请选择菜单图标">
+                                {
+                                    Object.getOwnPropertyNames(icons).map((val) => {
+                                        if (!val.startsWith("_")) {
+                                            return (
+                                                <el-option key={val} label={val} value={val}>
+                                                    <el-icon> {h(resolveComponent(val))} </el-icon>
+                                                    <span>{val}</span>
+                                                </el-option>
+                                            )
+                                        }
+                                    })
+                                }
+                            </el-select>
                         </el-form-item>
                         <el-form-item label="路由名称">
                             <el-input v-model={editInfo.value.routeName} placeholder="请输入路由名称" />
