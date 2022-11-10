@@ -1,4 +1,4 @@
-package cn.codebro.fortresscommon;
+package cn.codebro.fortresscommon.tree;
 
 import java.util.*;
 
@@ -15,10 +15,10 @@ public class Treetifier {
      * @param nodeList 非树形列表
      * @param <T>      转换的类型，需要实现Treetify接口
      * @return 树形数据列表
-     * @see cn.codebro.fortresscommon.Treetify
+     * @see Treetify
      */
     public static <T extends Treetify<K, T>, K> List<Treetify<K, T>> listToTree(List<T> nodeList) {
-        Map<Object, Treetify<K, T>> map = new HashMap<>();
+        Map<Object, Treetify<K, T>> map = new LinkedHashMap<>();
         nodeList.forEach(node -> {
             map.put(node.getId(), node);
         });

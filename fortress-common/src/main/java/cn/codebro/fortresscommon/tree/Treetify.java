@@ -1,4 +1,4 @@
-package cn.codebro.fortresscommon;
+package cn.codebro.fortresscommon.tree;
 
 import java.util.Collection;
 

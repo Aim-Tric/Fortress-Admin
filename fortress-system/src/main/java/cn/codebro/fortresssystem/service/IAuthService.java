@@ -1,6 +1,6 @@
 package cn.codebro.fortresssystem.service;
 
-import cn.codebro.fortresscommon.Treetify;
+import cn.codebro.fortresscommon.tree.Treetify;
 import cn.codebro.fortresssystem.pojo.Auth;
 import com.baomidou.mybatisplus.extension.service.IService;
 

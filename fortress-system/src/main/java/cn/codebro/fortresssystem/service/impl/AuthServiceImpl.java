@@ -1,7 +1,7 @@
 package cn.codebro.fortresssystem.service.impl;
 
-import cn.codebro.fortresscommon.Treetifier;
-import cn.codebro.fortresscommon.Treetify;
+import cn.codebro.fortresscommon.tree.Treetifier;
+import cn.codebro.fortresscommon.tree.Treetify;
 import cn.codebro.fortresscommon.exception.IllegalBusinessOperationException;
 import cn.codebro.fortresssystem.mapper.FortressAuthMapper;
 import cn.codebro.fortresssystem.pojo.Auth;

@@ -1,7 +1,7 @@
 package cn.codebro.fortresssystem.pojo;
 
 import cn.codebro.fortresscommon.Model;
-import cn.codebro.fortresscommon.Treetify;
+import cn.codebro.fortresscommon.tree.Treetify;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 

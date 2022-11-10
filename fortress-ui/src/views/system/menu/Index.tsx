@@ -9,6 +9,7 @@ class MENU_TEMPLATE implements Menu {
     parent = ''
     name = ''
     routeName = ''
+    iconName = ''
     pageTitle = ''
     pagePath = ''
     type = 0
