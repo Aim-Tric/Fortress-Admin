@@ -6,6 +6,8 @@ import * as MenuApi from '@/api/Menu'
 import { useEventPool } from "@/store/index"
 import * as icons from "@element-plus/icons-vue"
 
+import CrudToolBar from "@/components/CrudComponents/CrudToolBar"
+
 class MENU_TEMPLATE implements Menu {
     id = ''
     parent = ''
@@ -31,7 +33,7 @@ export default defineComponent({
     setup() {
         const pageInfo = ref<Menu[]>([])
         const parentSelectorOptions = ref<Menu[]>([])
-        const searchKey = ref<string>('')
+        // const searchKey = ref<string>('')
         const editDialogOpen = ref<boolean>(false)
         const editInfo = ref<Menu>(new MENU_TEMPLATE())
         const editDialogTitle = ref<string>('')
@@ -144,23 +146,10 @@ export default defineComponent({
             loadAsTree()
         })
 
+        const buttons = [{ name: '新增', type: 'primary', onClick: onCreate }, { name: '删除', type: 'danger', onClick: () => console.log("delete") }]
         return () => (
             <>
-                <el-row style={{ marginBottom: '10px' }} justify="space-between">
-                    <el-col span={4}>
-                        <el-button-group>
-                            <el-button type="primary" onClick={onCreate}>新增</el-button>
-                            <el-button type="danger">删除</el-button>
-                        </el-button-group>
-                    </el-col>
-                    <el-col span={4}>
-                        <el-input v-model={searchKey.value} placeholder="请输入搜索条件" clearable v-slots={{
-                            append: () => (
-                                <el-button icon="Search" />
-                            )
-                        }} />
-                    </el-col>
-                </el-row>
+                <CrudToolBar buttons={buttons}></CrudToolBar>
                 <el-table
                     data={pageInfo.value}
                     style={{ width: '100%' }}
@@ -176,13 +165,13 @@ export default defineComponent({
                     <el-table-column label="页面路径" prop="pagePath" />
                     <el-table-column label="类型" prop="type" v-slots={{
                         default: (scope: Column<Menu>) => (
-                            <el-tab>{PAGE_TYPE_MAP.get(scope.row.type)}</el-tab>
+                            <el-tag>{PAGE_TYPE_MAP.get(scope.row.type)}</el-tag>
                         )
                     }} />
                     <el-table-column label="组件路径" prop="componentPath" />
                     <el-table-column label="状态" prop="status" v-slots={{
                         default: (scope: Column<Menu>) => (
-                            <el-tab>{STATUS.get(scope.row.status)}</el-tab>
+                            <el-tag>{STATUS.get(scope.row.status)}</el-tag>
                         )
                     }} />
                     <el-table-column label="描述" prop="description" />

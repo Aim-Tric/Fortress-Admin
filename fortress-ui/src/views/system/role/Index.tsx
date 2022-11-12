@@ -12,6 +12,7 @@ class ROLE_TEMPLATE implements Role {
     orderNum = 0
 }
 
+
 export default defineComponent({
     setup() {
         const pageInfo = ref<Page<Role>>({
@@ -35,6 +36,10 @@ export default defineComponent({
             editDialogTitle.value = "编辑角色"
             editDialogOpen.value = true
             editInfo.value = row
+        }
+
+        const onAuthorization = (index: number, row: Role) => {
+            console.log(row)
         }
 
         const onCancel = () => {
@@ -153,6 +158,8 @@ export default defineComponent({
                         {
                             default: (scope: Column<Role>) => (
                                 <>
+                                    <el-button onClick={() => onAuthorization(scope.$index, scope.row)}
+                                    >分配权限</el-button>
                                     <el-button onClick={() => onEdit(scope.$index, scope.row)}
                                     >编辑</el-button>
                                     <el-button
