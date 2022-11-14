@@ -1,4 +1,4 @@
-package cn.codebro.fortresssystem.config;
+package cn.codebro.fortresssystem.config.security;
 
 import cn.dev33.satoken.interceptor.SaInterceptor;
 import cn.dev33.satoken.router.SaRouter;
@@ -22,8 +22,9 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
             SaRouter.match("/**")
                     .notMatch("/login")
                     .check(r -> StpUtil.checkLogin());
-            // TODO 初始化接口权限
-//            SaRouter.match("/user/**", r -> StpUtil.checkPermission("user"));
+
+            // TODO 动态获取配置的接口权限
+
         }));
     }
 

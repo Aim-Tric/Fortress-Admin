@@ -11,13 +11,14 @@ import java.util.List;
  * @author Guo wentao
  * @date 2022/10/9
  */
-@TableName(value = "f_role", excludeProperty = {"auths"})
+@TableName(value = "f_role", excludeProperty = {"auths", "menus"})
 public class Role extends Model implements Serializable {
     @TableId
     private String id;
     private String name;
     private String identify;
     private List<Auth> auths;
+    private List<Menu> menus;
 
     public String getId() {
         return id;
@@ -52,5 +53,14 @@ public class Role extends Model implements Serializable {
 
     public void setAuths(List<Auth> auths) {
         this.auths = auths;
+    }
+
+    public List<Menu> getMenus() {
+        return menus;
+    }
+
+    public Role setMenus(List<Menu> menus) {
+        this.menus = menus;
+        return this;
     }
 }

@@ -10,4 +10,8 @@
         WHERE auth_id = #{id}
     </select>
 
+    <insert id="insertRoleAuth">
+        insert into f_role_auth(id, role_id, auth_id) value (#{id}, #{roleId}, #{authId})
+    </insert>
+
 </mapper>

@@ -1,8 +1,10 @@
 import { defineComponent, onMounted, ref, markRaw } from "vue";
-import type { Page, Role } from "@/types"
-import { Column, FormInstance, ElMessageBox, ElMessage } from "element-plus";
+import type { Page, Role, Menu, Auth } from "@/types"
+import { Column, FormInstance, ElMessageBox, ElMessage, ElTree } from "element-plus";
 import { Delete } from '@element-plus/icons-vue'
 import * as RoleApi from '@/api/Role'
+import { getAsTree as getMenuAsTree } from "@/api/Menu"
+import { getAsTree as getAuthAsTree } from "@/api/Auth"
 
 class ROLE_TEMPLATE implements Role {
     id = ''
@@ -11,7 +13,6 @@ class ROLE_TEMPLATE implements Role {
     status = 0
     orderNum = 0
 }
-
 
 export default defineComponent({
     setup() {
@@ -36,10 +37,6 @@ export default defineComponent({
             editDialogTitle.value = "编辑角色"
             editDialogOpen.value = true
             editInfo.value = row
-        }
-
-        const onAuthorization = (index: number, row: Role) => {
-            console.log(row)
         }
 
         const onCancel = () => {
@@ -128,6 +125,56 @@ export default defineComponent({
             })
         }
 
+        const authFormInstance = ref<FormInstance>()
+        const authDialogOpen = ref<boolean>(false)
+        const authTreeInstance = ref<InstanceType<typeof ElTree>>()
+        const authRole = ref<Role>(new ROLE_TEMPLATE())
+        const authTree = ref<Auth[]>()
+        const onAuthorization = (index: number, row: Role) => {
+            getAuthAsTree().then(data => {
+                authTree.value = data
+                authDialogOpen.value = true
+                authRole.value = row
+            })
+        }
+        const doAuthorization = () => {
+            const checkedNodes = authTreeInstance.value?.getCheckedNodes()
+            const auths: Auth[] = []
+            checkedNodes?.forEach(item => {
+                auths.push(item as Auth)
+            })
+            console.log("auths", auths)
+        }
+        const onCancelAuth = () => {
+            authDialogOpen.value = false
+            authRole.value = new ROLE_TEMPLATE()
+        }
+
+        const dispatchFormInstance = ref<FormInstance>()
+        const menuTreeInstance = ref<InstanceType<typeof ElTree>>()
+        const dispatchDialogOpen = ref<boolean>(false)
+        const dispatchMenuRole = ref<Role>(new ROLE_TEMPLATE())
+        const menuTree = ref<Menu[]>()
+        const onMenuDsipatch = (index: number, row: Role) => {
+            getMenuAsTree().then(data => {
+                menuTree.value = data
+                dispatchDialogOpen.value = true
+                dispatchMenuRole.value = row
+            })
+        }
+        const doDispatch = () => {
+            const checkedNodes = menuTreeInstance.value?.getCheckedNodes()
+            const menus: Menu[] = []
+            checkedNodes?.forEach(item => {
+                menus.push(item as Menu)
+            })
+            console.log("menus", menus)
+        }
+        const onCancelDispatch = () => {
+            dispatchDialogOpen.value = false
+            authRole.value = new ROLE_TEMPLATE()
+        }
+
         onMounted(() => {
             loadByPage()
         })
@@ -149,7 +196,7 @@ export default defineComponent({
                         }} />
                     </el-col>
                 </el-row>
-                <el-table data={pageInfo.value.records} style="width: 100%" onSelectionChange={handleSelectionChange}>
+                <el-table data={pageInfo.value.records} style={{ width: "100%" }} onSelectionChange={handleSelectionChange}>
                     <el-table-column type="selection" width="55" />
                     <el-table-column label="角色名称" width="180" property="name" />
                     <el-table-column label="角色标识" width="180" property="identify" />
@@ -158,14 +205,20 @@ export default defineComponent({
                         {
                             default: (scope: Column<Role>) => (
                                 <>
-                                    <el-button onClick={() => onAuthorization(scope.$index, scope.row)}
-                                    >分配权限</el-button>
-                                    <el-button onClick={() => onEdit(scope.$index, scope.row)}
-                                    >编辑</el-button>
+                                    <el-button onClick={() => onEdit(scope.$index, scope.row)}>
+                                        编辑
+                                    </el-button>
                                     <el-button
                                         type="danger"
-                                        onClick={() => onDelete(scope.$index, scope.row)}
-                                    >删除</el-button>
+                                        onClick={() => onDelete(scope.$index, scope.row)}>
+                                        删除
+                                    </el-button>
+                                    <el-button type="primary" onClick={() => onAuthorization(scope.$index, scope.row)}>
+                                        角色授权
+                                    </el-button>
+                                    <el-button type="success" onClick={() => onMenuDsipatch(scope.$index, scope.row)}>
+                                        设置菜单
+                                    </el-button>
                                 </>
                             )
                         }
@@ -197,6 +250,58 @@ export default defineComponent({
                         </el-form-item>
                         <el-form-item label="排序">
                             <el-input v-model={editInfo.value.orderNum} type="number" placeholder="请输入序号" />
+                        </el-form-item>
+                    </el-form>
+                </el-dialog>
+
+                <el-dialog v-model={authDialogOpen.value} title="授权" v-slots={{
+                    footer: () => (
+                        <>
+                            <el-button onClick={onCancelAuth}>取消</el-button>
+                            <el-button type="primary" onClick={doAuthorization}>分配</el-button>
+                        </>
+                    )
+                }}>
+                    <el-form model={authRole.value} ref={authFormInstance} label-width="80px">
+                        <el-form-item label="角色名称">
+                            <el-input v-model={authRole.value.name} disabled placeholder="请输入角色名称" />
+                        </el-form-item>
+                        <el-form-item label="角色标识">
+                            <el-input v-model={authRole.value.identify} disabled placeholder="请输入角色标识" />
+                        </el-form-item>
+                        <el-form-item label="权限列表">
+                            <el-tree
+                                ref={authTreeInstance}
+                                data={authTree.value}
+                                props={{ label: 'name' }}
+                                show-checkbox
+                            />
+                        </el-form-item>
+                    </el-form>
+                </el-dialog>
+
+                <el-dialog v-model={dispatchDialogOpen.value} title="设置菜单" v-slots={{
+                    footer: () => (
+                        <>
+                            <el-button onClick={onCancelDispatch}>取消</el-button>
+                            <el-button type="primary" onClick={doDispatch}>分配</el-button>
+                        </>
+                    )
+                }}>
+                    <el-form model={dispatchMenuRole.value} ref={dispatchFormInstance} label-width="80px">
+                        <el-form-item label="角色名称">
+                            <el-input v-model={dispatchMenuRole.value.name} disabled placeholder="请输入角色名称" />
+                        </el-form-item>
+                        <el-form-item label="角色标识">
+                            <el-input v-model={dispatchMenuRole.value.identify} disabled placeholder="请输入角色标识" />
+                        </el-form-item>
+                        <el-form-item label="菜单列表">
+                            <el-tree
+                                ref={menuTreeInstance}
+                                data={menuTree.value}
+                                props={{ label: "name" }}
+                                show-checkbox
+                            />
                         </el-form-item>
                     </el-form>
                 </el-dialog>

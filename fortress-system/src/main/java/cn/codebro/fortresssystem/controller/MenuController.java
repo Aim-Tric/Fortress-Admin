@@ -6,6 +6,8 @@ import cn.codebro.fortresssystem.service.IMenuService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @menuor Guo wentao
  * @date 2022/10/9
@@ -50,6 +52,13 @@ public class MenuController {
         Menu menu = new Menu();
         menu.setId(id);
         menuService.removeById(menu);
+        return Result.success();
+    }
+
+
+    @PostMapping("/{roleId}")
+    public Result bindRole(@RequestBody List<Menu> menus, @PathVariable String roleId) {
+        menuService.bindRole(roleId, menus);
         return Result.success();
     }
 }

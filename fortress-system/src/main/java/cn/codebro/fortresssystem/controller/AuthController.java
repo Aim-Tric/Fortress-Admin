@@ -4,8 +4,9 @@ import cn.codebro.fortresscommon.Result;
 import cn.codebro.fortresssystem.pojo.Auth;
 import cn.codebro.fortresssystem.service.IAuthService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author Guo wentao
@@ -51,6 +52,12 @@ public class AuthController {
         Auth auth = new Auth();
         auth.setId(id);
         authService.removeById(auth);
+        return Result.success();
+    }
+
+    @PostMapping("/{roleId}")
+    public Result bindRole(@RequestBody List<Auth> auths, @PathVariable String roleId) {
+        authService.bindRole(roleId, auths);
         return Result.success();
     }
 }

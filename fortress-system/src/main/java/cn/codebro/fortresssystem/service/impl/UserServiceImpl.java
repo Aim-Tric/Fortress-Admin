@@ -6,8 +6,10 @@ import cn.codebro.fortresscommon.exception.UnknownUserException;
 import cn.codebro.fortresscommon.exception.UserExistException;
 import cn.codebro.fortresssystem.config.system.SystemProperty;
 import cn.codebro.fortresssystem.mapper.FortressUserMapper;
+import cn.codebro.fortresssystem.pojo.User;
 import cn.codebro.fortresssystem.pojo.dto.UserDTO;
 import cn.codebro.fortresssystem.service.IAccountService;
+import cn.codebro.fortresssystem.service.IRoleService;
 import cn.codebro.fortresssystem.service.IUserService;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.ObjectUtil;
@@ -70,11 +72,9 @@ public class UserServiceImpl extends ServiceImpl<FortressUserMapper, UserDTO> im
     }
 
     @Override
-    public UserDTO getLoginUser() {
+    public User getLoginUser() {
         String loginId = (String) StpUtil.getLoginId();
-        UserDTO user = new UserDTO();
-        user.setId(loginId);
-        return baseMapper.selectById(user);
+        return baseMapper.selectFullUserInfo(loginId);
     }
 
     @Override

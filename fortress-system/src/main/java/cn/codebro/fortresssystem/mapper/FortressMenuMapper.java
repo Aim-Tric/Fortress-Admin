@@ -3,6 +3,7 @@ package cn.codebro.fortresssystem.mapper;
 import cn.codebro.fortresssystem.pojo.Menu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author Guo wentao
@@ -11,4 +12,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface FortressMenuMapper extends BaseMapper<Menu> {
+
+    void insertRoleMenu(@Param("id") String id, @Param("roleId") String roleId, @Param("menuId") String menuId);
 }

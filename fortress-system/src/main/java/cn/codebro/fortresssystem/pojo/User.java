@@ -20,7 +20,7 @@ public class User extends Model implements Serializable {
     private Integer status;
     private Post post;
     private Dept dept;
-    private Dept role;
+    private Role role;
 
     public String getId() {
         return id;
@@ -102,11 +102,11 @@ public class User extends Model implements Serializable {
         this.dept = dept;
     }
 
-    public Dept getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(Dept role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

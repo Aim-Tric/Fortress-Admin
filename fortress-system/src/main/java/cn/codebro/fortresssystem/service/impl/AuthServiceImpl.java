@@ -6,6 +6,7 @@ import cn.codebro.fortresscommon.exception.IllegalBusinessOperationException;
 import cn.codebro.fortresssystem.mapper.FortressAuthMapper;
 import cn.codebro.fortresssystem.pojo.Auth;
 import cn.codebro.fortresssystem.service.IAuthService;
+import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -26,6 +27,14 @@ public class AuthServiceImpl extends ServiceImpl<FortressAuthMapper, Auth> imple
     public List<Treetify<String, Auth>> getAllAsTree() {
         List<Auth> auths = baseMapper.selectList(new QueryWrapper<>(new Auth()));
         return Treetifier.listToTree(auths);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void bindRole(String roleId, List<Auth> auths) {
+        for (Auth auth : auths) {
+            baseMapper.insertRoleAuth(IdUtil.fastUUID(), roleId, auth.getId());
+        }
     }
 
     @Transactional(rollbackFor = Exception.class)

@@ -17,5 +17,6 @@ public interface IAuthService extends IService<Auth> {
      * @return 树形结构的权限列表
      */
     List<Treetify<String, Auth>> getAllAsTree();
-    
+
+    void bindRole(String roleId, List<Auth> auths);
 }

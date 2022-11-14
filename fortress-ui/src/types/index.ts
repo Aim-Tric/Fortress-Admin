@@ -42,6 +42,7 @@ export interface Role {
     status: number,
     orderNum: number,
     auths?: Auth[]
+    menus?: Menu[]
 }
 
 export interface Group {

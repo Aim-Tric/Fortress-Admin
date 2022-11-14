@@ -8,6 +8,79 @@ import * as icons from "@element-plus/icons-vue"
 
 import CrudToolBar from "@/components/CrudComponents/CrudToolBar"
 
+/**
+ * 一个crud业务页面包括：
+ * 工具栏：
+ *  - 新增：打开弹出层，然后就是弹出层的操作
+ *  - 批量删除：获取选中的数据，弹出是否删除提示
+ *  - 简单条件搜索：对某个字段进行模糊查找
+ * 表格：
+ *  - 列字段信息：字段名、字段标识、字段类型、自定义标签样式
+ *  - 行操作：对数据行进行操作，标准包含删除和编辑操作
+ *  - 权限控制：根据用户角色、角色权限过滤操作上的按钮
+ * 分页：
+ *  - 是否开启分页：true or false
+ *  - 分页接口：数据获取接口
+ * 弹出层：
+ *  - 各类表单：供用户填写，提交后会对数据进行一定的操作
+ *  - 相关提示弹框：点击确定或取消执行相关操作
+ * 
+ * 提取页面配置数据结构：
+ * toolbar: 
+ *      buttons, search
+ * table:
+ *      columns, operations
+ * page:
+ *      pageable, api,
+ * dialog:
+ *      editForm, etc..
+ * 
+ * config: {
+ *  toolbar: {
+ *      searchable: boolean,
+ *      searchPlaceholder: string,
+ *      searchIconName: string,
+ *      buttons: [{name: string, type: string, onClick: function}]
+ *  },
+ *  table: {
+ *      columns: Column[],
+ *      dataApi: {
+ *          url: string,
+ *          method: string // GET | POST
+ *      },
+ *      type: string, // tree | page | all
+ *  },
+ *  dialogs: Form[]
+ * }
+ * 
+ * Column {
+ *      identify: string, // 字段标识
+ *      label: string, // 表头名
+ *      type: string, // 字段类型
+ *      render: string, // 渲染器标识
+ *      translator: string, // 转换器标识
+ *      formType: string, // 表单输入类型
+ *      validators: string[], // 校验器标识
+ *      visible: boolean, // 是否可见
+ *      width: number, // 显示宽度
+ *      encrypt: boolean, // 是否需要加密
+ *      desensitive: boolean, // 是否需要脱敏
+ * }
+ * 
+ * Form {
+ *      name: string,
+ *      columns: Column[],
+ *      formData: FormData, // 包含了columns中的字段的Map对象
+ *      api: {
+ *          url: string,
+ *          method: string // GET | POST | PUT | DETELE,
+ *          data: FormData
+ *      }
+ * }
+ * 
+ * 
+ */
+
 class MENU_TEMPLATE implements Menu {
     id = ''
     parent = ''
@@ -33,7 +106,6 @@ export default defineComponent({
     setup() {
         const pageInfo = ref<Menu[]>([])
         const parentSelectorOptions = ref<Menu[]>([])
-        // const searchKey = ref<string>('')
         const editDialogOpen = ref<boolean>(false)
         const editInfo = ref<Menu>(new MENU_TEMPLATE())
         const editDialogTitle = ref<string>('')
@@ -150,6 +222,7 @@ export default defineComponent({
         return () => (
             <>
                 <CrudToolBar buttons={buttons}></CrudToolBar>
+
                 <el-table
                     data={pageInfo.value}
                     style={{ width: '100%' }}

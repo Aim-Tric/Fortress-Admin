@@ -13,4 +13,5 @@ import java.util.List;
  */
 public interface IMenuService extends IService<Menu> {
     List<Treetify<String, Menu>> getAllAsTree();
+    void bindRole(String roleId, List<Menu> menus);
 }

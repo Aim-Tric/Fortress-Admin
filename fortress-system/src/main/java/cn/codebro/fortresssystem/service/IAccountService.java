@@ -14,7 +14,7 @@ public interface IAccountService {
 
     void register(UserDTO user);
 
-    UserDTO getLoginUser();
+    User getLoginUser();
 
     boolean isLogin();
 }
