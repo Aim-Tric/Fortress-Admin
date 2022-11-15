@@ -1,4 +1,4 @@
-import type { Role, Page, Auth, Menu } from "@/types"
+import type { Role, Page } from "@/types"
 import { request } from "@/utils/request"
 
 export const add = (role: Role): Promise<Role> => {
@@ -29,4 +29,8 @@ export const dispatchMenu = (): Promise<Role> => {
 export const authorization = (): Promise<Role> => {
 
     return request.get('')
+}
+
+export const listAll = (): Promise<Role[]> => {
+    return request.get("/role/all")
 }

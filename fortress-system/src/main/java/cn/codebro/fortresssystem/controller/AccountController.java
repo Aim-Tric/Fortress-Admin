@@ -31,12 +31,6 @@ public class AccountController {
 
     @PostMapping("/login")
     public Result login(@RequestBody LoginUser loginUser) {
-        if (StrUtil.isBlank(loginUser.getAccount())) {
-            logger.error("登录用户名为空！");
-        }
-        if (StrUtil.isBlank(loginUser.getPassword())) {
-            logger.error("登录密码为空！");
-        }
         accountService.login(loginUser.getAccount(), loginUser.getPassword(), loginUser.getType());
         return Result.success();
     }

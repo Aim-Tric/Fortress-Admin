@@ -3,17 +3,15 @@ package cn.codebro.fortresssystem.config.security;
 import cn.codebro.fortresssystem.pojo.Auth;
 import cn.codebro.fortresssystem.pojo.Role;
 import cn.codebro.fortresssystem.pojo.User;
-import cn.codebro.fortresssystem.pojo.dto.UserDTO;
 import cn.codebro.fortresssystem.service.IAccountService;
-import cn.codebro.fortresssystem.service.IUserService;
 import cn.dev33.satoken.stp.StpInterface;
-import cn.dev33.satoken.stp.StpUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Guo wentao
@@ -33,21 +31,25 @@ public class StpInterfaceImpl implements StpInterface {
     @Override
     public List<String> getPermissionList(Object loginId, String loginType) {
         User user = accountService.getLoginUser();
-        Role role = user.getRole();
-        List<String> permissionList = new ArrayList<>();
-        List<Auth> auths = role.getAuths();
-        for (Auth auth : auths) {
-            permissionList.add(auth.getIdentify());
+        List<Role> roles = user.getRoles();
+        Set<String> permissionSet = new HashSet<>();
+        for (Role role : roles) {
+            List<Auth> auths = role.getAuths();
+            for (Auth auth : auths) {
+                permissionSet.add(auth.getIdentify());
+            }
         }
-        return permissionList;
+        return new ArrayList<>(permissionSet);
     }
 
     @Override
     public List<String> getRoleList(Object loginId, String loginType) {
         User user = accountService.getLoginUser();
         List<String> roleNameList = new ArrayList<>();
-        Role role = user.getRole();
-        roleNameList.add(role.getIdentify());
+        List<Role> roles = user.getRoles();
+        for (Role role : roles) {
+            roleNameList.add(role.getIdentify());
+        }
         return roleNameList;
     }
 }

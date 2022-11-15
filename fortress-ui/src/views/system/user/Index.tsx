@@ -1,8 +1,9 @@
 import { defineComponent, onMounted, ref, markRaw } from "vue";
-import type { User, Page } from "@/types"
+import type { User, Page, Role } from "@/types"
 import { Column, FormInstance, ElMessageBox, ElMessage } from "element-plus";
 import { Delete } from '@element-plus/icons-vue'
 import * as UserApi from "@/api/User"
+import { listAll } from "@/api/Role"
 import CryptoJS from 'crypto-js'
 
 const SEX_MAP = new Map<number, string>([[0, "男"], [1, "女"], [2, "未知"]]);
@@ -36,16 +37,22 @@ export default defineComponent({
         const editDialogTitle = ref<string>("")
         const editInfo = ref<User>(new USER_TEMPLATER())
         const formInstance = ref<FormInstance>()
-
+        const roleSelect = ref<Role[]>([])
         const onCreate = () => {
-            editDialogOpen.value = true
-            editDialogTitle.value = "创建用户"
+            listAll().then(data => {
+                roleSelect.value = data
+                editDialogOpen.value = true
+                editDialogTitle.value = "创建用户"
+            })
         }
 
         const onEdit = (index: number, row: User) => {
-            editInfo.value = row
-            editDialogOpen.value = true
-            editDialogTitle.value = "编辑用户"
+            listAll().then(data => {
+                roleSelect.value = data
+                editInfo.value = row
+                editDialogOpen.value = true
+                editDialogTitle.value = "编辑用户"
+            })
         }
 
         const onCancel = () => {
@@ -90,7 +97,7 @@ export default defineComponent({
         }
 
         const doSubmit = () => {
-            if(editInfo.value.id) {
+            if (editInfo.value.id) {
                 doUpdate()
             } else {
                 doCreate()
@@ -132,6 +139,7 @@ export default defineComponent({
         const loadByPage = () => {
             UserApi.page(pageInfo.value.current, pageInfo.value.size).then((result: Page<User>) => {
                 pageInfo.value = result
+                console.log(result)
             })
         }
 
@@ -239,7 +247,14 @@ export default defineComponent({
                             </el-select>
                         </el-form-item>
                         <el-form-item label="用户角色">
-                            <el-select v-model={editInfo.value.role} placeholder="请选择用户角色">
+                            <el-select v-model={editInfo.value.role} multiple placeholder="请选择用户角色">
+                                {
+                                    roleSelect.value.map(item => {
+                                        return (
+                                            <el-option value={item.id} label={item.name}></el-option>
+                                        )
+                                    })
+                                }
                             </el-select>
                         </el-form-item>
                         <el-form-item label="归属部门">

@@ -27,6 +27,11 @@ public class RoleController {
         return Result.success(roleService.page(new Page<>(page, pageSize == 0 ? DEFAULT_PAGE_SIZE : pageSize)));
     }
 
+    @GetMapping("/all")
+    public Result all() {
+        return Result.success(roleService.list());
+    }
+
     @GetMapping("/{id}")
     public Result getById(@PathVariable String id) {
         Role role = new Role();

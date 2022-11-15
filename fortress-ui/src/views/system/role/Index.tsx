@@ -213,10 +213,10 @@ export default defineComponent({
                                         onClick={() => onDelete(scope.$index, scope.row)}>
                                         删除
                                     </el-button>
-                                    <el-button type="primary" onClick={() => onAuthorization(scope.$index, scope.row)}>
+                                    <el-button onClick={() => onAuthorization(scope.$index, scope.row)}>
                                         角色授权
                                     </el-button>
-                                    <el-button type="success" onClick={() => onMenuDsipatch(scope.$index, scope.row)}>
+                                    <el-button onClick={() => onMenuDsipatch(scope.$index, scope.row)}>
                                         设置菜单
                                     </el-button>
                                 </>

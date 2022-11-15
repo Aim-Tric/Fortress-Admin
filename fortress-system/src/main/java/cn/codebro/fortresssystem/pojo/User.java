@@ -1,9 +1,10 @@
 package cn.codebro.fortresssystem.pojo;
 
 import cn.codebro.fortresscommon.Model;
-import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author Guo wentao
@@ -20,7 +21,7 @@ public class User extends Model implements Serializable {
     private Integer status;
     private Post post;
     private Dept dept;
-    private Role role;
+    private List<Role> roles;
 
     public String getId() {
         return id;
@@ -102,12 +103,12 @@ public class User extends Model implements Serializable {
         this.dept = dept;
     }
 
-    public Role getRole() {
-        return role;
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     @Override
@@ -123,7 +124,7 @@ public class User extends Model implements Serializable {
                 ", status=" + status +
                 ", post=" + post +
                 ", dept=" + dept +
-                ", role=" + role +
+                ", role=" + roles +
                 '}';
     }
 }

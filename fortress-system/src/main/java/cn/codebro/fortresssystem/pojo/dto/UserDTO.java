@@ -4,13 +4,14 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author Guo wentao
  * @project fortress
  * @date 2022-10-24 22:19:20
  */
-@TableName(value = "f_user", excludeProperty = {"role"})
+@TableName(value = "f_user", excludeProperty = {"roles"})
 public class UserDTO implements Serializable {
     @TableId
     private String id;
@@ -23,7 +24,7 @@ public class UserDTO implements Serializable {
     private Integer status;
     private String post;
     private String dept;
-    private String role;
+    private List<String> roles;
 
     public String getId() {
         return id;
@@ -115,12 +116,12 @@ public class UserDTO implements Serializable {
         return this;
     }
 
-    public String getRole() {
-        return role;
+    public List<String> getRoles() {
+        return roles;
     }
 
-    public UserDTO setRole(String role) {
-        this.role = role;
+    public UserDTO setRoles(List<String> roles) {
+        this.roles = roles;
         return this;
     }
 }

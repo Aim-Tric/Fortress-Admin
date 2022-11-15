@@ -12,11 +12,11 @@
         <result column="phone" property="phone"/>
         <result column="email" property="email"/>
         <result column="avatar" property="avatar"/>
-        <association property="role">
+        <collection property="roles" ofType="cn.codebro.fortresssystem.pojo.Role">
             <id property="id" column="role_id"/>
             <result property="name" column="role_name"/>
             <result property="identify" column="role_identify"/>
-        </association>
+        </collection>
     </resultMap>
 
     <select id="selectFullUserInfo" resultMap="fullUserInfo">
@@ -36,5 +36,6 @@
         from f_user fu
                  left join f_user_role fur on fu.id = fur.user_id
                  left join f_role fr on fur.role_id = fr.id and fr.status != 0
+        where fu.id = #{userId}
     </select>
 </mapper>

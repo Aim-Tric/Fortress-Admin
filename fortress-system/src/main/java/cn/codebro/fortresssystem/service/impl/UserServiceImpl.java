@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -82,4 +83,26 @@ public class UserServiceImpl extends ServiceImpl<FortressUserMapper, UserDTO> im
         return StpUtil.isLogin();
     }
 
+    @Override
+    public boolean updateById(UserDTO entity) {
+        List<String> roles = entity.getRoles();
+        if (roles != null && roles.size() > 0) {
+            // TODO 检查roles中是否都是正确的角色
+        }
+        super.updateById(entity);
+        // TODO 添加用户与角色的关联
+
+        return super.updateById(entity);
+    }
+
+    @Override
+    public boolean save(UserDTO entity) {
+        List<String> roles = entity.getRoles();
+        // TODO 检查roles中是否都是正确的角色
+
+        boolean saved = super.save(entity);
+        // TODO 添加用户与角色的关联
+
+        return saved;
+    }
 }

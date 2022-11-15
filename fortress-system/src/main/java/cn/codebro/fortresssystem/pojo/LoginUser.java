@@ -1,5 +1,7 @@
 package cn.codebro.fortresssystem.pojo;
 
+import cn.codebro.fortresscore.Validator;
+
 import java.io.Serializable;
 
 /**
@@ -37,6 +39,7 @@ public class LoginUser implements Serializable {
     }
 
     public LoginUser setAccount(String account) {
+        Validator.notNull(account, "登录用户名不能为空！");
         this.account = account;
         return this;
     }
@@ -46,6 +49,7 @@ public class LoginUser implements Serializable {
     }
 
     public LoginUser setPassword(String password) {
+        Validator.notNull(password, "登录密码不能为空！");
         this.password = password;
         return this;
     }
