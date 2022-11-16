@@ -11,7 +11,7 @@ import java.util.List;
  * @author Guo wentao
  * @date 2022/10/9
  */
-@TableName(value = "f_role", excludeProperty = {"auths", "menus"})
+@TableName(value = "F_ROLE", excludeProperty = {"auths", "menus"})
 public class Role extends Model implements Serializable {
     @TableId
     private String id;

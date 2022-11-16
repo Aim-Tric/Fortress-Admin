@@ -20,4 +20,5 @@ public class Validator {
             throw new RuntimeException(message);
         }
     }
+
 }

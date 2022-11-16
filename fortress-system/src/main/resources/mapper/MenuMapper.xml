@@ -5,7 +5,7 @@
 <mapper namespace="cn.codebro.fortresssystem.mapper.FortressMenuMapper">
 
     <insert id="insertRoleMenu">
-        insert into f_role_menu(id, role_id, menu_id) value (#{id}, #{roleId}, #{menuId})
+        INSERT INTO F_ROLE_MENU(id, role_id, menu_id) VALUE (#{id}, #{roleId}, #{menuId})
     </insert>
 
 </mapper>

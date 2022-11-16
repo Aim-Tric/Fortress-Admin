@@ -9,7 +9,7 @@ export interface User {
     email: string,
     post: string,
     dept: string,
-    role: string,
+    roles: string[],
     orderNum: number
 }
 

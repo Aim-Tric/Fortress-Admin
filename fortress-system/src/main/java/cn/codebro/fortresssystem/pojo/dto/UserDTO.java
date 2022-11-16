@@ -11,7 +11,7 @@ import java.util.List;
  * @project fortress
  * @date 2022-10-24 22:19:20
  */
-@TableName(value = "f_user", excludeProperty = {"roles"})
+@TableName(value = "F_USER", excludeProperty = {"roles"})
 public class UserDTO implements Serializable {
     @TableId
     private String id;

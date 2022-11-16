@@ -20,7 +20,7 @@ class USER_TEMPLATER implements User {
     phone = ''
     sex = 2
     post = ''
-    role = ''
+    roles = []
     orderNum = 0
 }
 
@@ -247,7 +247,7 @@ export default defineComponent({
                             </el-select>
                         </el-form-item>
                         <el-form-item label="用户角色">
-                            <el-select v-model={editInfo.value.role} multiple placeholder="请选择用户角色">
+                            <el-select v-model={editInfo.value.roles} multiple placeholder="请选择用户角色">
                                 {
                                     roleSelect.value.map(item => {
                                         return (

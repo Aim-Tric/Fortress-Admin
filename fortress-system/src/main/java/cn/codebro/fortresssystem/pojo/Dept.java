@@ -11,7 +11,7 @@ import java.util.List;
  * @author Guo wentao
  * @date 2022/10/9
  */
-@TableName(value = "f_dept")
+@TableName(value = "F_DEPT")
 public class Dept extends Model implements Serializable {
     @TableId
     private String id;

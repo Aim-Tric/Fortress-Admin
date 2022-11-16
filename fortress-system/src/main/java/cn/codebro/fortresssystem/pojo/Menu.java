@@ -4,7 +4,6 @@ import cn.codebro.fortresscommon.Model;
 import cn.codebro.fortresscommon.tree.Treetify;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ import java.util.List;
  * @project fortress
  * @date 2022-11-01 21:39:04
  */
-@TableName(value = "f_menu", excludeProperty = {"children"})
+@TableName(value = "F_MENU", excludeProperty = {"children"})
 public class Menu extends Model implements Serializable, Treetify<String, Menu> {
     @TableId
     private String id;

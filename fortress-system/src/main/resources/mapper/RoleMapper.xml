@@ -1,0 +1,10 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.codebro.fortresssystem.mapper.FortressRoleMapper">
+
+    <insert id="insertUserRole">
+        INSERT INTO F_USER_ROLE(id, role_id, user_id) VALUE (#{id}, #{role.id}, #{userId})
+    </insert>
+
+</mapper>

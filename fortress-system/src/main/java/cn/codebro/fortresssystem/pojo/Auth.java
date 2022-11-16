@@ -13,7 +13,7 @@ import java.util.List;
  * @author Guo wentao
  * @date 2022/10/9
  */
-@TableName(value = "f_auth", excludeProperty = {"children"})
+@TableName(value = "F_AUTH", excludeProperty = {"children"})
 public class Auth extends Model implements Serializable, Treetify<String, Auth> {
     @TableId
     private String id;

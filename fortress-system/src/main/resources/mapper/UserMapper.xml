@@ -33,9 +33,9 @@
                fr.id       as role_id,
                fr.name     as role_name,
                fr.identify as role_identify
-        from f_user fu
-                 left join f_user_role fur on fu.id = fur.user_id
-                 left join f_role fr on fur.role_id = fr.id and fr.status != 0
+        from F_USER fu
+                 left join F_USER_ROLE fur on fu.id = fur.user_id
+                 left join F_ROLE fr on fur.role_id = fr.id and fr.status != 0
         where fu.id = #{userId}
     </select>
 </mapper>

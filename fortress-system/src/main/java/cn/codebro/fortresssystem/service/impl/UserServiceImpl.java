@@ -4,8 +4,10 @@ import cn.codebro.fortresscommon.exception.IllegalBusinessOperationException;
 import cn.codebro.fortresscommon.exception.IncorrectUsernameOrPasswordException;
 import cn.codebro.fortresscommon.exception.UnknownUserException;
 import cn.codebro.fortresscommon.exception.UserExistException;
+import cn.codebro.fortresscore.Validator;
 import cn.codebro.fortresssystem.config.system.SystemProperty;
 import cn.codebro.fortresssystem.mapper.FortressUserMapper;
+import cn.codebro.fortresssystem.pojo.Role;
 import cn.codebro.fortresssystem.pojo.User;
 import cn.codebro.fortresssystem.pojo.dto.UserDTO;
 import cn.codebro.fortresssystem.service.IAccountService;
@@ -21,7 +23,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +38,13 @@ import java.util.Map;
 public class UserServiceImpl extends ServiceImpl<FortressUserMapper, UserDTO> implements IUserService, IAccountService {
 
     private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
+    public final IRoleService roleService;
+
+    @Autowired
+    public UserServiceImpl(IRoleService roleService) {
+        this.roleService = roleService;
+    }
 
     @Override
     public void login(String account, String password, String type) {
@@ -83,26 +94,52 @@ public class UserServiceImpl extends ServiceImpl<FortressUserMapper, UserDTO> im
         return StpUtil.isLogin();
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean updateById(UserDTO entity) {
-        List<String> roles = entity.getRoles();
-        if (roles != null && roles.size() > 0) {
-            // TODO 检查roles中是否都是正确的角色
-        }
-        super.updateById(entity);
-        // TODO 添加用户与角色的关联
+        List<String> roleStringList = entity.getRoles();
+        boolean updated = super.updateById(entity);
+        List<Role> roles = checkAndGetRoles(roleStringList);
+        User user = baseMapper.selectFullUserInfo(entity.getId());
+        List<Role> ownedRoles = user.getRoles();
+        if (updated && roles != null && roles.size() > 0) {
+            // 存在于新集合但不存在于旧集合的为新增
+            List<Role> addRoles = new ArrayList<>();
+            for (Role role : ownedRoles) {
 
-        return super.updateById(entity);
+            }
+            List<Role> removeRoles = new ArrayList<>();
+            // 存在于旧集合但不存在于新集合的为删除
+            for (Role role : roles) {
+
+            }
+            roleService.saveUserRole(entity.getId(), roles);
+        } else if (ownedRoles != null && ownedRoles.size() > 0) {
+            // 删除所有角色，意味着账号就无法正常进行系统操作了
+
+        }
+        return updated;
     }
 
     @Override
     public boolean save(UserDTO entity) {
-        List<String> roles = entity.getRoles();
-        // TODO 检查roles中是否都是正确的角色
-
+        List<String> roleStringList = entity.getRoles();
+        List<Role> roles = checkAndGetRoles(roleStringList);
         boolean saved = super.save(entity);
-        // TODO 添加用户与角色的关联
-
+        if (saved && roles != null && roles.size() > 0) {
+            roleService.saveUserRole(entity.getId(), roles);
+        }
         return saved;
+    }
+
+    private List<Role> checkAndGetRoles(List<String> roleStringList) {
+        List<Role> roles = null;
+        if (roleStringList != null && roleStringList.size() > 0) {
+            QueryWrapper<Role> wrapper = new QueryWrapper<>();
+            wrapper.in("id", roleStringList);
+            roles = roleService.list(wrapper);
+            assert roles.size() == roleStringList.size();
+        }
+        return roles;
     }
 }

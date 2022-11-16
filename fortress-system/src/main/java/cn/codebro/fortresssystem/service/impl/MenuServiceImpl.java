@@ -33,7 +33,7 @@ public class MenuServiceImpl extends ServiceImpl<FortressMenuMapper, Menu> imple
     @Override
     public void bindRole(String roleId, List<Menu> menus) {
         for (Menu menu : menus) {
-            baseMapper.insertRoleMenu(IdUtil.fastUUID(), roleId, menu.getId());
+            baseMapper.insertRoleMenu(IdUtil.fastSimpleUUID(), roleId, menu.getId());
         }
     }
 

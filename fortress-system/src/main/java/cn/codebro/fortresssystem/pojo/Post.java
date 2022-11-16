@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @author Guo wentao
  * @date 2022/10/9
  */
-@TableName(value = "f_post")
+@TableName(value = "F_POST")
 public class Post extends Model implements Serializable {
     @TableId
     private String id;
