@@ -100,15 +100,12 @@ public class UserServiceImpl extends ServiceImpl<FortressUserMapper, UserDTO> im
         User user = baseMapper.selectFullUserInfo(entity.getId());
         List<Role> ownedRoles = user.getRoles();
         if (updated && roles != null && roles.size() > 0) {
-            System.out.println(Arrays.toString(roles.toArray()));
             // 存在于新集合但不存在于旧集合的为新增
             List<Role> addRoles = rolesFilter(ownedRoles, roles);
             roleService.saveUserRole(entity.getId(), addRoles);
-            System.out.println(Arrays.toString(addRoles.toArray()));
             // 存在于旧集合但不存在于新集合的为删除
             List<Role> removeRoles = rolesFilter(roles, ownedRoles);
             roleService.removeUserRole(entity.getId(), removeRoles);
-            System.out.println(Arrays.toString(removeRoles.toArray()));
         } else if (ownedRoles != null && ownedRoles.size() > 0) {
             // 删除所有角色，意味着账号就无法正常进行系统操作了
             roleService.removeUserRole(entity.getId(), roles);
