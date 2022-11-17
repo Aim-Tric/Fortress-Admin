@@ -43,6 +43,7 @@ export default defineComponent({
                 roleSelect.value = data
                 editDialogOpen.value = true
                 editDialogTitle.value = "创建用户"
+                editInfo.value = new USER_TEMPLATER()
             })
         }
 
@@ -232,7 +233,7 @@ export default defineComponent({
                             <el-input v-model={editInfo.value.username} placeholder="请输入用户登录账号" />
                         </el-form-item>
                         <el-form-item label="密码">
-                            <el-input v-model={editInfo.value.password} type="password" placeholder="请输入用户登录密码" />
+                            <el-input v-model={editInfo.value.password} disabled={editInfo.value.id !== ''} type="password" placeholder="请输入用户登录密码" />
                         </el-form-item>
                         <el-form-item label="手机号">
                             <el-input v-model={editInfo.value.phone} placeholder="请输入手机号" />
@@ -251,15 +252,6 @@ export default defineComponent({
                             </el-select>
                         </el-form-item>
                         <el-form-item label="用户角色">
-                            {/* <el-select v-model={editInfo.value.roles} multiple placeholder="请选择用户角色">
-                                {
-                                    roleSelect.value.map(item => {
-                                        return (
-                                            <el-option value={item.id} label={item.name}></el-option>
-                                        )
-                                    })
-                                }
-                            </el-select> */}
                             <el-transfer v-model={editInfo.value.roles} data={roleSelect.value} props={{ key: 'id', label: 'name' }} />
                         </el-form-item>
                         <el-form-item label="归属部门">
