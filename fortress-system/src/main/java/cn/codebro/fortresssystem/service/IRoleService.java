@@ -11,4 +11,6 @@ import java.util.List;
  */
 public interface IRoleService extends IService<Role> {
     void saveUserRole(String userId, List<Role> roles);
+
+    void removeUserRole(String userId, List<Role> roles);
 }

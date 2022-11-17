@@ -23,4 +23,11 @@ public class RoleServiceImpl extends ServiceImpl<FortressRoleMapper, Role> imple
             baseMapper.insertUserRole(IdUtil.fastSimpleUUID(), userId, role);
         }
     }
+
+    @Override
+    public void removeUserRole(String userId, List<Role> roles) {
+        for (Role role : roles) {
+            baseMapper.deleteUserRole(userId, role);
+        }
+    }
 }

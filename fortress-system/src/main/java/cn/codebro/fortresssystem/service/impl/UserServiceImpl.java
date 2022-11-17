@@ -4,8 +4,6 @@ import cn.codebro.fortresscommon.exception.IllegalBusinessOperationException;
 import cn.codebro.fortresscommon.exception.IncorrectUsernameOrPasswordException;
 import cn.codebro.fortresscommon.exception.UnknownUserException;
 import cn.codebro.fortresscommon.exception.UserExistException;
-import cn.codebro.fortresscore.Validator;
-import cn.codebro.fortresssystem.config.system.SystemProperty;
 import cn.codebro.fortresssystem.mapper.FortressUserMapper;
 import cn.codebro.fortresssystem.pojo.Role;
 import cn.codebro.fortresssystem.pojo.User;
@@ -17,7 +15,6 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.EncryptUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,10 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Guo wentao
@@ -103,20 +100,18 @@ public class UserServiceImpl extends ServiceImpl<FortressUserMapper, UserDTO> im
         User user = baseMapper.selectFullUserInfo(entity.getId());
         List<Role> ownedRoles = user.getRoles();
         if (updated && roles != null && roles.size() > 0) {
+            System.out.println(Arrays.toString(roles.toArray()));
             // 存在于新集合但不存在于旧集合的为新增
-            List<Role> addRoles = new ArrayList<>();
-            for (Role role : ownedRoles) {
-
-            }
-            List<Role> removeRoles = new ArrayList<>();
+            List<Role> addRoles = rolesFilter(ownedRoles, roles);
+            roleService.saveUserRole(entity.getId(), addRoles);
+            System.out.println(Arrays.toString(addRoles.toArray()));
             // 存在于旧集合但不存在于新集合的为删除
-            for (Role role : roles) {
-
-            }
-            roleService.saveUserRole(entity.getId(), roles);
+            List<Role> removeRoles = rolesFilter(roles, ownedRoles);
+            roleService.removeUserRole(entity.getId(), removeRoles);
+            System.out.println(Arrays.toString(removeRoles.toArray()));
         } else if (ownedRoles != null && ownedRoles.size() > 0) {
             // 删除所有角色，意味着账号就无法正常进行系统操作了
-
+            roleService.removeUserRole(entity.getId(), roles);
         }
         return updated;
     }
@@ -132,6 +127,11 @@ public class UserServiceImpl extends ServiceImpl<FortressUserMapper, UserDTO> im
         return saved;
     }
 
+    @Override
+    public User findById(String id) {
+        return baseMapper.selectFullUserInfo(id);
+    }
+
     private List<Role> checkAndGetRoles(List<String> roleStringList) {
         List<Role> roles = null;
         if (roleStringList != null && roleStringList.size() > 0) {
@@ -141,5 +141,20 @@ public class UserServiceImpl extends ServiceImpl<FortressUserMapper, UserDTO> im
             assert roles.size() == roleStringList.size();
         }
         return roles;
+    }
+
+    private List<Role> rolesFilter(List<Role> compare1, List<Role> compare2) {
+        if (compare1.size() == 0) {
+            return compare2;
+        }
+        List<Role> notExistInCompare1 = new ArrayList<>();
+        for (Role role : compare1) {
+            for (Role ownedRole : compare2) {
+                if (!StrUtil.equals(role.getId(), ownedRole.getId())) {
+                    notExistInCompare1.add(ownedRole);
+                }
+            }
+        }
+        return notExistInCompare1;
     }
 }

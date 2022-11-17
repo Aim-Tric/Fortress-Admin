@@ -7,4 +7,11 @@
         INSERT INTO F_USER_ROLE(id, role_id, user_id) VALUE (#{id}, #{role.id}, #{userId})
     </insert>
 
+    <delete id="deleteUserRole">
+        DELETE
+        FROM F_USER_ROLE
+        WHERE user_id = #{userId}
+          and role_id = #{role.id}
+    </delete>
+
 </mapper>

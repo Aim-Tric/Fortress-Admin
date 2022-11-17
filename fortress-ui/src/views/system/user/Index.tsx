@@ -1,5 +1,5 @@
 import { defineComponent, onMounted, ref, markRaw } from "vue";
-import type { User, Page, Role } from "@/types"
+import type { UserDTO, Page, Role } from "@/types"
 import { Column, FormInstance, ElMessageBox, ElMessage } from "element-plus";
 import { Delete } from '@element-plus/icons-vue'
 import * as UserApi from "@/api/User"
@@ -10,7 +10,7 @@ const SEX_MAP = new Map<number, string>([[0, "男"], [1, "女"], [2, "未知"]])
 const STATUS_MAP = new Map<number, string>([[0, "删除"], [1, "正常"], [2, "冻结"]]);
 const STATUS_COLOR_MAP = new Map<number, string>([[0, "danger"], [1, ""], [2, "warning"]]);
 
-class USER_TEMPLATER implements User {
+class USER_TEMPLATER implements UserDTO {
     username = ''
     nickname = ''
     id = ''
@@ -27,7 +27,7 @@ class USER_TEMPLATER implements User {
 export default defineComponent({
     setup() {
         const editDialogOpen = ref<boolean>(false)
-        const pageInfo = ref<Page<User>>({
+        const pageInfo = ref<Page<UserDTO>>({
             records: [],
             current: 1,
             size: 10,
@@ -35,7 +35,7 @@ export default defineComponent({
         })
         const searchKey = ref<string>("")
         const editDialogTitle = ref<string>("")
-        const editInfo = ref<User>(new USER_TEMPLATER())
+        const editInfo = ref<UserDTO>(new USER_TEMPLATER())
         const formInstance = ref<FormInstance>()
         const roleSelect = ref<Role[]>([])
         const onCreate = () => {
@@ -46,8 +46,13 @@ export default defineComponent({
             })
         }
 
-        const onEdit = (index: number, row: User) => {
-            listAll().then(data => {
+        const onEdit = (index: number, row: UserDTO) => {
+            listAll().then(async data => {
+                const userInfo = await UserApi.getById(row.id)
+                row.roles = []
+                userInfo.roles.forEach(role => {
+                    row.roles.push(role.id)
+                });
                 roleSelect.value = data
                 editInfo.value = row
                 editDialogOpen.value = true
@@ -104,7 +109,7 @@ export default defineComponent({
             }
         }
 
-        const onDelete = (index: number, row: User) => {
+        const onDelete = (index: number, row: UserDTO) => {
             ElMessageBox.confirm(
                 `您将要删除昵称为${row.nickname}的用户，此操作将不可逆转，确定要删除吗？`,
                 'Warning',
@@ -137,9 +142,8 @@ export default defineComponent({
         }
 
         const loadByPage = () => {
-            UserApi.page(pageInfo.value.current, pageInfo.value.size).then((result: Page<User>) => {
+            UserApi.page(pageInfo.value.current, pageInfo.value.size).then((result: Page<UserDTO>) => {
                 pageInfo.value = result
-                console.log(result)
             })
         }
 
@@ -168,7 +172,7 @@ export default defineComponent({
                     <el-table-column type="selection" width="55" />
                     <el-table-column label="用户名" v-slots={
                         {
-                            default: (scope: Column<User>) => (
+                            default: (scope: Column<UserDTO>) => (
                                 <div style="display: flex; align-items: center">
                                     <span style="margin-left: 10px">{scope.row.username}</span>
                                 </div>
@@ -178,7 +182,7 @@ export default defineComponent({
                     <el-table-column label="密码" width="80" property="password" />
                     <el-table-column label="昵称" property="nickname" />
                     <el-table-column label="性别" width="50" property="sex" v-slots={{
-                        default: (scope: Column<User>) => (
+                        default: (scope: Column<UserDTO>) => (
                             <el-tag>{SEX_MAP.get(scope.row.sex)}</el-tag>
                         )
                     }} />
@@ -186,14 +190,14 @@ export default defineComponent({
                     <el-table-column label="邮箱地址" property="email" />
                     <el-table-column label="账号状态" v-slots={
                         {
-                            default: (scope: Column<User>) => (
+                            default: (scope: Column<UserDTO>) => (
                                 <el-tag type={STATUS_COLOR_MAP.get(scope.row.status)}>{STATUS_MAP.get(scope.row.status)}</el-tag>
                             )
                         }
                     } />
                     <el-table-column label="操作" center v-slots={
                         {
-                            default: (scope: Column<User>) => (
+                            default: (scope: Column<UserDTO>) => (
                                 <>
                                     <el-button onClick={() => onEdit(scope.$index, scope.row)}
                                     >编辑</el-button>
@@ -247,7 +251,7 @@ export default defineComponent({
                             </el-select>
                         </el-form-item>
                         <el-form-item label="用户角色">
-                            <el-select v-model={editInfo.value.roles} multiple placeholder="请选择用户角色">
+                            {/* <el-select v-model={editInfo.value.roles} multiple placeholder="请选择用户角色">
                                 {
                                     roleSelect.value.map(item => {
                                         return (
@@ -255,7 +259,8 @@ export default defineComponent({
                                         )
                                     })
                                 }
-                            </el-select>
+                            </el-select> */}
+                            <el-transfer v-model={editInfo.value.roles} data={roleSelect.value} props={{ key: 'id', label: 'name' }} />
                         </el-form-item>
                         <el-form-item label="归属部门">
                             <el-select v-model={editInfo.value.dept} placeholder="请选择用户归属部门">

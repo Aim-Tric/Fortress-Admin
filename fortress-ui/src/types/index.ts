@@ -9,8 +9,15 @@ export interface User {
     email: string,
     post: string,
     dept: string,
-    roles: string[],
     orderNum: number
+}
+
+export interface UserVO extends User {
+    roles: Role[]
+}
+
+export interface UserDTO extends User {
+    roles: string[]
 }
 
 export interface LoginUser {

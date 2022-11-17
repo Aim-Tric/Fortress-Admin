@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import { isLogin, currentUser } from "@/api/User"
-import type { User } from "@/types"
+import type { UserVO } from "@/types"
 import { useGlobalStore } from "@/store/index"
 
 const routes: Array<RouteRecordRaw> = [
@@ -64,7 +64,7 @@ router.beforeEach(async (to, from, next) => {
     if (!login && to.name !== 'Login') {
       next({ name: 'Login', query: { redirect: encodeURIComponent(to.path) } })
     }
-    currentUser().then((user: User) => {
+    currentUser().then((user: UserVO) => {
       globalStore.login(user)
     });
   }

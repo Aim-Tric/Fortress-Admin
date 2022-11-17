@@ -31,9 +31,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public Result getById(@PathVariable String id) {
-        UserDTO user = new UserDTO();
-        user.setId(id);
-        return Result.success(userService.getOne(new QueryWrapper<>(user)));
+        return Result.success(userService.findById(id));
     }
 
     @PostMapping

@@ -12,4 +12,6 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface FortressRoleMapper extends BaseMapper<Role> {
     void insertUserRole(@Param("id") String id, @Param("userId") String userId, @Param("role") Role role);
+
+    void deleteUserRole(@Param("userId") String userId, @Param("role") Role role);
 }
