@@ -49,9 +49,7 @@ public class AuthController {
 
     @DeleteMapping("/{id}")
     public Result delete(@PathVariable String id) {
-        Auth auth = new Auth();
-        auth.setId(id);
-        authService.removeById(auth);
+        authService.removeById(id);
         return Result.success();
     }
 

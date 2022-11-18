@@ -48,9 +48,7 @@ public class DeptController {
 
     @DeleteMapping
     public Result delete(String id) {
-        Dept dept = new Dept();
-        dept.setId(id);
-        deptService.removeById(dept);
+        deptService.removeById(id);
         return Result.success();
     }
 }

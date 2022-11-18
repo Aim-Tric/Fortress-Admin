@@ -20,3 +20,7 @@ export const getAsTree = (): Promise<Auth[]> => {
 export const getById = (id: string): Promise<Auth> => {
     return request.get(`/auth/${id}`)
 }
+
+export const bindRole = (id: string, auths: Auth[]): Promise<Auth> => {
+    return request.post(`/auth/${id}`, JSON.stringify(auths))
+}

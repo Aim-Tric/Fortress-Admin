@@ -2,6 +2,7 @@ package cn.codebro.fortresssystem.controller;
 
 import cn.codebro.fortresscommon.Result;
 import cn.codebro.fortresssystem.pojo.Menu;
+import cn.codebro.fortresssystem.pojo.dto.RoleDTO;
 import cn.codebro.fortresssystem.service.IMenuService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.web.bind.annotation.*;
@@ -49,16 +50,8 @@ public class MenuController {
 
     @DeleteMapping("/{id}")
     public Result delete(@PathVariable String id) {
-        Menu menu = new Menu();
-        menu.setId(id);
-        menuService.removeById(menu);
+        menuService.removeById(id);
         return Result.success();
     }
 
-
-    @PostMapping("/{roleId}")
-    public Result bindRole(@RequestBody List<Menu> menus, @PathVariable String roleId) {
-        menuService.bindRole(roleId, menus);
-        return Result.success();
-    }
 }

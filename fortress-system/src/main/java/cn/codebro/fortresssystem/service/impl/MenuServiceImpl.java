@@ -6,11 +6,13 @@ import cn.codebro.fortresssystem.mapper.FortressMenuMapper;
 import cn.codebro.fortresssystem.pojo.Menu;
 import cn.codebro.fortresssystem.service.IMenuService;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,9 +34,29 @@ public class MenuServiceImpl extends ServiceImpl<FortressMenuMapper, Menu> imple
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void bindRole(String roleId, List<Menu> menus) {
-        for (Menu menu : menus) {
+        List<Menu> boundedMenus = baseMapper.getBoundedMenusByRoleId(roleId);
+        List<Menu> addMenus = menusFilter(boundedMenus, menus);
+        for (Menu menu : addMenus) {
             baseMapper.insertRoleMenu(IdUtil.fastSimpleUUID(), roleId, menu.getId());
+        }
+        List<Menu> removeMenus = menusFilter(menus, boundedMenus);
+        for (Menu menu : removeMenus) {
+            baseMapper.removeRoleMenu(roleId, menu.getId());
         }
     }
 
+    private List<Menu> menusFilter(List<Menu> compare1, List<Menu> compare2) {
+        if (compare1.size() == 0) {
+            return compare2;
+        }
+        List<Menu> notExistInCompare1 = new ArrayList<>();
+        for (Menu role : compare1) {
+            for (Menu ownedRole : compare2) {
+                if (!StrUtil.equals(role.getId(), ownedRole.getId())) {
+                    notExistInCompare1.add(ownedRole);
+                }
+            }
+        }
+        return notExistInCompare1;
+    }
 }

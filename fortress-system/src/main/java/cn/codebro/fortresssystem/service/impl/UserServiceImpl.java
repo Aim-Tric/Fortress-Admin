@@ -81,6 +81,11 @@ public class UserServiceImpl extends ServiceImpl<FortressUserMapper, UserDTO> im
     }
 
     @Override
+    public void resetPassword(String username, String phone, String smsCode) {
+
+    }
+
+    @Override
     public User getLoginUser() {
         String loginId = (String) StpUtil.getLoginId();
         return baseMapper.selectFullUserInfo(loginId);
@@ -94,8 +99,8 @@ public class UserServiceImpl extends ServiceImpl<FortressUserMapper, UserDTO> im
     @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean updateById(UserDTO entity) {
-        List<String> roleStringList = entity.getRoles();
         boolean updated = super.updateById(entity);
+        List<String> roleStringList = entity.getRoles();
         List<Role> roles = checkAndGetRoles(roleStringList);
         User user = baseMapper.selectFullUserInfo(entity.getId());
         List<Role> ownedRoles = user.getRoles();
@@ -113,11 +118,12 @@ public class UserServiceImpl extends ServiceImpl<FortressUserMapper, UserDTO> im
         return updated;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean save(UserDTO entity) {
+        boolean saved = super.save(entity);
         List<String> roleStringList = entity.getRoles();
         List<Role> roles = checkAndGetRoles(roleStringList);
-        boolean saved = super.save(entity);
         if (saved && roles != null && roles.size() > 0) {
             roleService.saveUserRole(entity.getId(), roles);
         }

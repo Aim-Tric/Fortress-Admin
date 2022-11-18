@@ -23,7 +23,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
                     .notMatch("/login")
                     .check(r -> StpUtil.checkLogin());
 
-            // TODO 动态获取配置的接口权限
+
 
         }));
     }

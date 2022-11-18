@@ -49,9 +49,7 @@ public class PostController {
 
     @DeleteMapping
     public Result delete(String id) {
-        Post post = new Post();
-        post.setId(id);
-        postService.removeById(post);
+        postService.removeById(id);
         return Result.success();
     }
 }

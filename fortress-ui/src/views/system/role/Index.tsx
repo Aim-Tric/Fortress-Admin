@@ -3,8 +3,8 @@ import type { Page, Role, Menu, Auth } from "@/types"
 import { Column, FormInstance, ElMessageBox, ElMessage, ElTree } from "element-plus";
 import { Delete } from '@element-plus/icons-vue'
 import * as RoleApi from '@/api/Role'
-import { getAsTree as getMenuAsTree } from "@/api/Menu"
-import { getAsTree as getAuthAsTree } from "@/api/Auth"
+import { getAsTree as getMenuAsTree, bindRole as bindRoleMenus } from "@/api/Menu"
+import { getAsTree as getAuthAsTree, bindRole as bindRoleAuths } from "@/api/Auth"
 
 class ROLE_TEMPLATE implements Role {
     id = ''
@@ -143,7 +143,9 @@ export default defineComponent({
             checkedNodes?.forEach(item => {
                 auths.push(item as Auth)
             })
-            console.log("auths", auths)
+            bindRoleAuths(authRole.value.id, auths).then(data => {
+                console.log("bindRoleAuths", data)
+            })
         }
         const onCancelAuth = () => {
             authDialogOpen.value = false
@@ -168,7 +170,9 @@ export default defineComponent({
             checkedNodes?.forEach(item => {
                 menus.push(item as Menu)
             })
-            console.log("menus", menus)
+            bindRoleMenus(dispatchMenuRole.value.id, menus).then(data => {
+                console.log("bindRoleMenus", data)
+            })
         }
         const onCancelDispatch = () => {
             dispatchDialogOpen.value = false

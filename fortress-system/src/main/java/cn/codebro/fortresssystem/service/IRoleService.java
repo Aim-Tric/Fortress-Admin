@@ -1,6 +1,7 @@
 package cn.codebro.fortresssystem.service;
 
 import cn.codebro.fortresssystem.pojo.Role;
+import cn.codebro.fortresssystem.pojo.dto.RoleDTO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -13,4 +14,6 @@ public interface IRoleService extends IService<Role> {
     void saveUserRole(String userId, List<Role> roles);
 
     void removeUserRole(String userId, List<Role> roles);
+
+    void bindRoleMenu(RoleDTO roleDTO);
 }
