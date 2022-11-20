@@ -29,4 +29,11 @@
         FROM F_MENU FM
                  left join F_ROLE_MENU FRM on FM.id = FRM.menu_id and FRM.role_id = #{roleId}
     </select>
+
+    <delete id="removeRoleMenu">
+        DELETE
+        FROM F_ROLE_MENU
+        WHERE role_id = #{roleId}
+          AND menu_id = #{menuId}
+    </delete>
 </mapper>
