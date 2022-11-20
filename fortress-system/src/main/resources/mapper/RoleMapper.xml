@@ -39,9 +39,8 @@
                FA.identify as auth_identify
         FROM F_ROLE FR
                  LEFT JOIN F_ROLE_AUTH FRA ON FR.id = FRA.role_id
-                 LEFT JOIN F_AUTH FA ON FRA.auth_id = FA.id
+                 LEFT JOIN F_AUTH FA ON FRA.auth_id = FA.id AND FA.status = 1
         WHERE FR.id = #{id}
-          AND FA.status = 1
     </select>
 
     <select id="selectRoleMenuByRoleId" resultMap="fullRoleMap">
@@ -52,8 +51,7 @@
                FM.name as menu_name
         FROM F_ROLE FR
                  LEFT JOIN F_ROLE_MENU FRM ON FR.id = FRM.role_id
-                 LEFT JOIN F_MENU FM ON FRM.menu_id = FM.id
+                 LEFT JOIN F_MENU FM ON FRM.menu_id = FM.id AND FM.status = 1
         WHERE FR.id = #{id}
-          AND FM.status = 1
     </select>
 </mapper>

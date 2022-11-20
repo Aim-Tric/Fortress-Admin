@@ -50,7 +50,7 @@ export interface Role {
     orderNum: number
 }
 
-export interface RoleVO {
+export interface RoleVO extends Role {
     auths?: Auth[]
     menus?: Menu[]
 }

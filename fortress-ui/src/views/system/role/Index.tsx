@@ -131,10 +131,18 @@ export default defineComponent({
         const authRole = ref<RoleDTO>(new ROLE_TEMPLATE())
         const authTree = ref<Auth[]>()
         const onAuthorization = (index: number, row: Role) => {
-            getAuthAsTree().then(data => {
+            getAuthAsTree().then(async (data) => {
+                const role = await RoleApi.getRoleAuthById(row.id)
                 authTree.value = data
                 authDialogOpen.value = true
-                authRole.value = row
+                authRole.value.id = role.id
+                authRole.value.identify = role.identify
+                authRole.value.name = role.name
+                const auths: string[] = []
+                role.auths?.forEach(auth => {
+                    auths.push(auth.id)
+                })
+                authRole.value.auths = auths
             })
         }
         const doAuthorization = () => {
@@ -171,10 +179,18 @@ export default defineComponent({
         const dispatchMenuRole = ref<RoleDTO>(new ROLE_TEMPLATE())
         const menuTree = ref<Menu[]>()
         const onMenuDsipatch = (index: number, row: Role) => {
-            getMenuAsTree().then(data => {
+            getMenuAsTree().then(async (data) => {
+                const role = await RoleApi.getRoleMenuById(row.id)
                 menuTree.value = data
                 dispatchDialogOpen.value = true
-                dispatchMenuRole.value = row
+                dispatchMenuRole.value.id = role.id
+                dispatchMenuRole.value.name = role.name
+                dispatchMenuRole.value.identify = role.identify
+                const menus: string[] = []
+                role.menus?.forEach(menu => {
+                    menus.push(menu.id)
+                })
+                dispatchMenuRole.value.menus = menus
             })
         }
         const doDispatch = () => {
@@ -303,6 +319,9 @@ export default defineComponent({
                             <el-tree
                                 ref={authTreeInstance}
                                 data={authTree.value}
+                                node-key="id"
+                                default-expand-all
+                                default-checked-keys={authRole.value.auths}
                                 props={{ label: 'name' }}
                                 show-checkbox
                             />
@@ -329,6 +348,9 @@ export default defineComponent({
                             <el-tree
                                 ref={menuTreeInstance}
                                 data={menuTree.value}
+                                node-key="id"
+                                default-checked-keys={dispatchMenuRole.value.menus}
+                                default-expand-all
                                 props={{ label: "name" }}
                                 show-checkbox
                             />

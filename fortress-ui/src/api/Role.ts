@@ -1,4 +1,4 @@
-import type { Role, RoleDTO, Page } from "@/types"
+import type { Role, RoleDTO, Page, RoleVO } from "@/types"
 import { request } from "@/utils/request"
 
 export const add = (role: Role): Promise<Role> => {
@@ -26,9 +26,17 @@ export const dispatchMenu = (roleDTO: RoleDTO): Promise<Role> => {
 }
 
 export const authorization = (roleDTO: RoleDTO): Promise<Role> => {
-    return request.post('/role/auth',JSON.stringify(roleDTO))
+    return request.post('/role/auth', JSON.stringify(roleDTO))
 }
 
 export const listAll = (): Promise<Role[]> => {
     return request.get("/role/all")
+}
+
+export const getRoleAuthById = (id: string): Promise<RoleVO> => {
+    return request.get(`/role/auth/${id}`)
+}
+
+export const getRoleMenuById = (id: string): Promise<RoleVO> => {
+    return request.get(`/role/menu/${id}`)
 }
