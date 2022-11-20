@@ -33,7 +33,7 @@ public class AuthServiceImpl extends ServiceImpl<FortressAuthMapper, Auth> imple
     @Override
     public void bindRole(String roleId, List<Auth> auths) {
         for (Auth auth : auths) {
-            baseMapper.insertRoleAuth(IdUtil.fastUUID(), roleId, auth.getId());
+            baseMapper.insertRoleAuth(IdUtil.fastSimpleUUID(), roleId, auth.getId());
         }
     }
 

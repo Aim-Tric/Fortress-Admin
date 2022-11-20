@@ -2,6 +2,7 @@ package cn.codebro.fortresssystem.controller;
 
 import cn.codebro.fortresscommon.Result;
 import cn.codebro.fortresssystem.pojo.Role;
+import cn.codebro.fortresssystem.pojo.dto.RoleDTO;
 import cn.codebro.fortresssystem.service.IRoleService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -57,5 +58,25 @@ public class RoleController {
         return Result.success();
     }
 
+    @GetMapping("/menu/{id}")
+    public Result getRoleMenu(@PathVariable String id) {
+        return Result.success(roleService.getRoleMenu(id));
+    }
 
+    @PostMapping("/menu")
+    public Result bindMenu(@RequestBody RoleDTO roleDTO) {
+        roleService.bindRoleMenu(roleDTO);
+        return Result.success();
+    }
+
+    @GetMapping("/auth/{id}")
+    public Result getRoleAuth(@PathVariable String id) {
+        return Result.success(roleService.getRoleAuth(id));
+    }
+
+    @PostMapping("/auth")
+    public Result bindAuth(@RequestBody RoleDTO roleDTO) {
+        roleService.bindRoleAuth(roleDTO);
+        return Result.success();
+    }
 }

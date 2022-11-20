@@ -16,4 +16,10 @@ public interface IRoleService extends IService<Role> {
     void removeUserRole(String userId, List<Role> roles);
 
     void bindRoleMenu(RoleDTO roleDTO);
+
+    void bindRoleAuth(RoleDTO roleDTO);
+
+    Role getRoleAuth(String id);
+
+    Role getRoleMenu(String id);
 }

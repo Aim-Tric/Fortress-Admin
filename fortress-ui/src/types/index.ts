@@ -21,35 +21,43 @@ export interface UserDTO extends User {
 }
 
 export interface LoginUser {
-    loginId: string,
-    type: string,
-    account: string,
-    password: string,
+    loginId: string
+    type: string
+    account: string
+    password: string
     validateCode: string
 }
 
 export interface Post {
-    id: string,
-    name: string,
+    id: string
+    name: string
     orderNum: number
 }
 
 export interface Dept {
-    id: string,
-    parentId: string,
-    name: string,
-    orderNum: number,
+    id: string
+    parentId: string
+    name: string
+    orderNum: number
     posts?: Post[]
 }
 
 export interface Role {
-    id: string,
-    name: string,
-    identify: string,
-    status: number,
-    orderNum: number,
+    id: string
+    name: string
+    identify: string
+    status: number
+    orderNum: number
+}
+
+export interface RoleVO {
     auths?: Auth[]
     menus?: Menu[]
+}
+
+export interface RoleDTO extends Role {
+    auths?: string[]
+    menus?: string[]
 }
 
 export interface Group {

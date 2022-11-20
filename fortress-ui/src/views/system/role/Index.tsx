@@ -1,12 +1,12 @@
 import { defineComponent, onMounted, ref, markRaw } from "vue";
-import type { Page, Role, Menu, Auth } from "@/types"
+import type { Page, Role, Menu, Auth, RoleDTO } from "@/types"
 import { Column, FormInstance, ElMessageBox, ElMessage, ElTree } from "element-plus";
 import { Delete } from '@element-plus/icons-vue'
 import * as RoleApi from '@/api/Role'
-import { getAsTree as getMenuAsTree, bindRole as bindRoleMenus } from "@/api/Menu"
-import { getAsTree as getAuthAsTree, bindRole as bindRoleAuths } from "@/api/Auth"
+import { getAsTree as getMenuAsTree } from "@/api/Menu"
+import { getAsTree as getAuthAsTree } from "@/api/Auth"
 
-class ROLE_TEMPLATE implements Role {
+class ROLE_TEMPLATE implements RoleDTO {
     id = ''
     name = ''
     identify = ''
@@ -128,7 +128,7 @@ export default defineComponent({
         const authFormInstance = ref<FormInstance>()
         const authDialogOpen = ref<boolean>(false)
         const authTreeInstance = ref<InstanceType<typeof ElTree>>()
-        const authRole = ref<Role>(new ROLE_TEMPLATE())
+        const authRole = ref<RoleDTO>(new ROLE_TEMPLATE())
         const authTree = ref<Auth[]>()
         const onAuthorization = (index: number, row: Role) => {
             getAuthAsTree().then(data => {
@@ -139,13 +139,26 @@ export default defineComponent({
         }
         const doAuthorization = () => {
             const checkedNodes = authTreeInstance.value?.getCheckedNodes()
-            const auths: Auth[] = []
+            const auths: string[] = []
             checkedNodes?.forEach(item => {
-                auths.push(item as Auth)
+                auths.push(item.id)
             })
-            bindRoleAuths(authRole.value.id, auths).then(data => {
-                console.log("bindRoleAuths", data)
-            })
+            authRole.value.auths = auths
+            RoleApi.authorization(authRole.value)
+                .then(() => {
+                    onCancelAuth()
+                    ElMessage({
+                        message: '授权成功！',
+                        type: 'success',
+                    })
+                })
+                .catch(error => {
+                    console.log("authoriazation occur error: ", error)
+                    ElMessage({
+                        message: '授权失败！',
+                        type: 'error',
+                    })
+                })
         }
         const onCancelAuth = () => {
             authDialogOpen.value = false
@@ -155,7 +168,7 @@ export default defineComponent({
         const dispatchFormInstance = ref<FormInstance>()
         const menuTreeInstance = ref<InstanceType<typeof ElTree>>()
         const dispatchDialogOpen = ref<boolean>(false)
-        const dispatchMenuRole = ref<Role>(new ROLE_TEMPLATE())
+        const dispatchMenuRole = ref<RoleDTO>(new ROLE_TEMPLATE())
         const menuTree = ref<Menu[]>()
         const onMenuDsipatch = (index: number, row: Role) => {
             getMenuAsTree().then(data => {
@@ -166,13 +179,26 @@ export default defineComponent({
         }
         const doDispatch = () => {
             const checkedNodes = menuTreeInstance.value?.getCheckedNodes()
-            const menus: Menu[] = []
+            const menus: string[] = []
             checkedNodes?.forEach(item => {
-                menus.push(item as Menu)
+                menus.push(item.id)
             })
-            bindRoleMenus(dispatchMenuRole.value.id, menus).then(data => {
-                console.log("bindRoleMenus", data)
-            })
+            dispatchMenuRole.value.menus = menus
+            RoleApi.dispatchMenu(dispatchMenuRole.value)
+                .then(() => {
+                    onCancelDispatch()
+                    ElMessage({
+                        message: '分配成功！',
+                        type: 'success',
+                    })
+                })
+                .catch(error => {
+                    console.log("dispatch menu occur error: ", error)
+                    ElMessage({
+                        message: '分配失败！',
+                        type: 'error',
+                    })
+                })
         }
         const onCancelDispatch = () => {
             dispatchDialogOpen.value = false

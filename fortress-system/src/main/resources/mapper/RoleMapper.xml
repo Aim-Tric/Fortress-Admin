@@ -3,6 +3,22 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.codebro.fortresssystem.mapper.FortressRoleMapper">
 
+    <resultMap id="fullRoleMap" type="cn.codebro.fortresssystem.pojo.Role">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="identify" column="identify"/>
+        <collection property="auths" ofType="cn.codebro.fortresssystem.pojo.Auth">
+            <id property="id" column="auth_id"/>
+            <result property="id" column="auth_id"/>
+            <result property="name" column="auth_name"/>
+            <result property="identify" column="auth_identify"/>
+        </collection>
+        <collection property="menus" ofType="cn.codebro.fortresssystem.pojo.Menu">
+            <id property="id" column="menu_id"/>
+            <result property="name" column="menu_name"/>
+        </collection>
+    </resultMap>
+
     <insert id="insertUserRole">
         INSERT INTO F_USER_ROLE(id, role_id, user_id) VALUE (#{id}, #{role.id}, #{userId})
     </insert>
@@ -14,4 +30,30 @@
           and role_id = #{role.id}
     </delete>
 
+    <select id="selectRoleAuthByRoleId" resultMap="fullRoleMap">
+        SELECT FR.id,
+               FR.name,
+               FR.identify,
+               FA.id       as auth_id,
+               FA.name     as auth_name,
+               FA.identify as auth_identify
+        FROM F_ROLE FR
+                 LEFT JOIN F_ROLE_AUTH FRA ON FR.id = FRA.role_id
+                 LEFT JOIN F_AUTH FA ON FRA.auth_id = FA.id
+        WHERE FR.id = #{id}
+          AND FA.status = 1
+    </select>
+
+    <select id="selectRoleMenuByRoleId" resultMap="fullRoleMap">
+        SELECT FR.id,
+               FR.name,
+               FR.identify,
+               FM.id   as menu_id,
+               FM.name as menu_name
+        FROM F_ROLE FR
+                 LEFT JOIN F_ROLE_MENU FRM ON FR.id = FRM.role_id
+                 LEFT JOIN F_MENU FM ON FRM.menu_id = FM.id
+        WHERE FR.id = #{id}
+          AND FM.status = 1
+    </select>
 </mapper>

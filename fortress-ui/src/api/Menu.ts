@@ -20,7 +20,3 @@ export const getAsTree = (): Promise<Menu[]> => {
 export const getById = (id: string): Promise<Menu> => {
     return request.get(`/menu/${id}`)
 }
-
-export const bindRole = (id: string, menus: Menu[]): Promise<Menu> => {
-    return request.post(`/menu/${id}`, JSON.stringify(menus))
-}
