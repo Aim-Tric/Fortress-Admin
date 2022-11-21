@@ -17,4 +17,6 @@ public interface FortressAuthMapper extends BaseMapper<Auth> {
     int countDistributionInRole(Serializable id);
 
     void insertRoleAuth(@Param("id") String id, @Param("roleId") String roleId, @Param("authId") String authId);
+
+    void deleteAuthByRoleId(String roleId);
 }

@@ -18,5 +18,7 @@ public interface IAuthService extends IService<Auth> {
      */
     List<Treetify<String, Auth>> getAllAsTree();
 
-    void bindRole(String roleId, List<Auth> auths);
+    void removeAuthByRoleId(String roleId);
+
+    void saveAuthByRoleId(String roleId, List<Auth> auths);
 }

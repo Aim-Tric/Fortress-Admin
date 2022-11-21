@@ -17,7 +17,5 @@ public interface FortressMenuMapper extends BaseMapper<Menu> {
 
     void insertRoleMenu(@Param("id") String id, @Param("roleId") String roleId, @Param("menuId") String menuId);
 
-    List<Menu> getBoundedMenusByRoleId(@Param("roleId") String roleId);
-
-    void removeRoleMenu(@Param("roleId") String roleId, @Param("menuId") String menuId);
+    void deleteByRoleId(String roleId);
 }

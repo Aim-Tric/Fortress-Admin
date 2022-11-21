@@ -31,10 +31,16 @@ public class AuthServiceImpl extends ServiceImpl<FortressAuthMapper, Auth> imple
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void bindRole(String roleId, List<Auth> auths) {
+    public void saveAuthByRoleId(String roleId, List<Auth> auths) {
         for (Auth auth : auths) {
             baseMapper.insertRoleAuth(IdUtil.fastSimpleUUID(), roleId, auth.getId());
         }
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void removeAuthByRoleId(String roleId) {
+        baseMapper.deleteAuthByRoleId(roleId);
     }
 
     @Transactional(rollbackFor = Exception.class)

@@ -1,6 +1,6 @@
 package cn.codebro.fortresssystem.pojo;
 
-import cn.codebro.fortresscore.Validator;
+import cn.codebro.fortresscore.util.Validator;
 
 import java.io.Serializable;
 

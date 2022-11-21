@@ -1,4 +1,4 @@
-package cn.codebro.fortresscore;
+package cn.codebro.fortresscore.util;
 
 import java.util.Objects;
 

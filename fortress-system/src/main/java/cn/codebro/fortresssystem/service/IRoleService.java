@@ -11,9 +11,8 @@ import java.util.List;
  * @date 2022/10/9
  */
 public interface IRoleService extends IService<Role> {
-    void saveUserRole(String userId, List<Role> roles);
 
-    void removeUserRole(String userId, List<Role> roles);
+    void removeRoleByUserId(String userId);
 
     void bindRoleMenu(RoleDTO roleDTO);
 
@@ -22,4 +21,6 @@ public interface IRoleService extends IService<Role> {
     Role getRoleAuth(String id);
 
     Role getRoleMenu(String id);
+
+    void insertRoleByUserId(String id, List<Role> roles);
 }

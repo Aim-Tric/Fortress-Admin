@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,39 +33,52 @@ public class RoleServiceImpl extends ServiceImpl<FortressRoleMapper, Role> imple
         this.authService = authService;
     }
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
-    public void saveUserRole(String userId, List<Role> roles) {
-        for (Role role : roles) {
-            baseMapper.insertUserRole(IdUtil.fastSimpleUUID(), userId, role);
-        }
-    }
-
-    @Transactional(rollbackFor = Exception.class)
-    @Override
-    public void removeUserRole(String userId, List<Role> roles) {
-        for (Role role : roles) {
-            baseMapper.deleteUserRole(userId, role);
-        }
+    public void removeRoleByUserId(String userId) {
+        baseMapper.deleteRoleByUserId(userId);
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void bindRoleMenu(RoleDTO roleDTO) {
         List<String> menuStringList = roleDTO.getMenus();
-        QueryWrapper<Menu> wrapper = new QueryWrapper<>();
-        wrapper.in("id", menuStringList);
-        List<Menu> menus = menuService.list(wrapper);
-        menuService.bindRole(roleDTO.getId(), menus);
+        List<Menu> menus = new ArrayList<>();
+        if (menuStringList.size() > 0) {
+            QueryWrapper<Menu> wrapper = new QueryWrapper<>();
+            wrapper.in("id", menuStringList);
+            menus = menuService.list(wrapper);
+            if (menus.size() != menuStringList.size()) {
+                throw new RuntimeException("操作的菜单异常！");
+            }
+        }
+        Role role = getRoleMenu(roleDTO.getId());
+        if (role == null) {
+            throw new RuntimeException("操作的角色不存在！");
+        }
+        menuService.deleteMenuByRoleId(role.getId());
+        menuService.saveMenuByRoleId(role.getId(), menus);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void bindRoleAuth(RoleDTO roleDTO) {
         List<String> authStringList = roleDTO.getAuths();
-        QueryWrapper<Auth> wrapper = new QueryWrapper<>();
-        wrapper.in("id", authStringList);
-        List<Auth> auths = authService.list(wrapper);
-        authService.bindRole(roleDTO.getId(), auths);
+        List<Auth> auths = new ArrayList<>();
+        if (authStringList.size() > 0) {
+            QueryWrapper<Auth> wrapper = new QueryWrapper<>();
+            wrapper.in("id", authStringList);
+            auths = authService.list(wrapper);
+            if (auths.size() != authStringList.size()) {
+                throw new RuntimeException("操作的权限异常！");
+            }
+        }
+        String roleId = roleDTO.getId();
+        Role role = baseMapper.selectRoleAuthByRoleId(roleId);
+        if (role == null) {
+            throw new RuntimeException("操作的角色不存在！");
+        }
+        authService.removeAuthByRoleId(roleId);
+        authService.saveAuthByRoleId(roleId, auths);
     }
 
     @Override
@@ -77,5 +91,12 @@ public class RoleServiceImpl extends ServiceImpl<FortressRoleMapper, Role> imple
         return baseMapper.selectRoleMenuByRoleId(id);
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void insertRoleByUserId(String userId, List<Role> roles) {
+        for (Role role : roles) {
+            baseMapper.insertRoleByUserId(IdUtil.fastSimpleUUID(), userId, role.getId());
+        }
+    }
 
 }

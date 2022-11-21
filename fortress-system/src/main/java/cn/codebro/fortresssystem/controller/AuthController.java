@@ -53,9 +53,4 @@ public class AuthController {
         return Result.success();
     }
 
-    @PostMapping("/{roleId}")
-    public Result bindRole(@RequestBody List<Auth> auths, @PathVariable String roleId) {
-        authService.bindRole(roleId, auths);
-        return Result.success();
-    }
 }

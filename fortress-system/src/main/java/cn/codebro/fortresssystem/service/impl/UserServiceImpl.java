@@ -22,9 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -103,18 +101,11 @@ public class UserServiceImpl extends ServiceImpl<FortressUserMapper, UserDTO> im
         List<String> roleStringList = entity.getRoles();
         List<Role> roles = checkAndGetRoles(roleStringList);
         User user = baseMapper.selectFullUserInfo(entity.getId());
-        List<Role> ownedRoles = user.getRoles();
-        if (updated && roles != null && roles.size() > 0) {
-            // 存在于新集合但不存在于旧集合的为新增
-            List<Role> addRoles = rolesFilter(ownedRoles, roles);
-            roleService.saveUserRole(entity.getId(), addRoles);
-            // 存在于旧集合但不存在于新集合的为删除
-            List<Role> removeRoles = rolesFilter(roles, ownedRoles);
-            roleService.removeUserRole(entity.getId(), removeRoles);
-        } else if (ownedRoles != null && ownedRoles.size() > 0) {
-            // 删除所有角色，意味着账号就无法正常进行系统操作了
-            roleService.removeUserRole(entity.getId(), roles);
+        if (user == null) {
+            throw new RuntimeException("操作的角色不存在！");
         }
+        roleService.removeRoleByUserId(user.getId());
+        roleService.insertRoleByUserId(user.getId(), roles);
         return updated;
     }
 
@@ -125,7 +116,7 @@ public class UserServiceImpl extends ServiceImpl<FortressUserMapper, UserDTO> im
         List<String> roleStringList = entity.getRoles();
         List<Role> roles = checkAndGetRoles(roleStringList);
         if (saved && roles != null && roles.size() > 0) {
-            roleService.saveUserRole(entity.getId(), roles);
+            roleService.insertRoleByUserId(entity.getId(), roles);
         }
         return saved;
     }
@@ -136,12 +127,14 @@ public class UserServiceImpl extends ServiceImpl<FortressUserMapper, UserDTO> im
     }
 
     private List<Role> checkAndGetRoles(List<String> roleStringList) {
-        List<Role> roles = null;
+        List<Role> roles = new ArrayList<>();
         if (roleStringList != null && roleStringList.size() > 0) {
             QueryWrapper<Role> wrapper = new QueryWrapper<>();
             wrapper.in("id", roleStringList);
             roles = roleService.list(wrapper);
-            assert roles.size() == roleStringList.size();
+            if (roles.size() != roleStringList.size()) {
+                throw new RuntimeException("操作的角色异常！");
+            }
         }
         return roles;
     }

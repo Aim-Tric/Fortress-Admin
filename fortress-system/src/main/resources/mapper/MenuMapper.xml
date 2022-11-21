@@ -8,32 +8,9 @@
         INSERT INTO F_ROLE_MENU(id, role_id, menu_id) VALUE (#{id}, #{roleId}, #{menuId})
     </insert>
 
-    <select id="getBoundedMenusByRoleId" resultType="cn.codebro.fortresssystem.pojo.Menu">
-        SELECT FM.id,
-               FM.parent,
-               FM.name,
-               FM.icon_name,
-               FM.route_name,
-               FM.page_title,
-               FM.page_path,
-               FM.type,
-               FM.page_type,
-               FM.component_path,
-               FM.status,
-               FM.description,
-               FM.order_num,
-               FM.create_by,
-               FM.create_time,
-               FM.update_by,
-               FM.update_time
-        FROM F_MENU FM
-                 left join F_ROLE_MENU FRM on FM.id = FRM.menu_id and FRM.role_id = #{roleId}
-    </select>
-
-    <delete id="removeRoleMenu">
+    <delete id="deleteByRoleId">
         DELETE
         FROM F_ROLE_MENU
         WHERE role_id = #{roleId}
-          AND menu_id = #{menuId}
     </delete>
 </mapper>

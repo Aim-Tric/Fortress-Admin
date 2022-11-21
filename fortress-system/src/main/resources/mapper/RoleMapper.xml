@@ -19,15 +19,14 @@
         </collection>
     </resultMap>
 
-    <insert id="insertUserRole">
-        INSERT INTO F_USER_ROLE(id, role_id, user_id) VALUE (#{id}, #{role.id}, #{userId})
+    <insert id="insertRoleByUserId">
+        INSERT INTO F_USER_ROLE(id, role_id, user_id) VALUE (#{id}, #{roleId}, #{userId})
     </insert>
 
-    <delete id="deleteUserRole">
+    <delete id="deleteRoleByUserId">
         DELETE
         FROM F_USER_ROLE
         WHERE user_id = #{userId}
-          and role_id = #{role.id}
     </delete>
 
     <select id="selectRoleAuthByRoleId" resultMap="fullRoleMap">
