@@ -60,13 +60,19 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const globalStore = useGlobalStore()
   if (!globalStore.$state.loginUser) {
-    const login = await isLogin()
-    if (!login && to.name !== 'Login') {
-      next({ name: 'Login', query: { redirect: encodeURIComponent(to.path) } })
+    try {
+      const login = await isLogin()
+      if (!login && to.name !== 'Login') {
+        next({ name: 'Login', query: { redirect: encodeURIComponent(to.path) } })
+      }
+      currentUser().then((user: UserVO) => {
+        globalStore.login(user)
+      })
+    } catch (error) {
+      if (to.name !== 'Login') {
+        next({ name: 'Login', query: { redirect: encodeURIComponent(to.path) } })
+      }
     }
-    currentUser().then((user: UserVO) => {
-      globalStore.login(user)
-    });
   }
   next();
 })

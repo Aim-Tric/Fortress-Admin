@@ -36,3 +36,7 @@ export const isLogin = (): Promise<boolean> => {
 export const currentUser = (): Promise<UserVO> => {
     return request.get(`/userInfo`)
 }
+
+export const logout = (): Promise<void> => {
+    return request.get(`/logout`)
+}

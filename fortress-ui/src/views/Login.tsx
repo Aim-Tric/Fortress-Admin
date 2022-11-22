@@ -1,4 +1,5 @@
 import { defineComponent, reactive, ref } from "vue";
+import { ElMessage } from "element-plus";
 import SelectTabCom from "@/components/SelectTab";
 import type { SelectTab } from "@/components/SelectTab";
 import { login } from "@/api/User";
@@ -93,7 +94,15 @@ export default defineComponent({
 
         const doLogin = () => {
             loginForm.password = CryptoJS.enc.Base64.stringify(CryptoJS.MD5(loginForm.password))
-            login(loginForm).then(() => loginSuccess())
+            login(loginForm).then(() => {
+                loginSuccess()
+            }).catch(error => {
+                console.log("login occur error: ", error)
+                ElMessage({
+                    message: error.message,
+                    type: 'error',
+                })
+            })
         }
 
         return () => (

@@ -1,11 +1,23 @@
 import { defineComponent } from "vue";
+import { useRouter } from "vue-router";
 import AdminMenu from "./modules/AdminMenu";
 import { useGlobalStore } from "@/store";
+import { ElMessage } from "element-plus";
+import { logout as logoutApi } from "@/api/User"
 
 export default defineComponent({
     setup() {
         const globalStore = useGlobalStore()
-
+        const $router = useRouter()
+        const logout = () => {
+            logoutApi().then(() => {
+                ElMessage({
+                    message: '已退出登录',
+                    type: 'success',
+                })
+                $router.replace({ name: 'Login' })
+            })
+        }
         return () => (
             <el-container>
                 <el-aside width="220px"><AdminMenu /></el-aside>
@@ -15,7 +27,7 @@ export default defineComponent({
                             dropdown: () => (
                                 <el-dropdown-menu>
                                     <el-dropdown-item>个人中心</el-dropdown-item>
-                                    <el-dropdown-item>退出登录</el-dropdown-item>
+                                    <el-dropdown-item onClick={logout}>退出登录</el-dropdown-item>
                                 </el-dropdown-menu>
                             )
                         }}>

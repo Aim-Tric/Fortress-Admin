@@ -22,7 +22,9 @@ request.interceptors.request.use(function (config) {
 request.interceptors.response.use(function (response) {
     if(response.status === 200) {
         const result = response.data as ApiResult
-        return result.data;
+        if(result.code == 200) {
+            return result.data;
+        }
     }
     return Promise.reject(new Error("请求异常"))
 }, function (error) {
