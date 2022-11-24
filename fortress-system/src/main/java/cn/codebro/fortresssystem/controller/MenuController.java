@@ -1,12 +1,19 @@
 package cn.codebro.fortresssystem.controller;
 
 import cn.codebro.fortresscommon.Result;
+import cn.codebro.fortresscommon.tree.Treetifier;
 import cn.codebro.fortresssystem.pojo.Menu;
+import cn.codebro.fortresssystem.pojo.Role;
+import cn.codebro.fortresssystem.pojo.User;
 import cn.codebro.fortresssystem.pojo.dto.RoleDTO;
+import cn.codebro.fortresssystem.service.IAccountService;
 import cn.codebro.fortresssystem.service.IMenuService;
+import cn.codebro.fortresssystem.service.IRoleService;
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,12 +23,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/menu")
 public class MenuController {
-    private static final int DEFAULT_PAGE_SIZE = 10;
 
     private final IMenuService menuService;
+    private final IAccountService accountService;
 
-    public MenuController(IMenuService menuService) {
+    public MenuController(IMenuService menuService, IAccountService accountService) {
         this.menuService = menuService;
+        this.accountService = accountService;
     }
 
     @GetMapping("/tree")
@@ -54,4 +62,14 @@ public class MenuController {
         return Result.success();
     }
 
+    @GetMapping("/user")
+    public Result getUserMenus() {
+        User loginUser = accountService.getLoginUser();
+        List<Role> roles = loginUser.getRoles();
+        List<Menu> menus = new ArrayList<>();
+        for (Role role : roles) {
+            menus.addAll(menuService.getMenuByRoleId(role.getId()));
+        }
+        return Result.success(Treetifier.listToTree(menus));
+    }
 }

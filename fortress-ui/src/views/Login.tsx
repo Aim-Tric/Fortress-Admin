@@ -11,7 +11,7 @@ import './Login.css'
 const loginType: SelectTab[] = [
     { key: "account", name: '账号' },
     { key: "phone", name: '手机号' },
-    { key: "third", name: '第三方' },
+    // { key: "third", name: '第三方' },
 ]
 
 // 检查是否为账号和手机号登录

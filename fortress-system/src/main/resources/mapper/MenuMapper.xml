@@ -13,4 +13,23 @@
         FROM F_ROLE_MENU
         WHERE role_id = #{roleId}
     </delete>
+
+    <select id="selectMenuByRoleId" resultType="cn.codebro.fortresssystem.pojo.Menu">
+        SELECT FM.id,
+               FM.parent,
+               FM.name,
+               FM.icon_name,
+               FM.route_name,
+               FM.page_title,
+               FM.page_path,
+               FM.type,
+               FM.page_type,
+               FM.component_path,
+               FM.description,
+               FM.order_num
+        FROM F_MENU FM
+                 LEFT JOIN F_ROLE_MENU FRM ON FM.id = FRM.menu_id AND FRM.role_id = #{roleId}
+        WHERE FM.status = 1
+        ORDER BY FM.order_num
+    </select>
 </mapper>

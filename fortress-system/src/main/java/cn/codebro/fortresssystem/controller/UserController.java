@@ -1,10 +1,8 @@
 package cn.codebro.fortresssystem.controller;
 
 import cn.codebro.fortresscommon.Result;
-import cn.codebro.fortresssystem.pojo.User;
 import cn.codebro.fortresssystem.pojo.dto.UserDTO;
 import cn.codebro.fortresssystem.service.IUserService;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.bind.annotation.*;
 

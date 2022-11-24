@@ -1,4 +1,4 @@
-import type { User, LoginUser, Page, UserDTO, UserVO } from "@/types"
+import type { User, LoginUser, Page, UserDTO, UserVO, Menu } from "@/types"
 import { request } from "@/utils/request"
 
 export const page = (page: number, size = 10): Promise<Page<UserDTO>> => {
@@ -39,4 +39,8 @@ export const currentUser = (): Promise<UserVO> => {
 
 export const logout = (): Promise<void> => {
     return request.get(`/logout`)
+}
+
+export const getUserMenus = (): Promise<Menu[]> => {
+    return request.get(`/menu/user`)
 }

@@ -2,6 +2,7 @@ package cn.codebro.fortresssystem.service;
 
 import cn.codebro.fortresscommon.tree.Treetify;
 import cn.codebro.fortresssystem.pojo.Menu;
+import cn.codebro.fortresssystem.pojo.Role;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface IMenuService extends IService<Menu> {
     void deleteMenuByRoleId(String id);
 
     void saveMenuByRoleId(String id, List<Menu> menus);
+
+    List<Menu> getMenuByRoleId(String roleId);
 }

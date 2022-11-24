@@ -4,6 +4,7 @@ import cn.codebro.fortresscommon.tree.Treetifier;
 import cn.codebro.fortresscommon.tree.Treetify;
 import cn.codebro.fortresssystem.mapper.FortressMenuMapper;
 import cn.codebro.fortresssystem.pojo.Menu;
+import cn.codebro.fortresssystem.pojo.Role;
 import cn.codebro.fortresssystem.service.IMenuService;
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,6 +43,11 @@ public class MenuServiceImpl extends ServiceImpl<FortressMenuMapper, Menu> imple
         for (Menu menu : menus) {
             baseMapper.insertRoleMenu(IdUtil.fastSimpleUUID(), roleId, menu.getId());
         }
+    }
+
+    @Override
+    public List<Menu> getMenuByRoleId(String roleId) {
+        return baseMapper.selectMenuByRoleId(roleId);
     }
 
 }
