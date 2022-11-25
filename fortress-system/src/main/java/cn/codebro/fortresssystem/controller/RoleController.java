@@ -35,9 +35,7 @@ public class RoleController {
 
     @GetMapping("/{id}")
     public Result getById(@PathVariable String id) {
-        Role role = new Role();
-        role.setId(id);
-        return Result.success(roleService.getOne(new QueryWrapper<>(role)));
+        return Result.success(roleService.getById(id));
     }
 
     @PostMapping
