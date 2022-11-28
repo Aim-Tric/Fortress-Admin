@@ -1,88 +1,94 @@
-import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import { isLogin, currentUser } from "@/api/User"
-import type { UserVO } from "@/types"
-import { useGlobalStore } from "@/store/index"
+import { createRouter, createWebHashHistory, NavigationGuardNext, RouteLocationNormalized, RouteRecordRaw } from 'vue-router'
+import { getUserMenus, isLogin } from "@/api/User"
+import { useEventPool, useGlobalStore } from "@/store/index"
 
 const routes: Array<RouteRecordRaw> = [
+  {
+    path: '/',
+    redirect: '/login'
+  },
   {
     path: '/login',
     name: 'Login',
     component: () => import('@/views/Login')
   },
   {
-    path: '/',
-    redirect: '/home',
-    name: 'StandardLayout',
-    component: () => import('@/layout/AdminLayout/AdminLayout'),
-    children: [{
-      path: '/home',
-      name: 'Home',
-      component: () => import('@/views/Index')
-    },
-    {
-      path: '/user',
-      name: 'User',
-      component: () => import('@/views/system/user/Index')
-    },
-    {
-      path: '/role',
-      name: 'Role',
-      component: () => import('@/views/system/role/Index')
-    },
-    {
-      path: '/auth',
-      name: 'Auth',
-      component: () => import('@/views/system/auth/Index')
-    },
-    {
-      path: '/menu',
-      name: 'Menu',
-      component: () => import('@/views/system/menu/Index')
-    }]
-  },
-  {
-    path: '/404',
-    name: 'NotFound',
-    component: () => import('@/views/404')
-  },
-  {
     path: '/:pathMatch(.*)*',
-    name: 'NullPointerPage',
-    redirect: '/404'
-  }
-]
+    name: 'ToLogin',
+    redirect: '/login'
+  }]
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes
 })
 
-router.beforeEach(async (to, from, next) => {
-  const globalStore = useGlobalStore()
+function redirectToLoginPageIfNecessary(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
+  if (to.name !== 'Login') {
+    next({ name: 'Login', query: { redirect: encodeURIComponent(to.path) } })
+  }
+}
 
-  if (!globalStore.$state.loginUser) {
-    try {
-      const login = await isLogin()
-      if (!login && to.name !== 'Login') {
-        next({ name: 'Login', query: { redirect: encodeURIComponent(to.path) } })
-        return;
-      }
-      currentUser().then((user: UserVO) => {
-        globalStore.login(user)
-      })
-      if (!globalStore.$state.initialized) {
-        globalStore.$state.routes.forEach((route) => {
-          router.addRoute(route)
-        })
-      }
-    } catch (error) {
-      if (to.name !== 'Login') {
-        next({ name: 'Login', query: { redirect: encodeURIComponent(to.path) } })
-        return;
-      }
+function getRoutes(routes: Array<RouteRecordRaw>) {
+  return [{
+    path: '/login',
+    name: 'Login',
+    component: () => import('@/views/Login')
+  }, {
+    path: '/',
+    redirect: '/home',
+    name: 'StandardLayout',
+    component: () => import('@/layout/AdminLayout/AdminLayout'),
+    children: [...routes]
+  }, {
+    path: '/404',
+    name: 'NotFound',
+    component: () => import('@/views/404')
+  }, {
+    path: '/:pathMatch(.*)*',
+    name: 'NullPointerPage',
+    redirect: '/404'
+  }]
+}
+
+export function initializeDynamicRoutes(rs: Array<RouteRecordRaw>): void {
+  for (const route of router.getRoutes()) {
+    if (route.name) {
+      router.removeRoute(route.name)
     }
   }
-  next();
+  const routes = getRoutes(rs)
+  for (const route of routes) {
+    router.addRoute(route)
+  }
+}
+
+router.beforeEach(async (to, from, next) => {
+  const globalStore = useGlobalStore()
+  const eventPool = useEventPool()
+  console.log("?????")
+  if (!globalStore.$state.loginUser && to.name !== 'Login') {
+    try {
+      const login = await isLogin()
+      console.log("?????")
+      if (!login) {
+        throw new Error("not login!")
+      }
+      eventPool.emit({ name: "LoadUser" })
+      console.log("init? ", globalStore.$state.initialized)
+      if (!globalStore.$state.initialized) {
+        const data = await getUserMenus()
+        globalStore.initializeMenu(data)
+        initializeDynamicRoutes(globalStore.$state.routes)
+        console.log("init done")
+      }
+    } catch (error) {
+      redirectToLoginPageIfNecessary(to, from, next)
+      return;
+    }
+  }
+  console.log("do next")
+  next()
 })
 
 export default router

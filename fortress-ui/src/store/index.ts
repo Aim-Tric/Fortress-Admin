@@ -6,30 +6,31 @@ const menuToVueRouter = (menus: Menu[]): Array<RouteRecordRaw> => {
     const routes: Array<RouteRecordRaw> = []
     if (menus && menus.length > 0) {
         menus.forEach((menu) => {
-            const route = recursionVisitMenu(menu)
-            routes.push(route)
+            recursionVisitMenu(menu, routes)
         })
     }
     return routes
 }
 
-const recursionVisitMenu = (menu: Menu): RouteRecordRaw => {
-    const route: RouteRecordRaw = {
-        path: menu.pagePath,
-        name: menu.routeName,
-        component: () => import(`@/views/${menu.componentPath}`),
-        meta: {
-            title: menu.pageTitle,
-            description: menu.description
-        },
-        children: []
+const recursionVisitMenu = (menu: Menu, routes: Array<RouteRecordRaw>) => {
+    if (menu.type === 1) {
+        const route: RouteRecordRaw = {
+            path: menu.pagePath,
+            name: menu.routeName,
+            component: () => import(`@/views/${menu.componentPath}`),
+            meta: {
+                title: menu.pageTitle,
+                description: menu.description
+            },
+            children: []
+        }
+        routes.push(route)
     }
-    if (menu.hasChildren) {
-        menu.children?.forEach((m) => {
-            route.children.push(recursionVisitMenu(m))
+    if (menu.children) {
+        menu.children.forEach((m) => {
+            recursionVisitMenu(m, routes)
         })
     }
-    return route
 }
 
 export const useGlobalStore = defineStore("global", {

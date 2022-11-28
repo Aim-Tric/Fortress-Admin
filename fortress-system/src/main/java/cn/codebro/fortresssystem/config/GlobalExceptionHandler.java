@@ -5,6 +5,8 @@ import cn.dev33.satoken.exception.SaTokenException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author Guo wentao
  * @project fortress
@@ -19,9 +21,9 @@ public class GlobalExceptionHandler {
         return Result.fail();
     }
 
-    @ExceptionHandler(SaTokenException.class)
+    @ExceptionHandler({SaTokenException.class})
     public Result saTokenHandler(SaTokenException e) {
         e.printStackTrace();
-        return Result.fail();
+        return Result.fail(e.getMessage());
     }
 }

@@ -52,6 +52,10 @@ public class Result {
         return new Result(400, "系统异常");
     }
 
+    public static Result fail(String message) {
+        return new Result(400, message);
+    }
+
     @Override
     public String toString() {
         return "Result{" +
