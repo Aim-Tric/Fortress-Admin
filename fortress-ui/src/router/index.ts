@@ -1,22 +1,33 @@
 import { createRouter, createWebHashHistory, NavigationGuardNext, RouteLocationNormalized, RouteRecordRaw } from 'vue-router'
-import { getUserMenus, isLogin } from "@/api/User"
-import { useEventPool, useGlobalStore } from "@/store/index"
+import { currentUser, isLogin } from "@/api/User"
+import { useGlobalStore } from "@/store/index"
+import { User } from '@/types'
 
-const routes: Array<RouteRecordRaw> = [
-  {
-    path: '/',
-    redirect: '/login'
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: () => import('@/views/Login')
-  },
-  {
-    path: '/:pathMatch(.*)*',
-    name: 'ToLogin',
-    redirect: '/login'
-  }]
+const routes: Array<RouteRecordRaw> = [{
+  path: '/login',
+  name: 'Login',
+  component: () => import('@/views/Login')
+}, {
+  path: '/',
+  redirect: '/home',
+  name: 'StandardLayout',
+  component: () => import('@/layout/AdminLayout/AdminLayout'),
+  children: [
+    { path: '/home', name: 'Home', component: () => import('@/views/Index') },
+    { path: '/user', name: 'UserManager', component: () => import('@/views/system/user/Index') },
+    { path: '/role', name: 'RoleManager', component: () => import('@/views/system/role/Index') },
+    { path: '/auth', name: 'AuthManager', component: () => import('@/views/system/auth/Index') },
+    { path: '/menu', name: 'MenuManager', component: () => import('@/views/system/menu/Index') }
+  ]
+}, {
+  path: '/404',
+  name: 'NotFound',
+  component: () => import('@/views/404')
+}, {
+  path: '/:pathMatch(.*)*',
+  name: 'NullPointerPage',
+  redirect: '/404'
+}]
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -29,65 +40,30 @@ function redirectToLoginPageIfNecessary(to: RouteLocationNormalized, from: Route
   }
 }
 
-function getRoutes(routes: Array<RouteRecordRaw>) {
-  return [{
-    path: '/login',
-    name: 'Login',
-    component: () => import('@/views/Login')
-  }, {
-    path: '/',
-    redirect: '/home',
-    name: 'StandardLayout',
-    component: () => import('@/layout/AdminLayout/AdminLayout'),
-    children: [...routes]
-  }, {
-    path: '/404',
-    name: 'NotFound',
-    component: () => import('@/views/404')
-  }, {
-    path: '/:pathMatch(.*)*',
-    name: 'NullPointerPage',
-    redirect: '/404'
-  }]
-}
-
-export function initializeDynamicRoutes(rs: Array<RouteRecordRaw>): void {
-  for (const route of router.getRoutes()) {
-    if (route.name) {
-      router.removeRoute(route.name)
+async function checkLogin(loginUser: User | undefined, toName: string | undefined) {
+  if (!loginUser && toName !== 'Login') {
+    const login = await isLogin()
+    if (!login) {
+      throw new Error("not login!")
     }
-  }
-  const routes = getRoutes(rs)
-  for (const route of routes) {
-    router.addRoute(route)
   }
 }
 
 router.beforeEach(async (to, from, next) => {
   const globalStore = useGlobalStore()
-  const eventPool = useEventPool()
-  console.log("?????")
-  if (!globalStore.$state.loginUser && to.name !== 'Login') {
-    try {
-      const login = await isLogin()
-      console.log("?????")
-      if (!login) {
-        throw new Error("not login!")
-      }
-      eventPool.emit({ name: "LoadUser" })
-      console.log("init? ", globalStore.$state.initialized)
-      if (!globalStore.$state.initialized) {
-        const data = await getUserMenus()
-        globalStore.initializeMenu(data)
-        initializeDynamicRoutes(globalStore.$state.routes)
-        console.log("init done")
-      }
-    } catch (error) {
-      redirectToLoginPageIfNecessary(to, from, next)
-      return;
+  try {
+    await checkLogin(globalStore.$state.loginUser, to.name?.toString())
+
+    if (!globalStore.loginUser) {
+      currentUser().then(user => {
+        globalStore.login(user)
+      }).catch(error => error)
     }
+
+  } catch (error) {
+    redirectToLoginPageIfNecessary(to, from, next)
+    return;
   }
-  console.log("do next")
   next()
 })
 

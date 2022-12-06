@@ -69,13 +69,13 @@ export const useEventPool = defineStore("eventPool", {
         },
         emit(event: Event) {
             const handler = this.handlers.get(event.name)
-            handler?.handle(event)
+            handler?.(event)
         }
     }
 })
 
 export interface EventHandler {
-    handle(event: Event): void;
+    (event: Event): void;
 }
 
 export interface Event {

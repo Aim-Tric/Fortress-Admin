@@ -20,14 +20,6 @@ const isAccountLogin = (type: string) => {
     return ['account', 'phone'].includes(type)
 }
 
-// 第三方登录 检查loginId是否已经验证成功
-let count = 0;
-const checkLoginIsSuccess = (loginId: string) => {
-    // 登录检查
-    console.log("检查loginId是否已经验证成功", loginId)
-    return count++ > 10
-}
-
 export const PhoneValidateCodeCom = defineComponent({
     props: {
         validateCode: String
@@ -76,23 +68,8 @@ export default defineComponent({
             if ($route.query.redirect) {
                 redirect = decodeURIComponent($route.query.redirect as string)
             }
-            eventPool.emit({ name: "LoginSuccess" })
-            $router.push({ path: redirect })
-        }
-
-        let timer: NodeJS.Timer | undefined
-        const onSelectTabItemChange = (item: SelectTab) => {
-            if (!isAccountLogin(item.key)) {
-                !timer &&
-                    (timer = setInterval(() => {
-                        if (checkLoginIsSuccess(loginForm.loginId)) {
-                            clearInterval(timer)
-                            timer = undefined
-                            loginSuccess()
-                        }
-                    }, 800))
-            }
-            loginForm.type = item.key
+            console.log($router.getRoutes())
+            $router.replace({ path: redirect })
         }
 
         const doLogin = () => {
@@ -114,7 +91,7 @@ export default defineComponent({
                     <el-col span={8} offset={12}>
                         <el-card>
                             <div style={{ fontSize: '18px', textAlign: 'center', marginBottom: '8px' }}>XXX管理系统</div>
-                            <SelectTabCom model={loginType} onItemChange={onSelectTabItemChange} />
+                            <SelectTabCom model={loginType} />
                             {
                                 (isAccountLogin(loginForm.type) &&
 

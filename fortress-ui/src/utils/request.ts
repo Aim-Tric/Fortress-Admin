@@ -26,7 +26,7 @@ request.interceptors.response.use(function (response) {
             return result.data;
         }
     }
-    return Promise.reject(new Error("请求异常"))
+    return Promise.reject(new Error("请求异常")) 
 }, function (error) {
     return Promise.reject(error)
 });

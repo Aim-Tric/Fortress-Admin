@@ -44,11 +44,7 @@ export default defineComponent({
             })
         }
         onMounted(() => {
-            eventPool.subscribe("flushMenu", {
-                handle() {
-                    loadAsTree()
-                }
-            })
+            eventPool.subscribe("flushMenu", () => loadAsTree())
             loadAsTree()
         })
         return () => (
