@@ -232,9 +232,6 @@ export default defineComponent({
                         <el-form-item label="用户名">
                             <el-input v-model={editInfo.value.username} placeholder="请输入用户登录账号" />
                         </el-form-item>
-                        <el-form-item label="密码">
-                            <el-input v-model={editInfo.value.password} disabled={editInfo.value.id !== ''} type="password" placeholder="请输入用户登录密码" />
-                        </el-form-item>
                         <el-form-item label="手机号">
                             <el-input v-model={editInfo.value.phone} placeholder="请输入手机号" />
                         </el-form-item>

@@ -7,7 +7,6 @@ import { useRouter, useRoute } from "vue-router";
 import type { LoginUser } from "@/types"
 import CryptoJS from 'crypto-js'
 import './Login.css'
-import { useEventPool } from "@/store";
 
 const loginType: SelectTab[] = [
     { key: "account", name: '账号' },
@@ -60,7 +59,6 @@ export default defineComponent({
     setup() {
         const $router = useRouter()
         const $route = useRoute()
-        const eventPool = useEventPool()
         const loginForm: LoginUser = reactive({ loginId: "1", type: 'account', account: '', password: '', validateCode: '' })
 
         const loginSuccess = () => {
