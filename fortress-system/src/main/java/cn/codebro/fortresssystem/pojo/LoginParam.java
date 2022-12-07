@@ -1,7 +1,6 @@
 package cn.codebro.fortresssystem.pojo;
 
-import cn.codebro.fortresscore.util.Validator;
-
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
@@ -9,10 +8,12 @@ import java.io.Serializable;
  * @project fortress
  * @date 2022-10-23 09:32:32
  */
-public class LoginUser implements Serializable {
+public class LoginParam implements Serializable {
     private String loginId;
     private String type;
+    @NotBlank(message = "登录用户名不能为空")
     private String account;
+    @NotBlank(message = "登录密码不能为空")
     private String password;
     private String validateCode;
 
@@ -20,46 +21,39 @@ public class LoginUser implements Serializable {
         return loginId;
     }
 
-    public LoginUser setLoginId(String loginId) {
+    public void setLoginId(String loginId) {
         this.loginId = loginId;
-        return this;
     }
 
     public String getType() {
         return type;
     }
 
-    public LoginUser setType(String type) {
+    public void setType(String type) {
         this.type = type;
-        return this;
     }
 
     public String getAccount() {
         return account;
     }
 
-    public LoginUser setAccount(String account) {
-        Validator.notNull(account, "登录用户名不能为空！");
+    public void setAccount(String account) {
         this.account = account;
-        return this;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public LoginUser setPassword(String password) {
-        Validator.notNull(password, "登录密码不能为空！");
+    public void setPassword(String password) {
         this.password = password;
-        return this;
     }
 
     public String getValidateCode() {
         return validateCode;
     }
 
-    public LoginUser setValidateCode(String validateCode) {
+    public void setValidateCode(String validateCode) {
         this.validateCode = validateCode;
-        return this;
     }
 }

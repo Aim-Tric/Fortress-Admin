@@ -1,7 +1,7 @@
 package cn.codebro.fortresssystem.controller;
 
 import cn.codebro.fortresscommon.Result;
-import cn.codebro.fortresssystem.pojo.LoginUser;
+import cn.codebro.fortresssystem.pojo.LoginParam;
 import cn.codebro.fortresssystem.service.IAccountService;
 import cn.dev33.satoken.stp.StpUtil;
 import org.slf4j.Logger;
@@ -29,8 +29,8 @@ public class AccountController {
     }
 
     @PostMapping("/login")
-    public Result login(@RequestBody LoginUser loginUser) {
-        accountService.login(loginUser.getAccount(), loginUser.getPassword(), loginUser.getType());
+    public Result login(@RequestBody LoginParam loginParam) {
+        accountService.login(loginParam.getAccount(), loginParam.getPassword(), loginParam.getType());
         return Result.success();
     }
 
