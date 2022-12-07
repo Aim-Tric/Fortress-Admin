@@ -26,8 +26,8 @@ export default defineComponent({
                         <el-dropdown v-slots={{
                             dropdown: () => (
                                 <el-dropdown-menu>
-                                    <el-dropdown-item>个人中心</el-dropdown-item>
-                                    <el-dropdown-item onClick={logout}>退出登录</el-dropdown-item>
+                                    <el-dropdown-item><el-link underline={false} onClick={() => $router.push({ path: "/user-info" })}>个人中心</el-link></el-dropdown-item>
+                                    <el-dropdown-item><el-link underline={false} onClick={logout}>退出登录</el-link></el-dropdown-item>
                                 </el-dropdown-menu>
                             )
                         }}>

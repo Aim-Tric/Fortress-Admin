@@ -13,6 +13,7 @@ const routes: Array<RouteRecordRaw> = [{
   name: 'StandardLayout',
   component: () => import('@/layout/AdminLayout/AdminLayout'),
   children: [
+    { path: '/user-info', name: 'UserInfo', component: () => import('@/views/user/Index') },
     { path: '/home', name: 'Home', component: () => import('@/views/Index') },
     { path: '/user', name: 'UserManager', component: () => import('@/views/system/user/Index') },
     { path: '/role', name: 'RoleManager', component: () => import('@/views/system/role/Index') },
@@ -38,6 +39,7 @@ function redirectToLoginPageIfNecessary(to: RouteLocationNormalized, from: Route
   if (to.name !== 'Login') {
     next({ name: 'Login', query: { redirect: encodeURIComponent(to.path) } })
   }
+  next()
 }
 
 async function checkLogin(loginUser: User | undefined, toName: string | undefined) {
@@ -52,12 +54,19 @@ async function checkLogin(loginUser: User | undefined, toName: string | undefine
 router.beforeEach(async (to, from, next) => {
   const globalStore = useGlobalStore()
   try {
+    // 判断pinia是否存在用户信息
     await checkLogin(globalStore.$state.loginUser, to.name?.toString())
 
+    // 如果不存在 尝试获取用户信息
+
+    // 获取不到 跳转到登录页
+
+    // 获取成功 直接跳转
+
+    // 否则直接跳转
     if (!globalStore.loginUser) {
-      currentUser().then(user => {
-        globalStore.login(user)
-      }).catch(error => error)
+      const user = await currentUser()
+      globalStore.login(user)
     }
 
   } catch (error) {
