@@ -44,3 +44,11 @@ export const logout = (): Promise<void> => {
 export const getUserMenus = (): Promise<Menu[]> => {
     return request.get(`/menu/user`)
 }
+
+export const updatePassword = (id: string, oldPassword: string, newPassword: string): Promise<void> => {
+    return request.post(`/user/${id}`, JSON.stringify({
+        id,
+        oldPassword,
+        newPassword
+    }))
+}
