@@ -1,3 +1,29 @@
 .ban {
     cursor: not-allowed;
 }
+
+.full-page {
+    height: 100vh;
+}
+
+.middle-outer-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.middle-content-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.middle-center-content {
+    display: flex;
+    border-radius: 4px;
+    border: 1px solid var(--el-border-color-light);
+}
+
+.middle-center-content>* {
+    padding: 1.5rem;
+}
