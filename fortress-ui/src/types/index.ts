@@ -26,6 +26,7 @@ export interface LoginUser {
     account: string
     password: string
     validateCode: string
+    rememberMe: boolean
 }
 
 export interface Post {
