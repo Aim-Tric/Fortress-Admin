@@ -40,7 +40,7 @@ export default defineComponent({
                     <div class='middle-content-wrapper'>
                         <div class='middle-center-content'>
                             <div style={{ width: '350px' }}>
-                                <h1 style={{ textAlign: 'center', marginBottom: '8px' }}>XXX管理系统</h1>
+                                <h1 style={{ textAlign: 'center', marginBottom: '8px' }}>Fortress管理系统</h1>
                                 <h2 style={{ textAlign: 'center' }}>登 录</h2>
                                 <el-form model={loginForm} label-width='0px' size='large'>
                                     <el-form-item>

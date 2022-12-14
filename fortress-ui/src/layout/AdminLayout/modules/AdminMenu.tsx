@@ -51,9 +51,6 @@ export default defineComponent({
             <el-menu
                 router={true}
                 default-active="0"
-                style={
-                    { minHeight: '100vh' }
-                }
             >
                 {menus.value.map((item) => generateMenu(item))}
             </el-menu>
