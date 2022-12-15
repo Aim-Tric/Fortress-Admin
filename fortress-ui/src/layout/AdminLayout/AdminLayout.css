@@ -1,0 +1,11 @@
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: solid 1px var(--el-border-color);
+    max-height: 56px;
+}
+
+.logo.collapse {
+    width: 63px;
+}

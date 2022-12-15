@@ -33,9 +33,17 @@ const generateMenu = (item: Menu) => {
 const BASE_MENU_TEMPLATE: Menu[] = []
 
 export default defineComponent({
-    setup() {
+    props: {
+        collapse: {
+            type: Boolean,
+            required: false,
+            default: false
+        }
+    },
+    setup(props) {
         const menus = ref<Menu[]>(JSON.parse(JSON.stringify(BASE_MENU_TEMPLATE)))
         const eventPool = useEventPool()
+
         const loadAsTree = () => {
             getUserMenus().then(data => {
                 const newMenu = JSON.parse(JSON.stringify(BASE_MENU_TEMPLATE))
@@ -49,6 +57,7 @@ export default defineComponent({
         })
         return () => (
             <el-menu
+                collapse={props.collapse}
                 router={true}
                 default-active="0"
             >

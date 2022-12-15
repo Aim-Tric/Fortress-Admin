@@ -1,14 +1,38 @@
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import AdminMenu from './modules/AdminMenu';
 import { useGlobalStore } from '@/store';
 import { ElMessage } from 'element-plus';
 import { logout as logoutApi } from '@/api/User'
+import { Fold } from "@element-plus/icons-vue"
+import './AdminLayout.css'
+
+export const Logo = defineComponent({
+    props: {
+        collapse: {
+            type: Boolean,
+            required: false,
+            default: false
+        }
+    },
+    setup(props) {
+        const collapse = props.collapse ? 'collapse' : ''
+        return () => (
+            <div class={`logo ${collapse}`}>
+                <el-image style={{ width: '56px', height: '56px' }} src='https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'></el-image>
+                {!props.collapse && (<span>Fotress管理系统</span>)}
+            </div>
+        )
+    }
+})
 
 export default defineComponent({
     setup() {
         const globalStore = useGlobalStore()
         const $router = useRouter()
+
+        const collapse = ref<boolean>(false)
+
         const logout = () => {
             logoutApi().then(() => {
                 ElMessage({
@@ -21,14 +45,12 @@ export default defineComponent({
         return () => (
             <el-container>
                 <el-aside width='220px' style={{ minHeight: '100vh' }}>
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderRight: 'solid 1px var(--el-border-color)', maxHeight: '56px' }}>
-                        <el-image style={{ width: '56px', height: '56px' }} src='https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'></el-image>
-                        <span>Fotress管理系统</span>
-                    </div>
-                    <AdminMenu style={{ height: 'calc(100vh - 56px)' }} />
+                    <Logo collapse={collapse.value} />
+                    <AdminMenu collapse={collapse.value} style={{ height: 'calc(100vh - 56px)' }} />
                 </el-aside>
                 <el-container>
-                    <el-header style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <el-header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <el-button icon={Fold} circle onClick={() => { collapse.value = !collapse.value; console.log(collapse.value) }}></el-button>
                         <el-dropdown v-slots={{
                             dropdown: () => (
                                 <el-dropdown-menu>
