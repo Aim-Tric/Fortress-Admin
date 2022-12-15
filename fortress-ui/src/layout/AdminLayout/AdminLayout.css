@@ -7,5 +7,5 @@
 }
 
 .logo.collapse {
-    width: 63px;
+    width: calc(var(--el-menu-icon-width) + var(--el-menu-base-level-padding) * 2 - 1px);
 }

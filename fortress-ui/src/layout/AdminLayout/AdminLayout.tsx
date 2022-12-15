@@ -16,9 +16,8 @@ export const Logo = defineComponent({
         }
     },
     setup(props) {
-        const collapse = props.collapse ? 'collapse' : ''
         return () => (
-            <div class={`logo ${collapse}`}>
+            <div class={`logo ${props.collapse ? 'collapse' : ''}`}>
                 <el-image style={{ width: '56px', height: '56px' }} src='https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'></el-image>
                 {!props.collapse && (<span>Fotress管理系统</span>)}
             </div>
@@ -44,7 +43,7 @@ export default defineComponent({
         }
         return () => (
             <el-container>
-                <el-aside width='220px' style={{ minHeight: '100vh' }}>
+                <el-aside width={`${collapse.value ? '64px' : '220px'}`} style={{ minHeight: '100vh'}}>
                     <Logo collapse={collapse.value} />
                     <AdminMenu collapse={collapse.value} style={{ height: 'calc(100vh - 56px)' }} />
                 </el-aside>

@@ -58,6 +58,7 @@ export default defineComponent({
         return () => (
             <el-menu
                 collapse={props.collapse}
+                collapse-transition={false}
                 router={true}
                 default-active="0"
             >
