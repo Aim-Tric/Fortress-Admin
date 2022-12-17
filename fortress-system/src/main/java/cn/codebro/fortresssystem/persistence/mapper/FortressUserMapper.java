@@ -1,4 +1,4 @@
-package cn.codebro.fortresssystem.mapper;
+package cn.codebro.fortresssystem.persistence.mapper;
 
 import cn.codebro.fortresssystem.pojo.User;
 import cn.codebro.fortresssystem.pojo.dto.UserDTO;

@@ -1,6 +1,6 @@
 package cn.codebro.fortresssystem.service.impl;
 
-import cn.codebro.fortresssystem.mapper.FortressRoleMapper;
+import cn.codebro.fortresssystem.persistence.mapper.FortressRoleMapper;
 import cn.codebro.fortresssystem.pojo.Auth;
 import cn.codebro.fortresssystem.pojo.Menu;
 import cn.codebro.fortresssystem.pojo.Role;

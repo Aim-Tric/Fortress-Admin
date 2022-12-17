@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AccountController {
 
-    private final Logger logger = LoggerFactory.getLogger(AccountController.class);
     private final IAccountService accountService;
 
     @Autowired

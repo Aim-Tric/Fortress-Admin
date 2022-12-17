@@ -1,4 +1,4 @@
-package cn.codebro.fortresssystem.mapper;
+package cn.codebro.fortresssystem.persistence.mapper;
 
 import cn.codebro.fortresssystem.pojo.Role;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;

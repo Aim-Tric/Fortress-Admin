@@ -1,6 +1,6 @@
 package cn.codebro.fortresssystem.service.impl;
 
-import cn.codebro.fortresssystem.mapper.FortressPostMapper;
+import cn.codebro.fortresssystem.persistence.mapper.FortressPostMapper;
 import cn.codebro.fortresssystem.pojo.Post;
 import cn.codebro.fortresssystem.service.IPostService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

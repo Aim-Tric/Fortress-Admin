@@ -4,7 +4,7 @@ import cn.codebro.fortresscommon.exception.IllegalBusinessOperationException;
 import cn.codebro.fortresscommon.exception.IncorrectUsernameOrPasswordException;
 import cn.codebro.fortresscommon.exception.UnknownUserException;
 import cn.codebro.fortresscommon.exception.UserExistException;
-import cn.codebro.fortresssystem.mapper.FortressUserMapper;
+import cn.codebro.fortresssystem.persistence.mapper.FortressUserMapper;
 import cn.codebro.fortresssystem.pojo.Role;
 import cn.codebro.fortresssystem.pojo.User;
 import cn.codebro.fortresssystem.pojo.dto.UserDTO;
