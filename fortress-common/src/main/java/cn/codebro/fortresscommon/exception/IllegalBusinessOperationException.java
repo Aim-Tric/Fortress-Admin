@@ -10,9 +10,12 @@ public class IllegalBusinessOperationException extends RuntimeException {
     private static final Integer DEFAULT_ERROR_CODE = 500;
     private Integer code;
 
-    private IllegalBusinessOperationException(Integer code, String message) {
+    private String debugMessage;
+
+    public IllegalBusinessOperationException(Integer code, String message, String debugMessage) {
         super(message);
         this.code = code;
+        this.debugMessage = debugMessage;
     }
 
     public Integer getCode() {
@@ -24,7 +27,11 @@ public class IllegalBusinessOperationException extends RuntimeException {
         return this;
     }
 
-    public static IllegalBusinessOperationException dump(String message) {
-        return new IllegalBusinessOperationException(DEFAULT_ERROR_CODE, message);
+    public String getDebugMessage() {
+        return debugMessage;
+    }
+
+    public void setDebugMessage(String debugMessage) {
+        this.debugMessage = debugMessage;
     }
 }

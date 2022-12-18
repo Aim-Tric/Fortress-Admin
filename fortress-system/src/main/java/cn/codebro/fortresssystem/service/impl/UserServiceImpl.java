@@ -1,9 +1,9 @@
 package cn.codebro.fortresssystem.service.impl;
 
-import cn.codebro.fortresscommon.exception.IllegalBusinessOperationException;
 import cn.codebro.fortresscommon.exception.IncorrectUsernameOrPasswordException;
 import cn.codebro.fortresscommon.exception.UnknownUserException;
 import cn.codebro.fortresscommon.exception.UserExistException;
+import cn.codebro.fortresssystem.exception.SystemBusinessExceptionUtil;
 import cn.codebro.fortresssystem.persistence.mapper.FortressUserMapper;
 import cn.codebro.fortresssystem.pojo.Role;
 import cn.codebro.fortresssystem.pojo.User;
@@ -44,7 +44,7 @@ public class UserServiceImpl extends ServiceImpl<FortressUserMapper, UserDTO> im
     @Override
     public void login(String account, String password, String type) {
         if (!StrUtil.equals("account", type) && !StrUtil.equals("phone", type)) {
-            throw IllegalBusinessOperationException.dump("不支持的登录类型：" + type);
+            throw SystemBusinessExceptionUtil.dump("不支持的登录类型：" + type);
         } else {
             String column;
             if (StrUtil.equals("account", type)) {
@@ -52,7 +52,7 @@ public class UserServiceImpl extends ServiceImpl<FortressUserMapper, UserDTO> im
             } else if (StrUtil.equals("phone", type)) {
                 column = "phone";
             } else {
-                throw IllegalBusinessOperationException.dump("不支持的登录类型：" + type);
+                throw SystemBusinessExceptionUtil.dump("不支持的登录类型：" + type);
             }
             QueryWrapper<UserDTO> query = new QueryWrapper<>();
             query.eq(column, account);
@@ -139,18 +139,4 @@ public class UserServiceImpl extends ServiceImpl<FortressUserMapper, UserDTO> im
         return roles;
     }
 
-    private List<Role> rolesFilter(List<Role> compare1, List<Role> compare2) {
-        if (compare1.size() == 0) {
-            return compare2;
-        }
-        List<Role> notExistInCompare1 = new ArrayList<>();
-        for (Role role : compare1) {
-            for (Role ownedRole : compare2) {
-                if (!StrUtil.equals(role.getId(), ownedRole.getId())) {
-                    notExistInCompare1.add(ownedRole);
-                }
-            }
-        }
-        return notExistInCompare1;
-    }
 }

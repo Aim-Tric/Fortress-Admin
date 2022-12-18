@@ -2,7 +2,7 @@ package cn.codebro.fortresssystem.service.impl;
 
 import cn.codebro.fortresscommon.tree.Treetifier;
 import cn.codebro.fortresscommon.tree.Treetify;
-import cn.codebro.fortresscommon.exception.IllegalBusinessOperationException;
+import cn.codebro.fortresssystem.exception.SystemBusinessExceptionUtil;
 import cn.codebro.fortresssystem.persistence.mapper.FortressAuthMapper;
 import cn.codebro.fortresssystem.pojo.Auth;
 import cn.codebro.fortresssystem.service.IAuthService;
@@ -48,7 +48,7 @@ public class AuthServiceImpl extends ServiceImpl<FortressAuthMapper, Auth> imple
     public boolean removeById(Serializable id) {
         int distributionCount = baseMapper.countDistributionInRole(id);
         if (distributionCount > 0) {
-            throw IllegalBusinessOperationException.dump("权限已经被分配了，不能执行删除操作！");
+            throw SystemBusinessExceptionUtil.dump("权限已经被分配了，不能执行删除操作！");
         }
         UpdateWrapper<Auth> wrapper = new UpdateWrapper<>(new Auth());
         wrapper.eq("parent", id);
