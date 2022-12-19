@@ -1,7 +1,7 @@
 package cn.codebro.fortresssystem.service;
 
+import cn.codebro.fortresssystem.persistence.po.UserPO;
 import cn.codebro.fortresssystem.pojo.User;
-import cn.codebro.fortresssystem.pojo.dto.UserDTO;
 
 /**
  * @author Guo wentao
@@ -24,7 +24,7 @@ public interface IAccountService {
      *
      * @param user 注册的用户信息
      */
-    void register(UserDTO user);
+    void register(UserPO user);
 
     /**
      * 申请重置密码，校验短信验证码

@@ -3,15 +3,18 @@ package cn.codebro.fortresssystem.service.impl;
 import cn.codebro.fortresscommon.exception.IncorrectUsernameOrPasswordException;
 import cn.codebro.fortresscommon.exception.UnknownUserException;
 import cn.codebro.fortresscommon.exception.UserExistException;
+import cn.codebro.fortresssystem.controller.param.ChangePasswordParam;
+import cn.codebro.fortresssystem.controller.param.UserInfoParam;
 import cn.codebro.fortresssystem.exception.SystemBusinessExceptionUtil;
 import cn.codebro.fortresssystem.persistence.mapper.FortressUserMapper;
+import cn.codebro.fortresssystem.persistence.po.UserPO;
 import cn.codebro.fortresssystem.pojo.Role;
 import cn.codebro.fortresssystem.pojo.User;
-import cn.codebro.fortresssystem.pojo.dto.UserDTO;
 import cn.codebro.fortresssystem.service.IAccountService;
 import cn.codebro.fortresssystem.service.IRoleService;
 import cn.codebro.fortresssystem.service.IUserService;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -30,7 +33,7 @@ import java.util.List;
  * @date 2022/10/9
  */
 @Service
-public class UserServiceImpl extends ServiceImpl<FortressUserMapper, UserDTO> implements IUserService, IAccountService {
+public class UserServiceImpl extends ServiceImpl<FortressUserMapper, UserPO> implements IUserService, IAccountService {
 
     private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -54,9 +57,9 @@ public class UserServiceImpl extends ServiceImpl<FortressUserMapper, UserDTO> im
             } else {
                 throw SystemBusinessExceptionUtil.dump("不支持的登录类型：" + type);
             }
-            QueryWrapper<UserDTO> query = new QueryWrapper<>();
+            QueryWrapper<UserPO> query = new QueryWrapper<>();
             query.eq(column, account);
-            UserDTO user = baseMapper.selectOne(query);
+            UserPO user = baseMapper.selectOne(query);
             if (ObjectUtil.isNull(user)) {
                 throw new UnknownUserException(account);
             }
@@ -68,10 +71,10 @@ public class UserServiceImpl extends ServiceImpl<FortressUserMapper, UserDTO> im
     }
 
     @Override
-    public void register(UserDTO registerUser) {
-        QueryWrapper<UserDTO> query = new QueryWrapper<>();
+    public void register(UserPO registerUser) {
+        QueryWrapper<UserPO> query = new QueryWrapper<>();
         query.eq("username", registerUser.getUsername());
-        UserDTO queryUser = baseMapper.selectOne(query);
+        UserPO queryUser = baseMapper.selectOne(query);
         if (ObjectUtil.isNotNull(queryUser)) {
             throw new UserExistException(registerUser.getUsername());
         }
@@ -94,36 +97,50 @@ public class UserServiceImpl extends ServiceImpl<FortressUserMapper, UserDTO> im
         return StpUtil.isLogin();
     }
 
+    @Override
+    public User findById(String id) {
+        return baseMapper.selectFullUserInfo(id);
+    }
+
+    @Override
+    public void changePassword(String id, ChangePasswordParam changePasswordParam) {
+        UserPO userPO = baseMapper.selectById(id);
+
+    }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean updateById(UserDTO entity) {
-        boolean updated = super.updateById(entity);
-        List<String> roleStringList = entity.getRoles();
+    public void save(UserInfoParam userInfoParam) {
+        UserPO userPO = new UserPO();
+        BeanUtil.copyProperties(userInfoParam, userPO);
+        boolean saved = save(userPO);
+        if (!saved) {
+            throw SystemBusinessExceptionUtil.dump("用户信息新增失败!");
+        }
+        List<String> roleStringList = userInfoParam.getRoles();
         List<Role> roles = checkAndGetRoles(roleStringList);
-        User user = baseMapper.selectFullUserInfo(entity.getId());
+        if (roles != null && roles.size() > 0) {
+            roleService.insertRoleByUserId(userInfoParam.getId(), roles);
+        }
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void update(UserInfoParam userInfoParam) {
+        UserPO userPO = new UserPO();
+        BeanUtil.copyProperties(userInfoParam, userPO);
+        boolean updated = updateById(userPO);
+        if (!updated) {
+            throw SystemBusinessExceptionUtil.dump("用户信息更新失败!");
+        }
+        List<String> roleStringList = userInfoParam.getRoles();
+        List<Role> roles = checkAndGetRoles(roleStringList);
+        User user = baseMapper.selectFullUserInfo(userInfoParam.getId());
         if (user == null) {
             throw new RuntimeException("操作的角色不存在！");
         }
         roleService.removeRoleByUserId(user.getId());
         roleService.insertRoleByUserId(user.getId(), roles);
-        return updated;
-    }
-
-    @Transactional(rollbackFor = Exception.class)
-    @Override
-    public boolean save(UserDTO entity) {
-        boolean saved = super.save(entity);
-        List<String> roleStringList = entity.getRoles();
-        List<Role> roles = checkAndGetRoles(roleStringList);
-        if (saved && roles != null && roles.size() > 0) {
-            roleService.insertRoleByUserId(entity.getId(), roles);
-        }
-        return saved;
-    }
-
-    @Override
-    public User findById(String id) {
-        return baseMapper.selectFullUserInfo(id);
     }
 
     private List<Role> checkAndGetRoles(List<String> roleStringList) {

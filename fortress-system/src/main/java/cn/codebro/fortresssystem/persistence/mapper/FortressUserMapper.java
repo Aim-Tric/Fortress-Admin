@@ -1,7 +1,7 @@
 package cn.codebro.fortresssystem.persistence.mapper;
 
+import cn.codebro.fortresssystem.persistence.po.UserPO;
 import cn.codebro.fortresssystem.pojo.User;
-import cn.codebro.fortresssystem.pojo.dto.UserDTO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2022/10/9
  */
 @Mapper
-public interface FortressUserMapper extends BaseMapper<UserDTO> {
+public interface FortressUserMapper extends BaseMapper<UserPO> {
 
     User selectFullUserInfo(String userId);
 

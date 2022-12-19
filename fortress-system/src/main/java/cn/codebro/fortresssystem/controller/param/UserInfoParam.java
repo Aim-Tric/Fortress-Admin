@@ -1,7 +1,4 @@
-package cn.codebro.fortresssystem.pojo.dto;
-
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+package cn.codebro.fortresssystem.controller.param;
 
 import java.io.Serializable;
 import java.util.List;
@@ -11,9 +8,7 @@ import java.util.List;
  * @project fortress
  * @date 2022-10-24 22:19:20
  */
-@TableName(value = "F_USER", excludeProperty = {"roles"})
-public class UserDTO implements Serializable {
-    @TableId
+public class UserInfoParam implements Serializable {
     private String id;
     private String username;
     private String password;
@@ -30,7 +25,7 @@ public class UserDTO implements Serializable {
         return id;
     }
 
-    public UserDTO setId(String id) {
+    public UserInfoParam setId(String id) {
         this.id = id;
         return this;
     }
@@ -39,7 +34,7 @@ public class UserDTO implements Serializable {
         return username;
     }
 
-    public UserDTO setUsername(String username) {
+    public UserInfoParam setUsername(String username) {
         this.username = username;
         return this;
     }
@@ -48,7 +43,7 @@ public class UserDTO implements Serializable {
         return password;
     }
 
-    public UserDTO setPassword(String password) {
+    public UserInfoParam setPassword(String password) {
         this.password = password;
         return this;
     }
@@ -57,7 +52,7 @@ public class UserDTO implements Serializable {
         return nickname;
     }
 
-    public UserDTO setNickname(String nickname) {
+    public UserInfoParam setNickname(String nickname) {
         this.nickname = nickname;
         return this;
     }
@@ -66,7 +61,7 @@ public class UserDTO implements Serializable {
         return sex;
     }
 
-    public UserDTO setSex(Integer sex) {
+    public UserInfoParam setSex(Integer sex) {
         this.sex = sex;
         return this;
     }
@@ -75,7 +70,7 @@ public class UserDTO implements Serializable {
         return phone;
     }
 
-    public UserDTO setPhone(String phone) {
+    public UserInfoParam setPhone(String phone) {
         this.phone = phone;
         return this;
     }
@@ -84,7 +79,7 @@ public class UserDTO implements Serializable {
         return email;
     }
 
-    public UserDTO setEmail(String email) {
+    public UserInfoParam setEmail(String email) {
         this.email = email;
         return this;
     }
@@ -93,7 +88,7 @@ public class UserDTO implements Serializable {
         return status;
     }
 
-    public UserDTO setStatus(Integer status) {
+    public UserInfoParam setStatus(Integer status) {
         this.status = status;
         return this;
     }
@@ -102,7 +97,7 @@ public class UserDTO implements Serializable {
         return post;
     }
 
-    public UserDTO setPost(String post) {
+    public UserInfoParam setPost(String post) {
         this.post = post;
         return this;
     }
@@ -111,7 +106,7 @@ public class UserDTO implements Serializable {
         return dept;
     }
 
-    public UserDTO setDept(String dept) {
+    public UserInfoParam setDept(String dept) {
         this.dept = dept;
         return this;
     }
@@ -120,7 +115,7 @@ public class UserDTO implements Serializable {
         return roles;
     }
 
-    public UserDTO setRoles(List<String> roles) {
+    public UserInfoParam setRoles(List<String> roles) {
         this.roles = roles;
         return this;
     }

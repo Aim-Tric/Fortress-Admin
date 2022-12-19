@@ -2,7 +2,7 @@ package cn.codebro.fortresssystem.controller;
 
 import cn.codebro.fortresscommon.Result;
 import cn.codebro.fortresssystem.pojo.User;
-import cn.codebro.fortresssystem.pojo.dto.UserDTO;
+import cn.codebro.fortresssystem.controller.param.UserInfoParam;
 import com.baomidou.mybatisplus.core.toolkit.EncryptUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.junit.jupiter.api.Test;
@@ -30,7 +30,7 @@ public class UserControllerTest {
 
     @Test
     public void add() {
-        UserDTO user = new UserDTO();
+        UserInfoParam user = new UserInfoParam();
         user.setUsername("Tric2");
         user.setNickname("Tric2");
         user.setPassword(EncryptUtils.md5Base64("123456"));
@@ -48,7 +48,7 @@ public class UserControllerTest {
 
     @Test
     public void update() {
-        UserDTO user = new UserDTO();
+        UserInfoParam user = new UserInfoParam();
         user.setId("1582963233648062465");
         user.setUsername("Tric");
         user.setNickname("Tric");
