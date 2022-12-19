@@ -5,7 +5,7 @@ import cn.codebro.fortresscommon.exception.UnknownUserException;
 import cn.codebro.fortresscommon.exception.UserExistException;
 import cn.codebro.fortresssystem.controller.param.ChangePasswordParam;
 import cn.codebro.fortresssystem.controller.param.UserInfoParam;
-import cn.codebro.fortresssystem.exception.SystemBusinessExceptionUtil;
+import cn.codebro.fortresscommon.util.SystemBusinessExceptionUtil;
 import cn.codebro.fortresssystem.persistence.mapper.FortressUserMapper;
 import cn.codebro.fortresssystem.persistence.po.UserPO;
 import cn.codebro.fortresssystem.pojo.Role;

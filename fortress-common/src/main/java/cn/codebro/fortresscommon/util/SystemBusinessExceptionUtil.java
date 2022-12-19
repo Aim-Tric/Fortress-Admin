@@ -1,4 +1,4 @@
-package cn.codebro.fortresssystem.exception;
+package cn.codebro.fortresscommon.util;
 
 import cn.codebro.fortresscommon.exception.IllegalBusinessOperationException;
 
