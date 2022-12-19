@@ -1,6 +1,6 @@
 package cn.codebro.fortresssystem.service.impl;
 
-import cn.codebro.fortresscommon.tree.Treetifier;
+import cn.codebro.fortresscommon.tree.TreeUtil;
 import cn.codebro.fortresscommon.tree.Treetify;
 import cn.codebro.fortresscommon.util.SystemBusinessExceptionUtil;
 import cn.codebro.fortresssystem.persistence.mapper.FortressAuthMapper;
@@ -26,7 +26,7 @@ public class AuthServiceImpl extends ServiceImpl<FortressAuthMapper, Auth> imple
     @Override
     public List<Treetify<String, Auth>> getAllAsTree() {
         List<Auth> auths = baseMapper.selectList(new QueryWrapper<>(new Auth()));
-        return Treetifier.listToTree(auths);
+        return TreeUtil.listToTree(auths);
     }
 
     @Transactional(rollbackFor = Exception.class)

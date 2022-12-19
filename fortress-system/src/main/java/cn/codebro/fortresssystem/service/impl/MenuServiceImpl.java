@@ -1,6 +1,6 @@
 package cn.codebro.fortresssystem.service.impl;
 
-import cn.codebro.fortresscommon.tree.Treetifier;
+import cn.codebro.fortresscommon.tree.TreeUtil;
 import cn.codebro.fortresscommon.tree.Treetify;
 import cn.codebro.fortresssystem.persistence.mapper.FortressMenuMapper;
 import cn.codebro.fortresssystem.pojo.Menu;
@@ -26,7 +26,7 @@ public class MenuServiceImpl extends ServiceImpl<FortressMenuMapper, Menu> imple
         QueryWrapper<Menu> wrapper = new QueryWrapper<>(new Menu());
         wrapper.orderByAsc("order_num");
         List<Menu> menus = baseMapper.selectList(wrapper);
-        return Treetifier.listToTree(menus);
+        return TreeUtil.listToTree(menus);
     }
 
     @Transactional(rollbackFor = Exception.class)

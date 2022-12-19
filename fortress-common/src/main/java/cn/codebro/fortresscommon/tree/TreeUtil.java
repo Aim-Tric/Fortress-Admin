@@ -7,7 +7,7 @@ import java.util.*;
  * @project fortress
  * @date 2022-10-26 20:28:43
  */
-public class Treetifier {
+public class TreeUtil {
 
     /**
      * 将非树形的列表转换成树形结构

@@ -1,15 +1,12 @@
 package cn.codebro.fortresssystem.controller;
 
 import cn.codebro.fortresscommon.Result;
-import cn.codebro.fortresscommon.tree.Treetifier;
+import cn.codebro.fortresscommon.tree.TreeUtil;
 import cn.codebro.fortresssystem.pojo.Menu;
 import cn.codebro.fortresssystem.pojo.Role;
 import cn.codebro.fortresssystem.pojo.User;
-import cn.codebro.fortresssystem.pojo.dto.RoleDTO;
 import cn.codebro.fortresssystem.service.IAccountService;
 import cn.codebro.fortresssystem.service.IMenuService;
-import cn.codebro.fortresssystem.service.IRoleService;
-import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.web.bind.annotation.*;
 
@@ -70,6 +67,6 @@ public class MenuController {
         for (Role role : roles) {
             menus.addAll(menuService.getMenuByRoleId(role.getId()));
         }
-        return Result.success(Treetifier.listToTree(menus));
+        return Result.success(TreeUtil.listToTree(menus));
     }
 }
