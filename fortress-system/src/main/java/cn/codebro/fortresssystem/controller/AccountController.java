@@ -1,11 +1,9 @@
 package cn.codebro.fortresssystem.controller;
 
 import cn.codebro.fortresscommon.Result;
-import cn.codebro.fortresssystem.pojo.LoginParam;
+import cn.codebro.fortresssystem.controller.param.LoginParam;
 import cn.codebro.fortresssystem.service.IAccountService;
 import cn.dev33.satoken.stp.StpUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

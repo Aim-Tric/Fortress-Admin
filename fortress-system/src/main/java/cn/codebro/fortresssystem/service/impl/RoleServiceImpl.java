@@ -4,7 +4,7 @@ import cn.codebro.fortresssystem.persistence.mapper.FortressRoleMapper;
 import cn.codebro.fortresssystem.pojo.Auth;
 import cn.codebro.fortresssystem.pojo.Menu;
 import cn.codebro.fortresssystem.pojo.Role;
-import cn.codebro.fortresssystem.pojo.dto.RoleDTO;
+import cn.codebro.fortresssystem.controller.param.BindRoleParam;
 import cn.codebro.fortresssystem.service.IAuthService;
 import cn.codebro.fortresssystem.service.IMenuService;
 import cn.codebro.fortresssystem.service.IRoleService;
@@ -40,8 +40,8 @@ public class RoleServiceImpl extends ServiceImpl<FortressRoleMapper, Role> imple
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void bindRoleMenu(RoleDTO roleDTO) {
-        List<String> menuStringList = roleDTO.getMenus();
+    public void bindRoleMenu(BindRoleParam bindRoleParam) {
+        List<String> menuStringList = bindRoleParam.getMenus();
         List<Menu> menus = new ArrayList<>();
         if (menuStringList.size() > 0) {
             QueryWrapper<Menu> wrapper = new QueryWrapper<>();
@@ -51,7 +51,7 @@ public class RoleServiceImpl extends ServiceImpl<FortressRoleMapper, Role> imple
                 throw new RuntimeException("操作的菜单异常！");
             }
         }
-        Role role = getRoleMenu(roleDTO.getId());
+        Role role = getRoleMenu(bindRoleParam.getId());
         if (role == null) {
             throw new RuntimeException("操作的角色不存在！");
         }
@@ -61,8 +61,8 @@ public class RoleServiceImpl extends ServiceImpl<FortressRoleMapper, Role> imple
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void bindRoleAuth(RoleDTO roleDTO) {
-        List<String> authStringList = roleDTO.getAuths();
+    public void bindRoleAuth(BindRoleParam bindRoleParam) {
+        List<String> authStringList = bindRoleParam.getAuths();
         List<Auth> auths = new ArrayList<>();
         if (authStringList.size() > 0) {
             QueryWrapper<Auth> wrapper = new QueryWrapper<>();
@@ -72,7 +72,7 @@ public class RoleServiceImpl extends ServiceImpl<FortressRoleMapper, Role> imple
                 throw new RuntimeException("操作的权限异常！");
             }
         }
-        String roleId = roleDTO.getId();
+        String roleId = bindRoleParam.getId();
         Role role = baseMapper.selectRoleAuthByRoleId(roleId);
         if (role == null) {
             throw new RuntimeException("操作的角色不存在！");

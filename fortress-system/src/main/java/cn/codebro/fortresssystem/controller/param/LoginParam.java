@@ -1,4 +1,4 @@
-package cn.codebro.fortresssystem.pojo;
+package cn.codebro.fortresssystem.controller.param;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;

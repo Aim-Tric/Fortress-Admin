@@ -29,9 +29,7 @@ public class DeptController {
 
     @GetMapping
     public Result getById(String id) {
-        Dept dept = new Dept();
-        dept.setId(id);
-        return Result.success(deptService.getOne(new QueryWrapper<>(dept)));
+        return Result.success(deptService.getById(id));
     }
 
     @PostMapping

@@ -1,4 +1,4 @@
-package cn.codebro.fortresssystem.pojo.dto;
+package cn.codebro.fortresssystem.controller.param;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import java.util.List;
  * @project fortress
  * @date 2022-11-18 11:22:10
  */
-public class RoleDTO {
+public class BindRoleParam {
     private String id;
     private String name;
     private String identify;
@@ -18,7 +18,7 @@ public class RoleDTO {
         return id;
     }
 
-    public RoleDTO setId(String id) {
+    public BindRoleParam setId(String id) {
         this.id = id;
         return this;
     }
@@ -27,7 +27,7 @@ public class RoleDTO {
         return name;
     }
 
-    public RoleDTO setName(String name) {
+    public BindRoleParam setName(String name) {
         this.name = name;
         return this;
     }
@@ -36,7 +36,7 @@ public class RoleDTO {
         return identify;
     }
 
-    public RoleDTO setIdentify(String identify) {
+    public BindRoleParam setIdentify(String identify) {
         this.identify = identify;
         return this;
     }
@@ -45,7 +45,7 @@ public class RoleDTO {
         return menus;
     }
 
-    public RoleDTO setMenus(List<String> menus) {
+    public BindRoleParam setMenus(List<String> menus) {
         this.menus = menus;
         return this;
     }
@@ -54,7 +54,7 @@ public class RoleDTO {
         return auths;
     }
 
-    public RoleDTO setAuths(List<String> auths) {
+    public BindRoleParam setAuths(List<String> auths) {
         this.auths = auths;
         return this;
     }
