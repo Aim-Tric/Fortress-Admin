@@ -67,7 +67,7 @@
         </dependency>
         <dependency>
             <groupId>cn.codebro</groupId>
-            <artifactId>fortress-core</artifactId>
+            <artifactId>fortress-framework</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
