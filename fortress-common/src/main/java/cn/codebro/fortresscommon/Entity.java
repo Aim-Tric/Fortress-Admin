@@ -10,7 +10,8 @@ import java.util.Date;
  * @project fortress
  * @date 2022-10-19 23:51:58
  */
-public class Model {
+public abstract class Entity<T extends Identify> {
+    private Boolean deleted;
     private Integer orderNum;
     private String createBy;
     @TableField(fill = FieldFill.INSERT)
@@ -18,6 +19,14 @@ public class Model {
     private String updateBy;
     @TableField(fill = FieldFill.UPDATE)
     private Date updateTime;
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
 
     public Integer getOrderNum() {
         return orderNum;

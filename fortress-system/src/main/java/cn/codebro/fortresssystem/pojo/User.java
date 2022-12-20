@@ -1,7 +1,6 @@
 package cn.codebro.fortresssystem.pojo;
 
-import cn.codebro.fortresscommon.Model;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import cn.codebro.fortresscommon.Entity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -10,7 +9,7 @@ import java.util.List;
  * @author Guo wentao
  * @date 2022/10/9
  */
-public class User extends Model implements Serializable {
+public class User extends Entity implements Serializable {
     private String id;
     private String username;
     private String password;

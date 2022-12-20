@@ -1,6 +1,6 @@
 package cn.codebro.fortresssystem.pojo;
 
-import cn.codebro.fortresscommon.Model;
+import cn.codebro.fortresscommon.Entity;
 import cn.codebro.fortresscommon.tree.Treetify;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -14,7 +14,7 @@ import java.util.List;
  * @date 2022/10/9
  */
 @TableName(value = "F_AUTH", excludeProperty = {"children"})
-public class Auth extends Model implements Serializable, Treetify<String, Auth> {
+public class Auth extends Entity implements Serializable, Treetify<String, Auth> {
     @TableId
     private String id;
     private String parent;

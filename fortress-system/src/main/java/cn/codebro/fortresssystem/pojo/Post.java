@@ -1,6 +1,6 @@
 package cn.codebro.fortresssystem.pojo;
 
-import cn.codebro.fortresscommon.Model;
+import cn.codebro.fortresscommon.Entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @date 2022/10/9
  */
 @TableName(value = "F_POST")
-public class Post extends Model implements Serializable {
+public class Post extends Entity implements Serializable {
     @TableId
     private String id;
     private String name;

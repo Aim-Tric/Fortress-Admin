@@ -1,6 +1,6 @@
 package cn.codebro.fortresssystem.pojo;
 
-import cn.codebro.fortresscommon.Model;
+import cn.codebro.fortresscommon.Entity;
 import cn.codebro.fortresscommon.tree.Treetify;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -16,7 +16,7 @@ import java.util.List;
  * @date 2022-11-01 21:39:04
  */
 @TableName(value = "F_MENU", excludeProperty = {"children"})
-public class Menu extends Model implements Serializable, Treetify<String, Menu> {
+public class Menu extends Entity implements Serializable, Treetify<String, Menu> {
     @TableId
     private String id;
     private String parent;
