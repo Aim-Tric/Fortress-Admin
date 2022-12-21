@@ -1,6 +1,6 @@
 package cn.codebro.fortresssystem.service.impl;
 
-import cn.codebro.fortresssystem.persistence.mapper.FortressRoleMapper;
+import cn.codebro.fortresssystem.persistence.mapper.RoleMapper;
 import cn.codebro.fortresssystem.pojo.Auth;
 import cn.codebro.fortresssystem.pojo.Menu;
 import cn.codebro.fortresssystem.pojo.Role;
@@ -23,7 +23,7 @@ import java.util.List;
  * @date 2022/10/9
  */
 @Service
-public class RoleServiceImpl extends ServiceImpl<FortressRoleMapper, Role> implements IRoleService {
+public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IRoleService {
     private final IMenuService menuService;
     private final IAuthService authService;
 

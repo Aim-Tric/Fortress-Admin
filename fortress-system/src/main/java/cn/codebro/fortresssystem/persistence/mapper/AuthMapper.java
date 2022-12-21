@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @date 2022/10/9
  */
 @Mapper
-public interface FortressAuthMapper extends BaseMapper<Auth> {
+public interface AuthMapper extends BaseMapper<Auth> {
 
     int countDistributionInRole(Serializable id);
 

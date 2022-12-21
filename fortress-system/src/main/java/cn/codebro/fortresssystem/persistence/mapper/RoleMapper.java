@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Param;
  * @date 2022/10/9
  */
 @Mapper
-public interface FortressRoleMapper extends BaseMapper<Role> {
+public interface RoleMapper extends BaseMapper<Role> {
     void insertRoleByUserId(@Param("id") String id, @Param("userId") String userId, @Param("roleId") String roleId);
 
     Role selectRoleAuthByRoleId(String id);

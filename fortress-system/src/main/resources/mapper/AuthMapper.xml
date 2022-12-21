@@ -2,7 +2,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="cn.codebro.fortresssystem.persistence.mapper.FortressAuthMapper">
+<mapper namespace="cn.codebro.fortresssystem.persistence.mapper.AuthMapper">
 
     <select id="countDistributionInRole" resultType="java.lang.Integer">
         SELECT COUNT(1)

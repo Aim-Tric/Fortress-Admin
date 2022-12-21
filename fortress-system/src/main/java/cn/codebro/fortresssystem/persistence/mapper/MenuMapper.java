@@ -13,7 +13,7 @@ import java.util.List;
  * @date 2022-11-02 17:35:28
  */
 @Mapper
-public interface FortressMenuMapper extends BaseMapper<Menu> {
+public interface MenuMapper extends BaseMapper<Menu> {
 
     void insertRoleMenu(@Param("id") String id, @Param("roleId") String roleId, @Param("menuId") String menuId);
 

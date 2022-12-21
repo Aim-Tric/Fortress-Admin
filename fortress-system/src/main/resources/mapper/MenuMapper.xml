@@ -2,7 +2,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="cn.codebro.fortresssystem.persistence.mapper.FortressMenuMapper">
+<mapper namespace="cn.codebro.fortresssystem.persistence.mapper.MenuMapper">
 
     <insert id="insertRoleMenu">
         INSERT INTO F_ROLE_MENU(id, role_id, menu_id) VALUE (#{id}, #{roleId}, #{menuId})

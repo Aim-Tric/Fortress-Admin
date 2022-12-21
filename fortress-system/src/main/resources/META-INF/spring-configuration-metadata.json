@@ -1,5 +1,10 @@
 {
   "properties": [
-
+    {
+      "name": "fortress.system-name",
+      "type": "java.lang.String",
+      "defaultValue": "Fortress Admin",
+      "description": "系统初始化默认名称"
+    }
   ]
 }

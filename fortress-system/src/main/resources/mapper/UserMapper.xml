@@ -2,7 +2,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="cn.codebro.fortresssystem.persistence.mapper.FortressUserMapper">
+<mapper namespace="cn.codebro.fortresssystem.persistence.mapper.UserMapper">
 
     <resultMap id="fullUserInfo" type="cn.codebro.fortresssystem.pojo.User">
         <id column="id" property="id"/>

@@ -3,7 +3,7 @@ package cn.codebro.fortresssystem.service.impl;
 import cn.codebro.fortresscommon.tree.TreeUtil;
 import cn.codebro.fortresscommon.tree.Treetify;
 import cn.codebro.fortresscommon.util.SystemBusinessExceptionUtil;
-import cn.codebro.fortresssystem.persistence.mapper.FortressAuthMapper;
+import cn.codebro.fortresssystem.persistence.mapper.AuthMapper;
 import cn.codebro.fortresssystem.pojo.Auth;
 import cn.codebro.fortresssystem.service.IAuthService;
 import cn.hutool.core.util.IdUtil;
@@ -21,7 +21,7 @@ import java.util.List;
  * @date 2022/10/9
  */
 @Service
-public class AuthServiceImpl extends ServiceImpl<FortressAuthMapper, Auth> implements IAuthService {
+public class AuthServiceImpl extends ServiceImpl<AuthMapper, Auth> implements IAuthService {
 
     @Override
     public List<Treetify<String, Auth>> getAllAsTree() {

@@ -1,10 +1,11 @@
 package cn.codebro.fortresssystem.controller;
 
 import cn.codebro.fortresscommon.Result;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import cn.codebro.fortresssystem.pojo.SystemInfo;
+import cn.codebro.fortresssystem.service.ISystemService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 
 /**
  * @author Guo wentao
@@ -14,16 +15,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/system")
 public class SystemController {
+    private final ISystemService systemService;
+
+    @Autowired
+    public SystemController(ISystemService systemService) {
+        this.systemService = systemService;
+    }
 
     @GetMapping
     public Result querySystemConfiguration() {
-        // 系统设置包括：系统名称、系统状态、系统初始化时间、系统管理员账号、系统管理员密码
-        return Result.success();
+        return Result.success(systemService.getSystemInfo());
     }
 
     @PutMapping
-    public Result updateSystemConfiguration() {
-
+    public Result updateSystemConfiguration(@RequestBody SystemInfo systemInfo) {
+        systemService.updateById(systemInfo);
         return Result.success();
     }
 }

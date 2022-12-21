@@ -9,7 +9,7 @@ import java.security.MessageDigest;
 import java.util.Base64;
 
 @SpringBootTest
-class FortressSystemApplicationTests {
+class FortressSystemApplicationTestsInfo {
 
 	@Test
 	void contextLoads() {

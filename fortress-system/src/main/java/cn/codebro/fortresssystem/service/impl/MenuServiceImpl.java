@@ -2,7 +2,7 @@ package cn.codebro.fortresssystem.service.impl;
 
 import cn.codebro.fortresscommon.tree.TreeUtil;
 import cn.codebro.fortresscommon.tree.Treetify;
-import cn.codebro.fortresssystem.persistence.mapper.FortressMenuMapper;
+import cn.codebro.fortresssystem.persistence.mapper.MenuMapper;
 import cn.codebro.fortresssystem.pojo.Menu;
 import cn.codebro.fortresssystem.service.IMenuService;
 import cn.hutool.core.util.IdUtil;
@@ -19,7 +19,7 @@ import java.util.List;
  * @date 2022-11-02 17:36:27
  */
 @Service
-public class MenuServiceImpl extends ServiceImpl<FortressMenuMapper, Menu> implements IMenuService {
+public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IMenuService {
 
     @Override
     public List<Treetify<String, Menu>> getAllAsTree() {

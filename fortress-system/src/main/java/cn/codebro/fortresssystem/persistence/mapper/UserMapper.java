@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2022/10/9
  */
 @Mapper
-public interface FortressUserMapper extends BaseMapper<UserPO> {
+public interface UserMapper extends BaseMapper<UserPO> {
 
     User selectFullUserInfo(String userId);
 

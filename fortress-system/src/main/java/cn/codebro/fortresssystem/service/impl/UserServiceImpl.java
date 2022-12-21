@@ -6,7 +6,7 @@ import cn.codebro.fortresscommon.exception.UserExistException;
 import cn.codebro.fortresssystem.controller.param.ChangePasswordParam;
 import cn.codebro.fortresssystem.controller.param.UserInfoParam;
 import cn.codebro.fortresscommon.util.SystemBusinessExceptionUtil;
-import cn.codebro.fortresssystem.persistence.mapper.FortressUserMapper;
+import cn.codebro.fortresssystem.persistence.mapper.UserMapper;
 import cn.codebro.fortresssystem.persistence.po.UserPO;
 import cn.codebro.fortresssystem.pojo.Role;
 import cn.codebro.fortresssystem.pojo.User;
@@ -33,7 +33,7 @@ import java.util.List;
  * @date 2022/10/9
  */
 @Service
-public class UserServiceImpl extends ServiceImpl<FortressUserMapper, UserPO> implements IUserService, IAccountService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, UserPO> implements IUserService, IAccountService {
 
     private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 

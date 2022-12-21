@@ -9,5 +9,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2022/10/9
  */
 @Mapper
-public interface FortressDeptMapper extends BaseMapper<Dept> {
+public interface DeptMapper extends BaseMapper<Dept> {
 }
