@@ -64,6 +64,7 @@ public class SystemServiceImpl extends ServiceImpl<SystemMapper, SystemInfo> imp
         }
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void initializeSystem(SystemInfo initializedSystemInfo) {
         SystemInfo uninitializedSystemInfo = this.getSystemInfo();
