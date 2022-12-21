@@ -34,24 +34,21 @@ public class SystemServiceImpl extends ServiceImpl<SystemMapper, SystemInfo> imp
 
     @PostConstruct
     public void initialize() {
-        // 加载系统配置到redis
-        SystemInfo systemInfo = getOne(new QueryWrapper<>());
-        redisTemplate.opsForValue().set(SYSTEM_CONFIG_KEY, systemInfo);
+        this.refresh();
     }
 
     @Override
     public SystemInfo getSystemInfo() {
         SystemInfo systemInfo = (SystemInfo) redisTemplate.opsForValue().get(SYSTEM_CONFIG_KEY);
         if (ObjectUtil.isNull(systemInfo)) {
-            systemInfo = getOne(new QueryWrapper<>());
-            redisTemplate.opsForValue().set(SYSTEM_CONFIG_KEY, systemInfo);
+            systemInfo = this.refresh();
         }
         return systemInfo;
     }
 
     @Override
     public boolean initialized() {
-        SystemInfo systemInfo = getSystemInfo();
+        SystemInfo systemInfo = this.getSystemInfo();
         return ObjectUtil.isNotNull(systemInfo) && systemInfo.getInitialized();
     }
 
@@ -59,20 +56,35 @@ public class SystemServiceImpl extends ServiceImpl<SystemMapper, SystemInfo> imp
     @Override
     public void preInitializeSystem() {
         synchronized (SystemServiceImpl.class) {
-            if (!initialized()) {
-                SystemInfo info = new SystemInfo();
-                info.setId(UUID.fastUUID().toString(true));
-                info.setSystemName(fortressSystemProperties.getSystemName());
-                info.setInitialized(false);
-                save(info);
+            if (!initialized() && ObjectUtil.isNull(getSystemInfo())) {
+                SystemInfo defaultSystemInfo = this.getDefaultSystemInfo();
+                this.save(defaultSystemInfo);
+                this.refresh();
             }
         }
     }
 
     @Override
-    public void initializeSystem(SystemInfo systemInfo) {
-
+    public void initializeSystem(SystemInfo initializedSystemInfo) {
+        SystemInfo uninitializedSystemInfo = this.getSystemInfo();
+        String id = uninitializedSystemInfo.getId();
+        initializedSystemInfo.setId(id);
+        this.updateById(initializedSystemInfo);
+        this.refresh();
     }
 
+    private SystemInfo refresh() {
+        SystemInfo systemInfo = getOne(new QueryWrapper<>());
+        redisTemplate.opsForValue().set(SYSTEM_CONFIG_KEY, systemInfo);
+        return systemInfo;
+    }
 
+    private SystemInfo getDefaultSystemInfo() {
+        SystemInfo info = new SystemInfo();
+        info.setId(UUID.fastUUID().toString(true));
+        info.setSystemName(fortressSystemProperties.getSystemName());
+        info.setInitialized(false);
+        info.setVersion(1);
+        return info;
+    }
 }
