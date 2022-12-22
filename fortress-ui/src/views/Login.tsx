@@ -4,7 +4,7 @@ import { login } from '@/api/User';
 import { useRouter, useRoute } from 'vue-router';
 import type { LoginUser } from '@/types'
 import CryptoJS from 'crypto-js'
-import './Login.css'
+import './Common.css'
 
 export default defineComponent({
     setup() {

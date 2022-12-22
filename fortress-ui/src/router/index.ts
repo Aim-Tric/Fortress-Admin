@@ -21,6 +21,10 @@ const routes: Array<RouteRecordRaw> = [{
     { path: '/menu', name: 'MenuManager', component: () => import('@/views/system/menu/Index') }
   ]
 }, {
+  path: '/init',
+  name: 'InitSystemInfo',
+  component: () => import('@/views/system/init/Index')
+}, {
   path: '/404',
   name: 'NotFound',
   component: () => import('@/views/404')
@@ -48,22 +52,22 @@ async function checkLogin(loginUser: User | undefined, toName: string | undefine
     if (!login) {
       throw new Error("not login!")
     }
+
   }
 }
+
 
 router.beforeEach(async (to, from, next) => {
   const globalStore = useGlobalStore()
   try {
-    // 判断pinia是否存在用户信息
+    const systemInfo = globalStore.systemInfo
+    if ((!systemInfo || !systemInfo.initialized) && to.name !== 'InitSystemInfo') {
+      next({ name: 'InitSystemInfo' })
+      return;
+    }
+    
     await checkLogin(globalStore.$state.loginUser, to.name?.toString())
 
-    // 如果不存在 尝试获取用户信息
-
-    // 获取不到 跳转到登录页
-
-    // 获取成功 直接跳转
-
-    // 否则直接跳转
     if (!globalStore.loginUser) {
       const user = await currentUser()
       globalStore.login(user)

@@ -1,4 +1,4 @@
-import { Menu, User } from "@/types"
+import { Menu, SystemInfo, User } from "@/types"
 import { defineStore } from "pinia"
 import { RouteRecordRaw } from "vue-router"
 
@@ -34,17 +34,21 @@ const recursionVisitMenu = (menu: Menu, routes: Array<RouteRecordRaw>) => {
 }
 
 export const useGlobalStore = defineStore("global", {
-    state: (): { loginUser: User | undefined, loginDate: Date | undefined, lastActiveDate: Date | undefined, theme: string, initialized: boolean, routes: Array<RouteRecordRaw> } => {
+    state: (): { loginUser: User | undefined, loginDate: Date | undefined, lastActiveDate: Date | undefined, theme: string, initialized: boolean, routes: Array<RouteRecordRaw>, systemInfo: SystemInfo | undefined } => {
         return {
             loginUser: undefined,
             loginDate: undefined,
             lastActiveDate: undefined,
             theme: "default",
             initialized: false,
-            routes: []
+            routes: [],
+            systemInfo: undefined
         }
     },
     actions: {
+        initSystemInfo(systemInfo: SystemInfo) {
+            this.systemInfo = systemInfo
+        },
         login(user: User) {
             this.loginUser = user
             this.loginDate = new Date()
