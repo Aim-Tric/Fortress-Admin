@@ -12,7 +12,7 @@ import java.util.Date;
  * @author Guo wentao
  * @date 2022/10/9
  */
-@TableName(value = "F_ROLE", excludeProperty = {"auths", "menus"})
+@TableName(value = "F_ROLE")
 public class RolePO implements Serializable {
     @TableId
     private String id;

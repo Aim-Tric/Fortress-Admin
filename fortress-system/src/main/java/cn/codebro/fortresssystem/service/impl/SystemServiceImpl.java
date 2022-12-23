@@ -4,6 +4,7 @@ import cn.codebro.fortresssystem.config.FortressSystemProperties;
 import cn.codebro.fortresssystem.persistence.mapper.SystemMapper;
 import cn.codebro.fortresssystem.pojo.SystemInfo;
 import cn.codebro.fortresssystem.service.ISystemService;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -55,12 +56,10 @@ public class SystemServiceImpl extends ServiceImpl<SystemMapper, SystemInfo> imp
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void preInitializeSystem() {
-        synchronized (SystemServiceImpl.class) {
-            if (!initialized() && ObjectUtil.isNull(getSystemInfo())) {
-                SystemInfo defaultSystemInfo = this.getDefaultSystemInfo();
-                this.save(defaultSystemInfo);
-                this.refresh();
-            }
+        if (!initialized() && ObjectUtil.isNull(getSystemInfo())) {
+            SystemInfo defaultSystemInfo = this.getDefaultSystemInfo();
+            this.save(defaultSystemInfo);
+            this.refresh();
         }
     }
 
@@ -70,6 +69,8 @@ public class SystemServiceImpl extends ServiceImpl<SystemMapper, SystemInfo> imp
         SystemInfo uninitializedSystemInfo = this.getSystemInfo();
         String id = uninitializedSystemInfo.getId();
         initializedSystemInfo.setId(id);
+        initializedSystemInfo.setInitialized(true);
+        initializedSystemInfo.setInitializeTime(DateUtil.date().toJdkDate());
         this.updateById(initializedSystemInfo);
         this.refresh();
     }

@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory, NavigationGuardNext, RouteLocationN
 import { currentUser, isLogin } from "@/api/User"
 import { useGlobalStore } from "@/store/index"
 import { User } from '@/types'
+import { getSystemConfig } from '@/api/System'
 
 const routes: Array<RouteRecordRaw> = [{
   path: '/login',
@@ -39,8 +40,10 @@ const router = createRouter({
   routes
 })
 
+const notLoginNameList = ['Login', 'InitSystemInfo']
+
 function redirectToLoginPageIfNecessary(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
-  if (to.name !== 'Login') {
+  if (to.name && !notLoginNameList.includes(to.name.toString())) {
     next({ name: 'Login', query: { redirect: encodeURIComponent(to.path) } })
   }
   next()
@@ -56,16 +59,19 @@ async function checkLogin(loginUser: User | undefined, toName: string | undefine
   }
 }
 
-
 router.beforeEach(async (to, from, next) => {
   const globalStore = useGlobalStore()
   try {
-    const systemInfo = globalStore.systemInfo
-    if ((!systemInfo || !systemInfo.initialized) && to.name !== 'InitSystemInfo') {
-      next({ name: 'InitSystemInfo' })
-      return;
+    let systemInfo = globalStore.systemInfo
+    if (!systemInfo) {
+      systemInfo = await getSystemConfig()
+      globalStore.initSystemInfo(systemInfo)
     }
-    
+    if (!systemInfo.initialized && to.name !== 'InitSystemInfo') {
+      next({ name: 'InitSystemInfo' })
+      return
+    }
+
     await checkLogin(globalStore.$state.loginUser, to.name?.toString())
 
     if (!globalStore.loginUser) {

@@ -2,6 +2,7 @@ package cn.codebro.fortresssystem.persistence.po;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.Date;
  * @author Guo wentao
  * @date 2022/10/9
  */
+@TableName("F_USER")
 public class UserPO implements Serializable {
     private String id;
     private String username;

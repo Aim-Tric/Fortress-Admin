@@ -3,13 +3,15 @@ import { updateSystemConfig, getSystemConfig } from "@/api/System";
 import { SystemInfo } from "@/types";
 import '@/views/Common.css'
 import { useGlobalStore } from "@/store";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
     setup() {
         const globalStore = useGlobalStore()
+        const router = useRouter()
 
         const initForm = ref<SystemInfo>({
-            systemName: '',
+            systemName: 'Fortress Admin',
             initialized: false,
             initializeTime: ''
         })
@@ -18,6 +20,7 @@ export default defineComponent({
             updateSystemConfig(initForm.value).then(async () => {
                 const systemInfo = await getSystemConfig()
                 globalStore.initSystemInfo(systemInfo)
+                router.push({ name: 'Login' })
             })
         }
 
