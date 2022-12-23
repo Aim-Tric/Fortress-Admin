@@ -29,7 +29,7 @@
                FM.order_num
         FROM F_MENU FM
                  LEFT JOIN F_ROLE_MENU FRM ON FM.id = FRM.menu_id AND FRM.role_id = #{roleId}
-        WHERE FM.status = 1
+        WHERE FM.status = 1 AND FM.deleted = 0
         ORDER BY FM.order_num
     </select>
 </mapper>

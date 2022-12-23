@@ -35,7 +35,7 @@
                fr.identify as role_identify
         from F_USER fu
                  left join F_USER_ROLE fur on fu.id = fur.user_id
-                 left join F_ROLE fr on fur.role_id = fr.id and fr.status != 0
+                 left join F_ROLE fr on fur.role_id = fr.id and fr.deleted = 0
         where fu.id = #{userId}
     </select>
 </mapper>

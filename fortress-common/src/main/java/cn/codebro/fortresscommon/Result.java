@@ -56,6 +56,10 @@ public class Result {
         return new Result(400, message);
     }
 
+    public static Result fail(Integer code, String message) {
+        return new Result(code, message);
+    }
+
     @Override
     public String toString() {
         return "Result{" +

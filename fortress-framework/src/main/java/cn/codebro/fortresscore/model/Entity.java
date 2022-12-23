@@ -1,4 +1,4 @@
-package cn.codebro.fortresscommon;
+package cn.codebro.fortresscore.model;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;

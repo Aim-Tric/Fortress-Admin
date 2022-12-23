@@ -1,6 +1,6 @@
 package cn.codebro.fortresssystem.pojo;
 
-import cn.codebro.fortresscommon.Entity;
+import cn.codebro.fortresscore.model.Entity;
 
 import java.io.Serializable;
 import java.util.List;

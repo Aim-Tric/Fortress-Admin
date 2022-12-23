@@ -30,6 +30,7 @@ public class UserPO implements Serializable {
     private String updateBy;
     @TableField(fill = FieldFill.UPDATE)
     private Date updateTime;
+    private Boolean deleted;
 
     public String getId() {
         return id;
@@ -149,5 +150,13 @@ public class UserPO implements Serializable {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 }

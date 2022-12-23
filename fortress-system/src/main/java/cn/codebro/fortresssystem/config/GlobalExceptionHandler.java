@@ -24,6 +24,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({SaTokenException.class})
     public Result saTokenHandler(SaTokenException e) {
         e.printStackTrace();
-        return Result.fail(e.getMessage());
+        return Result.fail(501, "用户未登录");
     }
 }
