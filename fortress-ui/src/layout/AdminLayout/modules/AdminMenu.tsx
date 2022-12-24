@@ -52,6 +52,7 @@ export default defineComponent({
             })
         }
         onMounted(() => {
+            console.log("mounted")
             eventPool.subscribe("flushMenu", () => loadAsTree())
             loadAsTree()
         })
