@@ -89,4 +89,7 @@ public class SystemServiceImpl extends ServiceImpl<SystemMapper, SystemInfo> imp
         info.setVersion(1);
         return info;
     }
+
+
+
 }

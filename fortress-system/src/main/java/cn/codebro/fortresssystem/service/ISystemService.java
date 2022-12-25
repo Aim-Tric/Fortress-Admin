@@ -17,4 +17,6 @@ public interface ISystemService extends IService<SystemInfo> {
     void preInitializeSystem();
 
     void initializeSystem(SystemInfo systemInfo);
+
+
 }
