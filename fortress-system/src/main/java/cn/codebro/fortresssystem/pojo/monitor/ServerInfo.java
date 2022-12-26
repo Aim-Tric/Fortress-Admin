@@ -1,6 +1,15 @@
-package cn.codebro.fortresssystem.pojo;
+package cn.codebro.fortresssystem.pojo.monitor;
 
+import cn.hutool.core.lang.Singleton;
 import cn.hutool.system.*;
+import cn.hutool.system.oshi.CpuInfo;
+import cn.hutool.system.oshi.OshiUtil;
+import oshi.SystemInfo;
+import oshi.hardware.GlobalMemory;
+import oshi.hardware.HWDiskStore;
+import oshi.hardware.HardwareAbstractionLayer;
+
+import java.util.List;
 
 /**
  * @author Guo wentao
@@ -16,7 +25,7 @@ public class ServerInfo {
     private final Float javaVersion;
     private final String javaVendor;
 
-    public ServerInfo() {
+    private ServerInfo() {
         JavaInfo javaInfo = SystemUtil.getJavaInfo();
         this.javaVersion = javaInfo.getVersionFloat();
         this.javaVendor = javaInfo.getVendor();
@@ -31,12 +40,18 @@ public class ServerInfo {
         this.osArch = osInfo.getArch();
     }
 
-    public void getMemoryInfo() {
+    public static ServerInfo getInstance() {
+        return Singleton.get(ServerInfo.class);
+    }
+
+    public MemoryInfo getRealTimeMemoryInfo() {
+        GlobalMemory memory = OshiUtil.getMemory();
         RuntimeInfo runtimeInfo = SystemUtil.getRuntimeInfo();
-        long maxMemory = runtimeInfo.getMaxMemory();
-        long totalMemory = runtimeInfo.getTotalMemory();
-        long freeMemory = runtimeInfo.getFreeMemory();
-        long usableMemory = runtimeInfo.getUsableMemory();
+        return new MemoryInfo(runtimeInfo, memory);
+    }
+
+    public CpuInfo getRealTimeCPUInfo() {
+        return OshiUtil.getCpuInfo();
     }
 
     public String getOsVersion() {
@@ -66,4 +81,5 @@ public class ServerInfo {
     public String getJavaVendor() {
         return javaVendor;
     }
+
 }

@@ -118,3 +118,30 @@ export interface SystemInfo {
     initialized: boolean
     initializeTime: string
 }
+
+export interface ServerInfo {
+    hostAddress: string
+    hostName: string
+    javaVendor: string
+    javaVersion: number
+    osArch: string
+    osName: string
+    osVersion: string
+    realTimeCPUInfo: CPUInfo
+    realTimeMemoryInfo: 
+}
+
+export interface CPUInfo {
+    cpuModel: string
+    cpuNum: number
+}
+
+export interface MemoryInfo {
+    freeMemory: number
+    machineAvailableMemory: number
+    machineMemoryPageSize: number
+    machineTotalMemory: number
+    maxMemory: number
+    totalMemory: number
+    usableMemory: number
+}

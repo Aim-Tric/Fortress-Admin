@@ -19,7 +19,8 @@ const routes: Array<RouteRecordRaw> = [{
     { path: '/user', name: 'UserManager', component: () => import('@/views/system/user/Index') },
     { path: '/role', name: 'RoleManager', component: () => import('@/views/system/role/Index') },
     { path: '/auth', name: 'AuthManager', component: () => import('@/views/system/auth/Index') },
-    { path: '/menu', name: 'MenuManager', component: () => import('@/views/system/menu/Index') }
+    { path: '/menu', name: 'MenuManager', component: () => import('@/views/system/menu/Index') },
+    { path: '/monitor/server', name: 'ServerMonitor', component: () => import('@/views/monitor/Index') }
   ]
 }, {
   path: '/init',
