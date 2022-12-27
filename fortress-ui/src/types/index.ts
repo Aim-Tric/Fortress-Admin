@@ -128,12 +128,17 @@ export interface ServerInfo {
     osName: string
     osVersion: string
     realTimeCPUInfo: CPUInfo
-    realTimeMemoryInfo: 
+    realTimeMemoryInfo: MemoryInfo
 }
 
 export interface CPUInfo {
     cpuModel: string
     cpuNum: number
+    toTal: number
+    sys: number
+    user: number
+    wait: number
+    free: number
 }
 
 export interface MemoryInfo {

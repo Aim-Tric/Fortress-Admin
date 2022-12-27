@@ -1,8 +1,12 @@
-import { defineComponent, ref } from "vue";
-import { getServerInfo } from "@/api/Monitor";
-import { ServerInfo } from "@/types";
+import { defineComponent, nextTick, onMounted, ref } from 'vue';
+import { getServerInfo } from '@/api/Monitor';
+import { ServerInfo } from '@/types';
+import Echarts from '@/components/Echart/Echarts';
 
 export default defineComponent({
+    components: {
+        Echarts
+    },
     setup() {
         const serverInfo = ref<ServerInfo>({
             osArch: '',
@@ -14,7 +18,12 @@ export default defineComponent({
             osVersion: '',
             realTimeCPUInfo: {
                 cpuModel: '',
-                cpuNum: 0
+                cpuNum: 0,
+                free: 0,
+                sys: 0,
+                toTal: 0,
+                user: 0,
+                wait: 0
             },
             realTimeMemoryInfo: {
                 freeMemory: 0,
@@ -26,66 +35,114 @@ export default defineComponent({
                 usableMemory: 0
             }
         })
-        getServerInfo().then((data) => {
-            console.log(data)
-            serverInfo.value = data
+        const cpuUseRateChart = ref()
+        const cpuUseRateOption = ref()
+        onMounted(() => {
+            nextTick(() => {
+                cpuUseRateChart.value.showLoading()
+                getServerInfo().then((data) => {
+                    console.log("serverInfo", data)
+                    serverInfo.value = data
+                    console.log("chart ref", cpuUseRateChart)
+                    cpuUseRateOption.value = {
+                        series: [
+                            {
+                                type: 'pie',
+                                stillShowZeroSum: false,
+                                data: [
+                                    {
+                                        value: data.realTimeCPUInfo.sys,
+                                        name: '系统使用率'
+                                    },
+                                    {
+                                        value: data.realTimeCPUInfo.user,
+                                        name: '用户使用率'
+                                    },
+                                    {
+                                        value: data.realTimeCPUInfo.wait,
+                                        name: '当前等待率'
+                                    },
+                                    {
+                                        value: data.realTimeCPUInfo.free,
+                                        name: '当前空闲率'
+                                    }
+                                ],
+                                radius: ['40%', '70%'],
+                            }
+                        ]
+                    }
+                    cpuUseRateChart.value.setOption(cpuUseRateOption.value)
+                })
+            })
         })
+
         return () => (
-            <el-row gutter={4}>
+            <el-row gutter={24}>
                 <el-col span={12}>
-                    <el-card class="box-card" v-slots={{
+                    <el-card class='box-card' v-slots={{
                         header: () => (
-                            <div class="card-header">
+                            <div class='card-header'>
                                 <span>系统软件信息</span>
                             </div>
                         )
                     }}>
-                        <div>
-                            <span>系统架构</span>
-                            <p>{serverInfo.value.osArch}</p>
-                        </div>
-                        <div>
-                            <span>系统名称</span>
-                            <p>{serverInfo.value.osName}</p>
-                        </div>
-                        <div>
-                            <span>系统版本</span>
-                            <p>{serverInfo.value.osVersion}</p>
-                        </div>
-                        <div>
-                            <span>Java发行商</span>
-                            <p>{serverInfo.value.javaVendor}</p>
-                        </div>
-                        <div>
-                            <span>Java版本</span>
-                            <p>{serverInfo.value.javaVersion}</p>
-                        </div>
-                        <div>
-                            <span>主机地址</span>
-                            <p>{serverInfo.value.hostAddress}</p>
-                        </div>
-                        <div>
-                            <span>主机名称</span>
-                            <p>{serverInfo.value.hostName}</p>
-                        </div>
+                        <el-form label-width='120px'>
+                            <el-form-item label='系统架构'>
+                                <span>{serverInfo.value.osArch}</span>
+                            </el-form-item>
+                            <el-form-item label='系统名称'>
+                                <span>{serverInfo.value.osName}</span>
+                            </el-form-item>
+                            <el-form-item label='系统版本'>
+                                <span>{serverInfo.value.osVersion}</span>
+                            </el-form-item>
+                            <el-form-item label='Java发行商'>
+                                <span>{serverInfo.value.javaVendor}</span>
+                            </el-form-item>
+                            <el-form-item label='Java版本'>
+                                <span>{serverInfo.value.javaVersion}</span>
+                            </el-form-item>
+                            <el-form-item label='主机地址'>
+                                <span>{serverInfo.value.hostAddress}</span>
+                            </el-form-item>
+                            <el-form-item label='主机名称'>
+                                <span>{serverInfo.value.hostName}</span>
+                            </el-form-item>
+                        </el-form>
                     </el-card>
                 </el-col>
                 <el-col span={12}>
-                    <el-card class="box-card" v-slots={{
+                    <el-card class='box-card' v-slots={{
                         header: () => (
-                            <div class="card-header">
-                                <span>系统硬件信息</span>
+                            <div class='card-header'>
+                                <span>服务器CPU情况信息</span>
                             </div>
                         )
                     }}>
-                        <div>
-                            <span>CPU信息</span>
-                            <p>{serverInfo.value.realTimeCPUInfo.cpuModel}</p>
-                        </div>
-                        <div>
-                            <span>CPU核心数</span>
-                            <p>{serverInfo.value.realTimeCPUInfo.cpuNum}</p>
-                        </div>
+                        <el-form label-width='120px'>
+                            <el-form-item label='CPU信息'>
+                                <span>{serverInfo.value.realTimeCPUInfo.cpuModel}</span>
+                            </el-form-item>
+                            <el-form-item label='CPU核心数'>
+                                <span>{serverInfo.value.realTimeCPUInfo.cpuNum}</span>
+                            </el-form-item>
+                            <el-form-item label='CPU使用情况'>
+                                <echarts ref={cpuUseRateChart} option={cpuUseRateOption.value} style={{ width: '400px', height: '250px' }}></echarts>
+                            </el-form-item>
+                        </el-form>
+                    </el-card>
+                </el-col>
+                <el-col span={12}>
+                    <el-card class='box-card' v-slots={{
+                        header: () => (
+                            <div class='card-header'>
+                                <span>服务器内存情况信息</span>
+                            </div>
+                        )
+                    }}>
+                        <el-form label-width='120px'>
+                            
+                        </el-form>
                     </el-card>
                 </el-col>
             </el-row>
