@@ -1,22 +1,64 @@
-package cn.codebro.fortresscore.model;
+package cn.codebro.fortresssystem.persistence.po;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
+import cn.codebro.fortresscommon.tree.Treetify;
+import cn.codebro.fortresscore.model.Entity;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Guo wentao
- * @project fortress
- * @date 2022-10-19 23:51:58
+ * @date 2022/10/9
  */
-public abstract class Entity<T extends Identify> {
+@TableName(value = "F_AUTH")
+public class AuthPO implements Serializable {
+    @TableId
+    private String id;
+    private String parent;
+    private String name;
+    private String identify;
     private Boolean deleted;
     private Integer orderNum;
     private String createBy;
     private Date createTime;
     private String updateBy;
     private Date updateTime;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getParent() {
+        return parent;
+    }
+
+    public void setParent(String parent) {
+        this.parent = parent;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getIdentify() {
+        return identify;
+    }
+
+    public void setIdentify(String identify) {
+        this.identify = identify;
+    }
 
     public Boolean getDeleted() {
         return deleted;

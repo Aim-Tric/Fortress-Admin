@@ -26,6 +26,7 @@ request.interceptors.response.use(function (response) {
         if (result.code == 200) {
             return result.data
         } else if (result.code == 501) {
+            console.log("requestUtil", router)
             router.push({ name: 'Login' })
             return Promise.reject(new Error(result.message))
         }
