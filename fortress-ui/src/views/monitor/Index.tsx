@@ -141,7 +141,27 @@ export default defineComponent({
                         )
                     }}>
                         <el-form label-width='120px'>
-                            
+                            <el-form-item label='JVM最大内存'>
+                                <span>{serverInfo.value.realTimeMemoryInfo.maxMemory} bytes</span>
+                            </el-form-item>
+                            <el-form-item label='JVM最大可用内存'>
+                                <span>{serverInfo.value.realTimeMemoryInfo.totalMemory} bytes</span>
+                            </el-form-item>
+                            <el-form-item label='JVM已分配内存'>
+                                <span>{serverInfo.value.realTimeMemoryInfo.usableMemory} bytes</span>
+                            </el-form-item>
+                            <el-form-item label='JVM已分配内存中的剩余空间'>
+                                <span>{serverInfo.value.realTimeMemoryInfo.freeMemory} bytes</span>
+                            </el-form-item>
+                            <el-form-item label='机器物理内存'>
+                                <span>{serverInfo.value.realTimeMemoryInfo.machineTotalMemory} bytes</span>
+                            </el-form-item>
+                            <el-form-item label='机器可用内存'>
+                                <span>{serverInfo.value.realTimeMemoryInfo.machineAvailableMemory} bytes</span>
+                            </el-form-item>
+                            <el-form-item label='机器内存页大小'>
+                                <span>{serverInfo.value.realTimeMemoryInfo.machineMemoryPageSize} bytes</span>
+                            </el-form-item>
                         </el-form>
                     </el-card>
                 </el-col>
