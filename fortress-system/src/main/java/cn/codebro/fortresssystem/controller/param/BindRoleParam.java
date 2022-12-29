@@ -1,5 +1,6 @@
 package cn.codebro.fortresssystem.controller.param;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -7,7 +8,7 @@ import java.util.List;
  * @project fortress
  * @date 2022-11-18 11:22:10
  */
-public class BindRoleParam {
+public class BindRoleParam implements Serializable {
     private String id;
     private String name;
     private String identify;

@@ -1,11 +1,13 @@
 package cn.codebro.fortresssystem.controller.param;
 
+import java.io.Serializable;
+
 /**
  * @author Guo wentao
  * @project fortress
  * @date 2022-12-19 14:36:58
  */
-public class ChangePasswordParam {
+public class ChangePasswordParam implements Serializable {
     private String oldPassword;
     private String newPassword;
 

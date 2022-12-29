@@ -54,6 +54,10 @@ public class ServerInfo {
         return OshiUtil.getCpuInfo();
     }
 
+    public DiskInfo getRealTimeDiskInfo() {
+        return new DiskInfo(OshiUtil.getDiskStores());
+    }
+
     public String getOsVersion() {
         return osVersion;
     }

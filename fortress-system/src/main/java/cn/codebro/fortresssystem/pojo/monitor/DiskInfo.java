@@ -1,7 +1,6 @@
 package cn.codebro.fortresssystem.pojo.monitor;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.system.oshi.OshiUtil;
 import oshi.hardware.HWDiskStore;
 import oshi.hardware.HWPartition;
 
@@ -14,24 +13,30 @@ import java.util.List;
  */
 public class DiskInfo {
 
-    private long total;
+    private final long total;
+    private final List<HWDiskStore> diskStores;
 
-    DiskInfo() {
-        List<HWDiskStore> diskStores = OshiUtil.getDiskStores();
+    DiskInfo(List<HWDiskStore> diskStores) {
+        this.diskStores = diskStores;
+        long total = 0;
         for (HWDiskStore diskStore : diskStores) {
-            this.total += diskStore.getSize();
+            total += diskStore.getSize();
 
-            long reads = diskStore.getReads();
-            long writes = diskStore.getWrites();
-            String model = diskStore.getModel();
             List<HWPartition> partitions = diskStore.getPartitions();
             for (HWPartition partition : partitions) {
                 String type = partition.getType();
                 System.out.println(StrUtil.format("{}({}): size:{}, type: {}",
                         partition.getName(), partition.getIdentification(), partition.getSize(), type));
             }
-            System.out.println(StrUtil.format("{}|{}: reads:{}, writes:{}, total:{}", diskStore.getName(), model, reads, writes, diskStore.getSize()));
         }
+        this.total = total;
     }
 
+    public long getTotal() {
+        return total;
+    }
+
+    public List<HWDiskStore> getDiskStores() {
+        return diskStores;
+    }
 }
