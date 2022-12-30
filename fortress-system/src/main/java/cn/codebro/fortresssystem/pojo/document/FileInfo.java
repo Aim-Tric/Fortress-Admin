@@ -9,16 +9,19 @@ import cn.codebro.fortresscore.model.Entity;
  */
 public class FileInfo extends Entity {
     private String id;
+    private String uploadId;
+    private String fileIdentity;
     private String fileName;
     private FileType fileType;
     private SaveType saveType;
     private Long fileSize;
+    private Integer chunkCount;
+    private Integer chunkSize;
     private Integer cloudPlatform;
 
     public String getFileSuffix() {
         return fileName.substring(fileName.charAt('.') + 1);
     }
-
 
     public String getId() {
         return id;
@@ -26,6 +29,14 @@ public class FileInfo extends Entity {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getFileIdentity() {
+        return fileIdentity;
+    }
+
+    public void setFileIdentity(String fileIdentity) {
+        this.fileIdentity = fileIdentity;
     }
 
     public String getFileName() {

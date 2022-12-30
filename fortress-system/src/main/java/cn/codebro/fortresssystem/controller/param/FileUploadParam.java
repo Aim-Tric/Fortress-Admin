@@ -1,5 +1,7 @@
 package cn.codebro.fortresssystem.controller.param;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.Serializable;
 
 /**
@@ -8,6 +10,10 @@ import java.io.Serializable;
  * @date 2022-12-29 14:31:06
  */
 public class FileUploadParam implements Serializable {
+    /**
+     * 文件唯一性校验码
+     */
+    private String fileIdentity;
     /**
      * 上传唯一ID
      */
@@ -21,25 +27,37 @@ public class FileUploadParam implements Serializable {
      */
     private Long fileSize;
     /**
-     * 上传模式 0 simple 1 peace
+     * 上传模式; 0 simple, 1 peace
      */
     private Integer mode;
     /**
+     * 存储方式; 0 本地, 1 云存储
+     */
+    private Integer saveType;
+    /**
      * 块数量
      */
-    private Integer peaceCount;
+    private Integer chunkCount;
     /**
      * 块大小 bytes
      */
-    private Long peaceSize;
+    private Long chunkSize;
     /**
      * 块序号
      */
-    private Integer peaceIndex;
+    private Integer chunkIndex;
     /**
      * 文件二进制
      */
-    private byte[] data;
+    private MultipartFile data;
+
+    public String getFileIdentity() {
+        return fileIdentity;
+    }
+
+    public void setFileIdentity(String fileIdentity) {
+        this.fileIdentity = fileIdentity;
+    }
 
     public String getUploadId() {
         return uploadId;
@@ -73,35 +91,43 @@ public class FileUploadParam implements Serializable {
         this.mode = mode;
     }
 
-    public Integer getPeaceCount() {
-        return peaceCount;
+    public Integer getSaveType() {
+        return saveType;
     }
 
-    public void setPeaceCount(Integer peaceCount) {
-        this.peaceCount = peaceCount;
+    public void setSaveType(Integer saveType) {
+        this.saveType = saveType;
     }
 
-    public Long getPeaceSize() {
-        return peaceSize;
+    public Integer getChunkCount() {
+        return chunkCount;
     }
 
-    public void setPeaceSize(Long peaceSize) {
-        this.peaceSize = peaceSize;
+    public void setChunkCount(Integer chunkCount) {
+        this.chunkCount = chunkCount;
     }
 
-    public Integer getPeaceIndex() {
-        return peaceIndex;
+    public Long getChunkSize() {
+        return chunkSize;
     }
 
-    public void setPeaceIndex(Integer peaceIndex) {
-        this.peaceIndex = peaceIndex;
+    public void setChunkSize(Long chunkSize) {
+        this.chunkSize = chunkSize;
     }
 
-    public byte[] getData() {
+    public Integer getChunkIndex() {
+        return chunkIndex;
+    }
+
+    public void setChunkIndex(Integer chunkIndex) {
+        this.chunkIndex = chunkIndex;
+    }
+
+    public MultipartFile getData() {
         return data;
     }
 
-    public void setData(byte[] data) {
+    public void setData(MultipartFile data) {
         this.data = data;
     }
 }
