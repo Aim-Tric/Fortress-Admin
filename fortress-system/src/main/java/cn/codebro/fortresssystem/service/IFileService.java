@@ -7,7 +7,7 @@ import cn.codebro.fortresssystem.controller.param.FileUploadParam;
  * @project fortress
  * @date 2022-12-30 14:09:31
  */
-public interface IDocumentService {
+public interface IFileService {
 
     boolean upload(FileUploadParam param);
 }

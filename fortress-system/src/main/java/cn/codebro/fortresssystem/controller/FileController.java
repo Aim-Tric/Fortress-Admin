@@ -2,12 +2,11 @@ package cn.codebro.fortresssystem.controller;
 
 import cn.codebro.fortresscommon.Result;
 import cn.codebro.fortresssystem.controller.param.FileUploadParam;
-import cn.codebro.fortresssystem.service.IDocumentService;
+import cn.codebro.fortresssystem.service.IFileService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author Guo wentao
@@ -16,11 +15,11 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @RestController
 @RequestMapping("/doc")
-public class DocumentController {
+public class FileController {
 
-    private final IDocumentService documentService;
+    private final IFileService documentService;
 
-    public DocumentController(IDocumentService documentService) {
+    public FileController(IFileService documentService) {
         this.documentService = documentService;
     }
 
