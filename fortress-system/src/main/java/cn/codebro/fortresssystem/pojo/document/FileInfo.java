@@ -29,11 +29,7 @@ public class FileInfo extends Entity {
         this.fileSize = fileSize;
         this.chunkCount = chunkCount;
         this.chunkSize = chunkSize;
-        String finalUploadId = uploadId;
-        if (StrUtil.isBlank(uploadId)) {
-            finalUploadId = IdUtil.fastSimpleUUID();
-        }
-        this.uploadId = finalUploadId;
+        this.uploadId = uploadId;
         this.fileType = judgeFileType();
     }
 

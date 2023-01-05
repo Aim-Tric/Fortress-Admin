@@ -5,8 +5,11 @@ import cn.codebro.fortresssystem.config.FileUploadProperties;
 import cn.codebro.fortresssystem.controller.param.FileUploadParam;
 import cn.codebro.fortresssystem.persistence.mapper.FileMapper;
 import cn.codebro.fortresssystem.persistence.po.FilePO;
+import cn.codebro.fortresssystem.pojo.User;
 import cn.codebro.fortresssystem.pojo.document.FileInfo;
+import cn.codebro.fortresssystem.service.IAccountService;
 import cn.codebro.fortresssystem.service.IFileService;
+import cn.hutool.core.util.IdUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
@@ -21,20 +24,35 @@ import java.io.File;
  */
 @Service
 public class FileServiceImpl implements IFileService {
-
+    private final IAccountService accountService;
     private final FileUploadProperties fileUploadProperties;
     private final RedisTemplate<Object, Object> redisTemplate;
     private final FileMapper fileMapper;
 
-    public FileServiceImpl(FileUploadProperties fileUploadProperties, RedisTemplate<Object, Object> redisTemplate, FileMapper mapper) {
+    public FileServiceImpl(FileUploadProperties fileUploadProperties, RedisTemplate<Object, Object> redisTemplate,
+                           IAccountService accountService, FileMapper mapper) {
         this.fileUploadProperties = fileUploadProperties;
+        this.accountService = accountService;
         this.redisTemplate = redisTemplate;
         this.fileMapper = mapper;
     }
 
     @Override
+    public String generateUploadId() {
+        String uploadId = IdUtil.simpleUUID();
+        ValueOperations<Object, Object> valueOperations = redisTemplate.opsForValue();
+        User loginUser = accountService.getLoginUser();
+        String cacheKey = fileUploadProperties.getCacheKey() + loginUser.getId() + ":" + uploadId;
+        valueOperations.set(cacheKey, 0);
+        return uploadId;
+    }
+
+    @Override
     public boolean upload(FileUploadParam param) {
-        FileInfo fileInfo = FileInfo.create(param.getUploadId(), param.getFileIdentity(), param.getFileName(), param.getSaveType(), param.getFileSize(), param.getChunkCount(), param.getChunkSize());
+        User loginUser = accountService.getLoginUser();
+        FileInfo fileInfo = FileInfo.create(loginUser.getId() + ":" + param.getUploadId(),
+                param.getFileIdentity(), param.getFileName(), param.getSaveType(), param.getFileSize(),
+                param.getChunkCount(), param.getChunkSize());
         Long localStoreMaxSize = fileUploadProperties.getLocalStoreMaxSize();
         if (fileInfo.getFileSize() > localStoreMaxSize) {
             throw SystemBusinessExceptionUtil.dump("文件超过大小限制");

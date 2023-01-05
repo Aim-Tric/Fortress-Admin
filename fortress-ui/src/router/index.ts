@@ -20,7 +20,8 @@ const routes: Array<RouteRecordRaw> = [{
     { path: '/role', name: 'RoleManager', component: () => import('@/views/system/role/Index') },
     { path: '/auth', name: 'AuthManager', component: () => import('@/views/system/auth/Index') },
     { path: '/menu', name: 'MenuManager', component: () => import('@/views/system/menu/Index') },
-    { path: '/monitor/server', name: 'ServerMonitor', component: () => import('@/views/monitor/Index') }
+    { path: '/monitor/server', name: 'ServerMonitor', component: () => import('@/views/monitor/Index') },
+    { path: '/file', name: 'FileUploadTest', component: () => import('@/views/file/Index') }
   ]
 }, {
   path: '/init',

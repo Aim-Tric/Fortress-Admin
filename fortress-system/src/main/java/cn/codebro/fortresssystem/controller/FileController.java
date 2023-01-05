@@ -3,10 +3,8 @@ package cn.codebro.fortresssystem.controller;
 import cn.codebro.fortresscommon.Result;
 import cn.codebro.fortresssystem.controller.param.FileUploadParam;
 import cn.codebro.fortresssystem.service.IFileService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import cn.hutool.core.util.IdUtil;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Guo wentao
@@ -21,6 +19,11 @@ public class FileController {
 
     public FileController(IFileService documentService) {
         this.documentService = documentService;
+    }
+
+    @GetMapping
+    public Result requireUploadId() {
+        return Result.success(documentService.generateUploadId());
     }
 
     @PostMapping

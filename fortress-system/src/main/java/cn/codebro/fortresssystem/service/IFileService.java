@@ -8,6 +8,7 @@ import cn.codebro.fortresssystem.controller.param.FileUploadParam;
  * @date 2022-12-30 14:09:31
  */
 public interface IFileService {
+    String generateUploadId();
 
     boolean upload(FileUploadParam param);
 }
