@@ -3,7 +3,6 @@ package cn.codebro.fortresssystem.controller;
 import cn.codebro.fortresscommon.Result;
 import cn.codebro.fortresssystem.controller.param.FileUploadParam;
 import cn.codebro.fortresssystem.service.IFileService;
-import cn.hutool.core.util.IdUtil;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -27,7 +26,8 @@ public class FileController {
     }
 
     @PostMapping
-    public Result upload(@RequestBody FileUploadParam param) {
+    public Result upload(FileUploadParam param) {
+        System.out.println(param);
         documentService.upload(param);
         return Result.success();
     }

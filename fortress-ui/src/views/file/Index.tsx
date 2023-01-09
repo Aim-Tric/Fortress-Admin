@@ -1,7 +1,8 @@
-import { UploadFile, UploadFiles } from "element-plus";
+import { UploadRequestOptions } from "element-plus";
 import { Awaitable } from "element-plus/es/utils";
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { request } from "@/utils/request";
+import CryptoJS from 'crypto-js'
 
 export interface FileUploadParam {
     uploadId: '',
@@ -12,33 +13,52 @@ enum UploadMode {
     SIMPLE = '0',
     PEACE = '1'
 }
+enum SaveType {
+    LOCAL = '0',
+    OSS = '1'
+}
 
 export default defineComponent({
     setup() {
-        const doUpload = (uploadFile: UploadFile, uploadFiles: UploadFiles): Awaitable<boolean> => {
-            console.log("doUpload", uploadFile, uploadFiles)
-            const formData = new FormData()
-            if (uploadFile) {
-                const fileSize = uploadFile.size ? uploadFile.size : 0
-                const mode = fileSize > 1024 * 1024 * 512 ? UploadMode.SIMPLE : UploadMode.PEACE
-                formData.set('data', '')
-                formData.set('fileName', uploadFile.name)
-                formData.set('fileSize', fileSize.toString())
-                formData.set('mode', mode)
-            }
-
-
-            return request.post('', formData, {
-                withCredentials: true,
-                headers: {
-
-                }
-            });
+        const uploadIdRef = ref<string>('')
+        const doUpload = (options: UploadRequestOptions): Awaitable<boolean> => {
+            const file = options.file
+            const uploadId = uploadIdRef.value
+            return new Promise<boolean>((resolve) => {
+                const formData = new FormData()
+                const fileSize = file.size ? file.size : 0
+                const chunkCount = Math.floor(file.size / (1024 * 1024 * 512)) + 1
+                const mode = fileSize > (1024 * 1024 * 512) ? UploadMode.SIMPLE : UploadMode.PEACE
+                file.text().then((text) => {
+                    formData.set('fileIdentity', CryptoJS.MD5(text).toString())
+                    formData.set('uploadId', uploadId)
+                    formData.set('fileName', file.name)
+                    formData.set('fileSize', fileSize.toString())
+                    formData.set('mode', mode)
+                    formData.set('saveType', SaveType.LOCAL)
+                    formData.set('chunkCount', chunkCount.toString())
+                    formData.set('data', file)
+                    request.post('/doc', formData, {
+                        headers: {
+                            'content-type': 'multipart/form-data; charset=utf-8'
+                        }
+                    }).then(() => {
+                        resolve(true)
+                    }).catch((error) => {
+                        console.log("error", error)
+                        resolve(false)
+                    })
+                })
+            })
         }
+
+        request.get('/doc').then((data) => {
+            uploadIdRef.value = data.data
+        })
+
         return () => (
             <el-upload
                 class="upload-demo"
-                action="/api/doc"
                 http-request={doUpload}
                 withCredentials={true}
                 v-slots={{

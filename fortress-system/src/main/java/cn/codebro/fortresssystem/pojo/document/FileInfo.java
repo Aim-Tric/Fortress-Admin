@@ -58,7 +58,7 @@ public class FileInfo extends Entity {
     }
 
     public String getFileSuffix() {
-        return fileName.substring(fileName.charAt('.') + 1);
+        return fileName.substring(fileName.indexOf('.') + 1);
     }
 
     public boolean isSingleFileMode() {

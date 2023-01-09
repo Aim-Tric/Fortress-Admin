@@ -46,3 +46,7 @@ sa-token:
   is-log: false
 fortress:
   system-name: Fortress Admin
+  upload:
+    cache-key: DOC_
+    local-path: F://temp//
+    local-store-max-size: 4194304

@@ -130,4 +130,20 @@ public class FileUploadParam implements Serializable {
     public void setData(MultipartFile data) {
         this.data = data;
     }
+
+    @Override
+    public String toString() {
+        return "FileUploadParam{" +
+                "fileIdentity='" + fileIdentity + '\'' +
+                ", uploadId='" + uploadId + '\'' +
+                ", fileName='" + fileName + '\'' +
+                ", fileSize=" + fileSize +
+                ", mode=" + mode +
+                ", saveType=" + saveType +
+                ", chunkCount=" + chunkCount +
+                ", chunkSize=" + chunkSize +
+                ", chunkIndex=" + chunkIndex +
+                ", data=" + data +
+                '}';
+    }
 }
