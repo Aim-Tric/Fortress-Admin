@@ -18,6 +18,10 @@ enum SaveType {
     OSS = '1'
 }
 
+const getUploadId = (): Promise<string> => {
+    return request.get('/doc')
+}
+
 export default defineComponent({
     setup() {
         const uploadIdRef = ref<string>('')
@@ -52,8 +56,8 @@ export default defineComponent({
             })
         }
 
-        request.get('/doc').then((data) => {
-            uploadIdRef.value = data.data
+        getUploadId().then((data) => {
+            uploadIdRef.value = data
         })
 
         return () => (

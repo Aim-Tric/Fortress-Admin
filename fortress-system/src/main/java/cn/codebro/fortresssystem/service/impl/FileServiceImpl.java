@@ -102,8 +102,8 @@ public class FileServiceImpl implements IFileService {
         filePO.setId(fileInfo.getId());
         filePO.setFileIdentity(fileInfo.getFileIdentity());
         filePO.setFileName(fileInfo.getFileName());
-        filePO.setFileSize(filePO.getFileSize());
-        filePO.setUploadId(filePO.getUploadId());
+        filePO.setFileSize(fileInfo.getFileSize());
+        filePO.setUploadId(fileInfo.getUploadId());
         filePO.setChunkCount(fileInfo.getChunkCount());
         filePO.setChunkSize(fileInfo.getChunkSize());
         filePO.setSaveType(fileInfo.getSaveType().getValue());
