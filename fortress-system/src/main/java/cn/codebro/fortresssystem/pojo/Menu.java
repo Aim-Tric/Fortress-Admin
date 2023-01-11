@@ -155,4 +155,5 @@ public class Menu extends Entity implements Serializable, Treetify<String, Menu>
         this.description = description;
         return this;
     }
+
 }

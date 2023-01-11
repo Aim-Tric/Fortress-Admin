@@ -22,8 +22,8 @@ const getUploadId = (): Promise<string> => {
     return request.get('/doc')
 }
 
-export default defineComponent({
-    setup() {
+const FortressUploader = defineComponent({
+    setup(props, { slots }) {
         const uploadIdRef = ref<string>('')
         const doUpload = (options: UploadRequestOptions): Awaitable<boolean> => {
             const file = options.file
@@ -66,15 +66,32 @@ export default defineComponent({
                 http-request={doUpload}
                 withCredentials={true}
                 v-slots={{
-                    tip: () => (
-                        <div class="el-upload__tip">
-                            jpg/png files with a size less than 500KB.
-                        </div>
-                    )
+                    tip: () => (slots.tip && slots.tip()),
+                    trigger: () => (slots.trigger && slots.trigger()),
+                    file: () => (slots.file && slots.file())
                 }}
             >
-                <el-button type="primary">上传文件</el-button>
+                {slots.default && slots.default()}
             </el-upload>
+        )
+    }
+})
+
+export default defineComponent({
+    components: {
+        FortressUploader
+    },
+    setup() {
+        return () => (
+            <fortress-uploader v-slots={{
+                tip: () => (
+                    <div class="el-upload__tip">
+                        jpg/png files with a size less than 500KB.
+                    </div>
+                )
+            }}>
+                <el-button type="primary">上传文件</el-button>
+            </fortress-uploader>
         )
     }
 })
