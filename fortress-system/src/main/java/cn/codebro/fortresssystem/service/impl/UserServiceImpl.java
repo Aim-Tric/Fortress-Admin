@@ -103,9 +103,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserPO> implements 
     }
 
     @Override
-    public void changePassword(String id, ChangePasswordParam changePasswordParam) {
-        UserPO userPO = baseMapper.selectById(id);
-
+    public void changePassword(User user, ChangePasswordParam changePasswordParam) {
+        user.changePassword(changePasswordParam.getOldPassword(), changePasswordParam.getNewPassword());
+        UserPO userPO = new UserPO();
+        BeanUtil.copyProperties(user, userPO);
+        baseMapper.updateById(userPO);
     }
 
     @Transactional(rollbackFor = Exception.class)

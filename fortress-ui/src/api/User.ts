@@ -45,9 +45,8 @@ export const getUserMenus = (): Promise<Menu[]> => {
     return request.get(`/menu/user`)
 }
 
-export const updatePassword = (id: string, oldPassword: string, newPassword: string): Promise<void> => {
-    return request.post(`/user/${id}`, JSON.stringify({
-        id,
+export const updatePassword = (oldPassword: string, newPassword: string): Promise<void> => {
+    return request.put(`/account`, JSON.stringify({
         oldPassword,
         newPassword
     }))

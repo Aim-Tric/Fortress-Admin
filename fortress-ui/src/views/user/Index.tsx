@@ -3,6 +3,7 @@ import { User, Message, Phone } from "@element-plus/icons-vue"
 import { useGlobalStore } from "@/store"
 import "./Index.css"
 import { updatePassword } from "@/api/User"
+import CryptoJS from 'crypto-js'
 
 
 export default defineComponent({
@@ -14,11 +15,11 @@ export default defineComponent({
         const oldPasswordInputVal = ref<string>("")
         const newPasswordInputVal = ref<string>("")
         const newPasswordConfirmInputVal = ref<string>("")
-
+        const encrptPass = (pass: string) => CryptoJS.enc.Base64.stringify(CryptoJS.MD5(pass))
         const doUpdatePassword = () => {
-            user && updatePassword(user?.id, oldPasswordInputVal.value, newPasswordInputVal.value)
+            user && updatePassword(encrptPass(oldPasswordInputVal.value), encrptPass(newPasswordInputVal.value))
                 .then(() => {
-                    console.log("success!")
+                    updatePasswordDialogOpen.value = false
                 })
                 .catch((error) => {
                     console.log("error", error)

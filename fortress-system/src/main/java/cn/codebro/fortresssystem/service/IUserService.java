@@ -13,8 +13,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface IUserService extends IService<UserPO> {
     User findById(String id);
 
-    void changePassword(String id, ChangePasswordParam changePasswordParam);
-
     void save(UserInfoParam userInfoParam);
 
     void update(UserInfoParam userInfoParam);

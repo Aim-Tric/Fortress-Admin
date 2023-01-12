@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 public class UserController {
     private static final int DEFAULT_PAGE_SIZE = 10;
-
     private final IUserService userService;
 
     public UserController(IUserService userService) {
@@ -52,9 +51,4 @@ public class UserController {
         return Result.success();
     }
 
-    @PutMapping("/{id}")
-    public Result changePassword(@PathVariable String id, @RequestBody ChangePasswordParam changePasswordParam) {
-
-        return Result.success();
-    }
 }

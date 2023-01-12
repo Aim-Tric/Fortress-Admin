@@ -1,5 +1,6 @@
 package cn.codebro.fortresssystem.pojo;
 
+import cn.codebro.fortresscore.exception.ModelException;
 import cn.codebro.fortresscore.model.Entity;
 
 import java.io.Serializable;
@@ -21,6 +22,13 @@ public class User extends Entity implements Serializable {
     private Post post;
     private Dept dept;
     private List<Role> roles;
+
+    public void changePassword(String oldPassword, String newPassword) {
+        if (!this.password.equals(oldPassword) || newPassword == null) {
+            throw new ModelException("旧密码不匹配或者新密码不符合要求");
+        }
+        this.password = newPassword;
+    }
 
     public String getId() {
         return id;
@@ -112,18 +120,6 @@ public class User extends Entity implements Serializable {
 
     @Override
     public String toString() {
-        return "FortressSysUser{" +
-                "id='" + id + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", sex=" + sex +
-                ", phone='" + phone + '\'' +
-                ", email='" + email + '\'' +
-                ", status=" + status +
-                ", post=" + post +
-                ", dept=" + dept +
-                ", role=" + roles +
-                '}';
+        return "FortressSysUser{" + "id='" + id + '\'' + ", username='" + username + '\'' + ", password='" + password + '\'' + ", nickname='" + nickname + '\'' + ", sex=" + sex + ", phone='" + phone + '\'' + ", email='" + email + '\'' + ", status=" + status + ", post=" + post + ", dept=" + dept + ", role=" + roles + '}';
     }
 }

@@ -1,5 +1,6 @@
 package cn.codebro.fortresssystem.service;
 
+import cn.codebro.fortresssystem.controller.param.ChangePasswordParam;
 import cn.codebro.fortresssystem.persistence.po.UserPO;
 import cn.codebro.fortresssystem.pojo.User;
 
@@ -48,4 +49,6 @@ public interface IAccountService {
      * @return 是否登录
      */
     boolean isLogin();
+
+    void changePassword(User user, ChangePasswordParam changePasswordParam);
 }
