@@ -2,7 +2,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="cn.codebro.fortresssystem.persistence.mapper.MenuMapper">
+<mapper namespace="cn.codebro.fortress.system.persistence.mapper.MenuMapper">
 
     <insert id="insertRoleMenu">
         INSERT INTO F_ROLE_MENU(id, role_id, menu_id) VALUE (#{id}, #{roleId}, #{menuId})
@@ -14,7 +14,7 @@
         WHERE role_id = #{roleId}
     </delete>
 
-    <select id="selectMenuByRoleId" resultType="cn.codebro.fortresssystem.pojo.Menu">
+    <select id="selectMenuByRoleId" resultType="cn.codebro.fortress.system.pojo.Menu">
         SELECT FM.id,
                FM.parent,
                FM.name,

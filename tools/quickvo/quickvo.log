@@ -1,0 +1,58 @@
+3月 20, 2023 10:53:51 下午 org.sagacity.quickvo.utils.DBHelper getConnection
+信息: 开始连接数据库:fortress-admin,url:jdbc:mysql://127.0.0.1:63306/fortress-admin?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true
+3月 20, 2023 10:53:52 下午 org.sagacity.quickvo.TaskController create
+信息: 开始执行第:{1} 个任务,includes=:null
+3月 20, 2023 10:53:52 下午 org.sagacity.quickvo.utils.DBHelper getTableAndView
+信息: 提取数据库:schema=[fortress-admin]和 catalog=[null]
+3月 20, 2023 10:53:52 下午 org.sagacity.quickvo.TaskController createTask
+信息: 当前任务共取出:8 张表或视图!
+3月 20, 2023 10:53:52 下午 org.sagacity.quickvo.TaskController createTask
+信息: 正在处理表:f_auth
+3月 20, 2023 10:53:53 下午 org.sagacity.quickvo.TaskController generateAbstractEntity
+信息: 正在生成文件:D:\Code\core-project\fortress\gen\cn\codebro\system\persistence\po\base\AbstractFAuthPO.java
+3月 20, 2023 10:53:53 下午 org.sagacity.quickvo.TaskController generateParentEntity
+信息: 正在生成文件:D:\Code\core-project\fortress\gen\cn\codebro\system\persistence\po\FAuthPO.java
+3月 20, 2023 10:53:53 下午 org.sagacity.quickvo.TaskController createTask
+信息: 正在处理表:f_menu
+3月 20, 2023 10:53:53 下午 org.sagacity.quickvo.TaskController generateAbstractEntity
+信息: 正在生成文件:D:\Code\core-project\fortress\gen\cn\codebro\system\persistence\po\base\AbstractFMenuPO.java
+3月 20, 2023 10:53:53 下午 org.sagacity.quickvo.TaskController generateParentEntity
+信息: 正在生成文件:D:\Code\core-project\fortress\gen\cn\codebro\system\persistence\po\FMenuPO.java
+3月 20, 2023 10:53:53 下午 org.sagacity.quickvo.TaskController createTask
+信息: 正在处理表:f_role
+3月 20, 2023 10:53:53 下午 org.sagacity.quickvo.TaskController generateAbstractEntity
+信息: 正在生成文件:D:\Code\core-project\fortress\gen\cn\codebro\system\persistence\po\base\AbstractFRolePO.java
+3月 20, 2023 10:53:53 下午 org.sagacity.quickvo.TaskController generateParentEntity
+信息: 正在生成文件:D:\Code\core-project\fortress\gen\cn\codebro\system\persistence\po\FRolePO.java
+3月 20, 2023 10:53:53 下午 org.sagacity.quickvo.TaskController createTask
+信息: 正在处理表:f_role_auth
+3月 20, 2023 10:53:53 下午 org.sagacity.quickvo.TaskController generateAbstractEntity
+信息: 正在生成文件:D:\Code\core-project\fortress\gen\cn\codebro\system\persistence\po\base\AbstractFRoleAuthPO.java
+3月 20, 2023 10:53:53 下午 org.sagacity.quickvo.TaskController generateParentEntity
+信息: 正在生成文件:D:\Code\core-project\fortress\gen\cn\codebro\system\persistence\po\FRoleAuthPO.java
+3月 20, 2023 10:53:53 下午 org.sagacity.quickvo.TaskController createTask
+信息: 正在处理表:f_role_menu
+3月 20, 2023 10:53:53 下午 org.sagacity.quickvo.TaskController generateAbstractEntity
+信息: 正在生成文件:D:\Code\core-project\fortress\gen\cn\codebro\system\persistence\po\base\AbstractFRoleMenuPO.java
+3月 20, 2023 10:53:53 下午 org.sagacity.quickvo.TaskController generateParentEntity
+信息: 正在生成文件:D:\Code\core-project\fortress\gen\cn\codebro\system\persistence\po\FRoleMenuPO.java
+3月 20, 2023 10:53:53 下午 org.sagacity.quickvo.TaskController createTask
+信息: 正在处理表:f_system
+3月 20, 2023 10:53:53 下午 org.sagacity.quickvo.TaskController generateAbstractEntity
+信息: 正在生成文件:D:\Code\core-project\fortress\gen\cn\codebro\system\persistence\po\base\AbstractFSystemPO.java
+3月 20, 2023 10:53:53 下午 org.sagacity.quickvo.TaskController generateParentEntity
+信息: 正在生成文件:D:\Code\core-project\fortress\gen\cn\codebro\system\persistence\po\FSystemPO.java
+3月 20, 2023 10:53:53 下午 org.sagacity.quickvo.TaskController createTask
+信息: 正在处理表:f_user
+3月 20, 2023 10:53:54 下午 org.sagacity.quickvo.TaskController generateAbstractEntity
+信息: 正在生成文件:D:\Code\core-project\fortress\gen\cn\codebro\system\persistence\po\base\AbstractFUserPO.java
+3月 20, 2023 10:53:54 下午 org.sagacity.quickvo.TaskController generateParentEntity
+信息: 正在生成文件:D:\Code\core-project\fortress\gen\cn\codebro\system\persistence\po\FUserPO.java
+3月 20, 2023 10:53:54 下午 org.sagacity.quickvo.TaskController createTask
+信息: 正在处理表:f_user_role
+3月 20, 2023 10:53:54 下午 org.sagacity.quickvo.TaskController generateAbstractEntity
+信息: 正在生成文件:D:\Code\core-project\fortress\gen\cn\codebro\system\persistence\po\base\AbstractFUserRolePO.java
+3月 20, 2023 10:53:54 下午 org.sagacity.quickvo.TaskController generateParentEntity
+信息: 正在生成文件:D:\Code\core-project\fortress\gen\cn\codebro\system\persistence\po\FUserRolePO.java
+3月 20, 2023 10:53:54 下午 org.sagacity.quickvo.QuickVOStart doStart
+信息: 成功完成vo以及vo<-->po映射类的生成!
