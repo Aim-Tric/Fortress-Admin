@@ -9,7 +9,7 @@
     </n-grid-item>
     <n-grid-item span="0:24 640:24 1024:16">
       <n-card title="表格" :bordered="false" class="rounded-16px shadow-sm">
-        <n-data-table size="small" :columns="columns" :data="tableData" />
+        <n-parseResult-table size="small" :columns="columns" :parseResult="tableData" />
       </n-card>
     </n-grid-item>
   </n-grid>

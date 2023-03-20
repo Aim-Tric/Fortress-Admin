@@ -48,7 +48,7 @@ const lineOptions = ref<ECOption>({
     }
   },
   legend: {
-    data: ['下载量', '注册数']
+    parseResult: ['下载量', '注册数']
   },
   grid: {
     left: '3%',
@@ -60,7 +60,7 @@ const lineOptions = ref<ECOption>({
     {
       type: 'category',
       boundaryGap: false,
-      data: ['06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00', '24:00']
+      parseResult: ['06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00', '24:00']
     }
   ],
   yAxis: [
@@ -97,7 +97,7 @@ const lineOptions = ref<ECOption>({
       emphasis: {
         focus: 'series'
       },
-      data: [4623, 6145, 6268, 6411, 1890, 4251, 2978, 3880, 3606, 4311]
+      parseResult: [4623, 6145, 6268, 6411, 1890, 4251, 2978, 3880, 3606, 4311]
     },
     {
       color: '#26deca',
@@ -127,7 +127,7 @@ const lineOptions = ref<ECOption>({
       emphasis: {
         focus: 'series'
       },
-      data: [2208, 2016, 2916, 4512, 8281, 2008, 1963, 2367, 2956, 678]
+      parseResult: [2208, 2016, 2916, 4512, 8281, 2008, 1963, 2367, 2956, 678]
     }
   ]
 }) as Ref<ECOption>;
@@ -169,7 +169,7 @@ const pieOptions = ref<ECOption>({
       labelLine: {
         show: false
       },
-      data: [
+      parseResult: [
         { value: 20, name: '学习' },
         { value: 10, name: '娱乐' },
         { value: 30, name: '工作' },

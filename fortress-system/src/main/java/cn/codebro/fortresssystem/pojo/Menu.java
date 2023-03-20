@@ -1,7 +1,7 @@
 package cn.codebro.fortresssystem.pojo;
 
-import cn.codebro.fortresscore.model.Entity;
-import cn.codebro.fortresscommon.tree.Treetify;
+import cn.codebro.fortress.common.model.Entity;
+import cn.codebro.fortress.common.util.tree.Treeable;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -16,7 +16,7 @@ import java.util.List;
  * @date 2022-11-01 21:39:04
  */
 @TableName(value = "F_MENU", excludeProperty = {"children"})
-public class Menu extends Entity implements Serializable, Treetify<String, Menu> {
+public class Menu extends Entity implements Serializable, Treeable<String, Menu> {
     @TableId
     private String id;
     private String parent;
@@ -30,7 +30,7 @@ public class Menu extends Entity implements Serializable, Treetify<String, Menu>
     private Integer status;
     private String description;
 
-    private List<Treetify<String, Menu>> children;
+    private List<Treeable<String, Menu>> children;
 
     @Override
     public String getId() {
@@ -48,12 +48,12 @@ public class Menu extends Entity implements Serializable, Treetify<String, Menu>
     }
 
     @Override
-    public Collection<Treetify<String, Menu>> getChildren() {
+    public Collection<Treeable<String, Menu>> getChildren() {
         return children;
     }
 
     @Override
-    public void addChildren(Treetify<String, Menu> obj) {
+    public void addChildren(Treeable<String, Menu> obj) {
         if (this.children == null) {
             this.children = new ArrayList<>();
         }
@@ -142,7 +142,7 @@ public class Menu extends Entity implements Serializable, Treetify<String, Menu>
         return this;
     }
 
-    public Menu setChildren(List<Treetify<String, Menu>> children) {
+    public Menu setChildren(List<Treeable<String, Menu>> children) {
         this.children = children;
         return this;
     }

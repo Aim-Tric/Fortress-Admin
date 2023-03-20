@@ -1,6 +1,6 @@
 package cn.codebro.fortresssystem.controller;
 
-import cn.codebro.fortresscommon.Result;
+import cn.codebro.fortress.common.model.Result;
 import cn.codebro.fortresssystem.pojo.Role;
 import cn.codebro.fortresssystem.controller.param.BindRoleParam;
 import cn.codebro.fortresssystem.service.IRoleService;

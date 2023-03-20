@@ -1,7 +1,4 @@
-package cn.codebro.fortresscore.model;
-
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
+package cn.codebro.fortress.common.model;
 
 import java.util.Date;
 
@@ -10,7 +7,7 @@ import java.util.Date;
  * @project fortress
  * @date 2022-10-19 23:51:58
  */
-public abstract class Entity<T extends Identify> {
+public abstract class Entity {
     private Boolean deleted;
     private Integer orderNum;
     private String createBy;

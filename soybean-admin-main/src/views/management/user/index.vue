@@ -23,8 +23,8 @@
         <column-setting v-model:columns="columns" />
       </n-space>
     </n-space>
-    <n-data-table :columns="columns" :data="tableData" :loading="loading" :pagination="pagination" />
-    <table-action-modal v-model:visible="visible" :type="modalType" :edit-data="editData" />
+    <n-parseResult-table :columns="columns" :parseResult="tableData" :loading="loading" :pagination="pagination" />
+    <table-action-modal v-model:visible="visible" :type="modalType" :edit-parseResult="editData" />
   </n-card>
 </template>
 
@@ -44,16 +44,16 @@ const { loading, startLoading, endLoading } = useLoading(false);
 const { bool: visible, setTrue: openModal } = useBoolean();
 
 const tableData = ref<UserManagement.User[]>([]);
-function setTableData(data: UserManagement.User[]) {
-  tableData.value = data;
+function setTableData(parseResult: UserManagement.User[]) {
+  tableData.value = parseResult;
 }
 
 async function getTableData() {
   startLoading();
-  const { data } = await fetchUserList();
-  if (data) {
+  const { parseResult } = await fetchUserList();
+  if (parseResult) {
     setTimeout(() => {
-      setTableData(data);
+      setTableData(parseResult);
       endLoading();
     }, 1000);
   }
@@ -154,8 +154,8 @@ function setModalType(type: ModalType) {
 
 const editData = ref<UserManagement.User | null>(null);
 
-function setEditData(data: UserManagement.User | null) {
-  editData.value = data;
+function setEditData(parseResult: UserManagement.User | null) {
+  editData.value = parseResult;
 }
 
 function handleAddTable() {

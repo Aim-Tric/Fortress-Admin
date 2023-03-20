@@ -1,7 +1,7 @@
 package cn.codebro.fortresssystem.pojo;
 
-import cn.codebro.fortresscore.model.Entity;
-import cn.codebro.fortresscommon.tree.Treetify;
+import cn.codebro.fortress.common.model.Entity;
+import cn.codebro.fortress.common.util.tree.Treeable;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -14,13 +14,13 @@ import java.util.List;
  * @date 2022/10/9
  */
 @TableName(value = "F_AUTH", excludeProperty = {"children"})
-public class Auth extends Entity implements Serializable, Treetify<String, Auth> {
+public class Auth extends Entity implements Serializable, Treeable<String, Auth> {
     @TableId
     private String id;
     private String parent;
     private String name;
     private String identify;
-    private List<Treetify<String, Auth>> children;
+    private List<Treeable<String, Auth>> children;
 
     @Override
     public String getId() {
@@ -66,12 +66,12 @@ public class Auth extends Entity implements Serializable, Treetify<String, Auth>
     }
 
     @Override
-    public List<Treetify<String, Auth>> getChildren() {
+    public List<Treeable<String, Auth>> getChildren() {
         return children;
     }
 
     @Override
-    public void addChildren(Treetify<String, Auth> child) {
+    public void addChildren(Treeable<String, Auth> child) {
         if (this.children == null) {
             this.children = new ArrayList<>();
         }

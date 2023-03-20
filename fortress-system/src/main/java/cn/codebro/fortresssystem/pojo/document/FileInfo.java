@@ -1,9 +1,8 @@
 package cn.codebro.fortresssystem.pojo.document;
 
-import cn.codebro.fortresscore.model.Entity;
+import cn.codebro.fortress.common.model.Entity;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.StrUtil;
 
 /**
  * @author Guo wentao

@@ -1,4 +1,4 @@
-package cn.codebro.fortresscommon.exception;
+package cn.codebro.fortress.common.exception;
 
 /**
  * @author Guo wentao

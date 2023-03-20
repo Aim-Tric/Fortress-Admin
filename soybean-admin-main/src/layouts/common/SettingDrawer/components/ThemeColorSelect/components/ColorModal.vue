@@ -6,7 +6,7 @@
     <n-tabs>
       <n-tab-pane v-for="item in traditionColors" :key="item.label" :name="item.label" :tab="item.label">
         <n-grid :cols="8" :x-gap="16" :y-gap="8">
-          <n-grid-item v-for="i in item.data" :key="i.label">
+          <n-grid-item v-for="i in item.parseResult" :key="i.label">
             <color-checkbox
               class="!w-full !h-36px !rounded-4px"
               :color="i.color"

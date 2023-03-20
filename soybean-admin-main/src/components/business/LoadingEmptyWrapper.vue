@@ -7,7 +7,7 @@
       </div>
       <div v-show="isEmpty" class="absolute-center">
         <div class="relative">
-          <icon-local-empty-data :class="iconClass" />
+          <icon-local-empty-parseResult :class="iconClass" />
           <p class="absolute-lb w-full text-center" :class="descClass">{{ emptyDesc }}</p>
         </div>
       </div>

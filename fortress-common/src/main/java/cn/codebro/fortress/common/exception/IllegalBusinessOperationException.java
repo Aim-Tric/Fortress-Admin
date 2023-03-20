@@ -1,4 +1,4 @@
-package cn.codebro.fortresscommon.exception;
+package cn.codebro.fortress.common.exception;
 
 /**
  * @author Guo wentao
@@ -7,7 +7,6 @@ package cn.codebro.fortresscommon.exception;
  */
 public class IllegalBusinessOperationException extends RuntimeException {
 
-    private static final Integer DEFAULT_ERROR_CODE = 500;
     private Integer code;
 
     private String debugMessage;

@@ -1,6 +1,6 @@
 package cn.codebro.fortresssystem.controller;
 
-import cn.codebro.fortresscommon.Result;
+import cn.codebro.fortress.common.model.Result;
 import cn.codebro.fortresssystem.controller.param.ChangePasswordParam;
 import cn.codebro.fortresssystem.controller.param.LoginParam;
 import cn.codebro.fortresssystem.pojo.User;

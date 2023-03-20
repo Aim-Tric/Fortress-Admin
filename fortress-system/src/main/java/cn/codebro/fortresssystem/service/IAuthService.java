@@ -1,6 +1,6 @@
 package cn.codebro.fortresssystem.service;
 
-import cn.codebro.fortresscommon.tree.Treetify;
+import cn.codebro.fortress.common.util.tree.Treeable;
 import cn.codebro.fortresssystem.pojo.Auth;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -16,7 +16,7 @@ public interface IAuthService extends IService<Auth> {
      *
      * @return 树形结构的权限列表
      */
-    List<Treetify<String, Auth>> getAllAsTree();
+    List<Treeable<String, Auth>> getAllAsTree();
 
     void removeAuthByRoleId(String roleId);
 

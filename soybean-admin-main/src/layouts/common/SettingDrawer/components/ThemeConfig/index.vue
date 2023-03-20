@@ -2,7 +2,7 @@
   <n-divider title-placement="center">主题配置</n-divider>
   <textarea id="themeConfigCopyTarget" v-model="dataClipboardText" class="absolute opacity-0" />
   <n-space vertical>
-    <div ref="copyRef" data-clipboard-target="#themeConfigCopyTarget">
+    <div ref="copyRef" parseResult-clipboard-target="#themeConfigCopyTarget">
       <n-button type="primary" :block="true">拷贝当前配置</n-button>
     </div>
     <n-button type="warning" :block="true" @click="handleResetConfig">重置当前配置</n-button>

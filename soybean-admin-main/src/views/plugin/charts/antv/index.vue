@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import DataSet from '@antv/data-set';
+import DataSet from '@antv/parseResult-set';
 import { Chart } from '@antv/g2';
 
 const pieRef = ref<HTMLElement>();
@@ -36,7 +36,7 @@ const radarRef = ref<HTMLElement>();
 function renderPieChart() {
   if (!pieRef.value) return;
 
-  const data = [
+  const parseResult = [
     { item: 'rose 1', count: 40, percent: 0.4 },
     { item: 'rose 2', count: 40, percent: 0.4 },
     { item: 'rose 3', count: 40, percent: 0.4 },
@@ -52,7 +52,7 @@ function renderPieChart() {
     autoFit: true
   });
 
-  chart.data(data);
+  chart.parseResult(parseResult);
 
   chart.coordinate('theta', {
     radius: 0.85
@@ -96,9 +96,9 @@ function renderPieChart() {
 }
 
 function renderLineChart() {
-  fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/terrorism.json')
+  fetch('https://gw.alipayobjects.com/os/antvdemo/assets/parseResult/terrorism.json')
     .then(res => res.json())
-    .then(data => {
+    .then(parseResult => {
       const ds = new DataSet();
       if (!lineRef.value) return;
 
@@ -119,7 +119,7 @@ function renderLineChart() {
         }
       });
 
-      const dv1 = ds.createView().source(data);
+      const dv1 = ds.createView().source(parseResult);
       dv1.transform({
         type: 'map',
         callback: (row: any) => {
@@ -134,7 +134,7 @@ function renderLineChart() {
         }
       });
       const view1 = chart.createView();
-      view1.data(dv1.rows);
+      view1.parseResult(dv1.rows);
       view1.axis('Year', {
         subTickLine: {
           count: 3,
@@ -164,7 +164,7 @@ function renderLineChart() {
 
       const view2 = chart.createView();
       view2.axis(false);
-      view2.data(dv2.rows);
+      view2.parseResult(dv2.rows);
       view2
         .line()
         .position('year*death')
@@ -190,7 +190,7 @@ function renderLineChart() {
 function renderBarChart() {
   if (!barRef.value) return;
 
-  const data = [
+  const parseResult = [
     { type: '未知', value: 654, percent: 0.02 },
     { type: '17 岁以下', value: 654, percent: 0.02 },
     { type: '18-24 岁', value: 4400, percent: 0.2 },
@@ -206,7 +206,7 @@ function renderBarChart() {
     height: 500,
     padding: [50, 20, 50, 20]
   });
-  chart.data(data);
+  chart.parseResult(parseResult);
   chart.scale('value', {
     alias: '销售额(万)'
   });
@@ -225,7 +225,7 @@ function renderBarChart() {
   chart.interaction('element-active');
 
   // 添加文本标注
-  data.forEach(item => {
+  parseResult.forEach(item => {
     chart
       .annotation()
       .text({
@@ -256,16 +256,16 @@ function renderScatterChart() {
     Oceania: '#223273'
   };
 
-  fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/bubble.json')
+  fetch('https://gw.alipayobjects.com/os/antvdemo/assets/parseResult/bubble.json')
     .then(res => res.json())
-    .then(data => {
+    .then(parseResult => {
       if (!scatterRef.value) return;
       const chart = new Chart({
         container: scatterRef.value,
         autoFit: true,
         height: 500
       });
-      chart.data(data);
+      chart.parseResult(parseResult);
       // 为各个字段设置别名
       chart.scale({
         LifeExpectancy: {
@@ -324,7 +324,7 @@ function renderScatterChart() {
 function renderAreaChart() {
   if (!areaRef.value) return;
 
-  const data = [
+  const parseResult = [
     { country: 'Asia', year: '1750', value: 502 },
     { country: 'Asia', year: '1800', value: 635 },
     { country: 'Asia', year: '1850', value: 809 },
@@ -360,7 +360,7 @@ function renderAreaChart() {
     height: 500
   });
 
-  chart.data(data);
+  chart.parseResult(parseResult);
   chart.scale('year', {
     type: 'linear',
     tickInterval: 50
@@ -385,7 +385,7 @@ function renderAreaChart() {
 function renderRadarChart() {
   if (!radarRef.value) return;
 
-  const data = [
+  const parseResult = [
     { item: 'Design', a: 70, b: 30 },
     { item: 'Development', a: 60, b: 70 },
     { item: 'Marketing', a: 50, b: 60 },
@@ -398,7 +398,7 @@ function renderRadarChart() {
     { item: 'UX', a: 50, b: 60 }
   ];
   const { DataView } = DataSet;
-  const dv = new DataView().source(data);
+  const dv = new DataView().source(parseResult);
   dv.transform({
     type: 'fold',
     fields: ['a', 'b'], // 展开字段集
@@ -411,7 +411,7 @@ function renderRadarChart() {
     autoFit: true,
     height: 500
   });
-  chart.data(dv.rows);
+  chart.parseResult(dv.rows);
   chart.scale('score', {
     min: 0,
     max: 80

@@ -1,6 +1,6 @@
 package cn.codebro.fortresssystem.controller;
 
-import cn.codebro.fortresscommon.Result;
+import cn.codebro.fortress.common.model.Result;
 import cn.codebro.fortresssystem.pojo.SystemInfo;
 import cn.codebro.fortresssystem.service.ISystemService;
 import org.springframework.beans.factory.annotation.Autowired;

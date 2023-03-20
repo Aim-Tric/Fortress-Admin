@@ -1,7 +1,7 @@
 package cn.codebro.fortresssystem.service.impl;
 
-import cn.codebro.fortresscommon.tree.TreeUtil;
-import cn.codebro.fortresscommon.tree.Treetify;
+import cn.codebro.fortress.common.util.tree.TreeUtil;
+import cn.codebro.fortress.common.util.tree.Treeable;
 import cn.codebro.fortresssystem.persistence.mapper.MenuMapper;
 import cn.codebro.fortresssystem.pojo.Menu;
 import cn.codebro.fortresssystem.service.IMenuService;
@@ -25,7 +25,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
     private final Logger logger = LoggerFactory.getLogger(MenuServiceImpl.class);
 
     @Override
-    public List<Treetify<String, Menu>> getAllAsTree() {
+    public List<Treeable<String, Menu>> getAllAsTree() {
         QueryWrapper<Menu> wrapper = new QueryWrapper<>(new Menu());
         wrapper.orderByAsc("order_num");
         List<Menu> menus = baseMapper.selectList(wrapper);

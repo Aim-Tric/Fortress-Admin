@@ -1,6 +1,6 @@
-package cn.codebro.fortresscommon.util;
+package cn.codebro.fortress.common.util;
 
-import cn.codebro.fortresscommon.exception.IllegalBusinessOperationException;
+import cn.codebro.fortress.common.exception.IllegalBusinessOperationException;
 
 /**
  * @author Guo wentao

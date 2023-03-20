@@ -1,11 +1,11 @@
 package cn.codebro.fortresssystem.service.impl;
 
-import cn.codebro.fortresscommon.exception.IncorrectUsernameOrPasswordException;
-import cn.codebro.fortresscommon.exception.UnknownUserException;
-import cn.codebro.fortresscommon.exception.UserExistException;
+import cn.codebro.fortress.common.exception.IncorrectUsernameOrPasswordException;
+import cn.codebro.fortress.common.exception.UnknownUserException;
+import cn.codebro.fortress.common.exception.UserExistException;
 import cn.codebro.fortresssystem.controller.param.ChangePasswordParam;
 import cn.codebro.fortresssystem.controller.param.UserInfoParam;
-import cn.codebro.fortresscommon.util.SystemBusinessExceptionUtil;
+import cn.codebro.fortress.common.util.SystemBusinessExceptionUtil;
 import cn.codebro.fortresssystem.persistence.mapper.UserMapper;
 import cn.codebro.fortresssystem.persistence.po.UserPO;
 import cn.codebro.fortresssystem.pojo.Role;

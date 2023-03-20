@@ -57,7 +57,6 @@ async function checkLogin(loginUser: User | undefined, toName: string | undefine
     if (!login) {
       throw new Error("not login!")
     }
-
   }
 }
 

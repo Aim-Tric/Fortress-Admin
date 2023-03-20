@@ -1,6 +1,6 @@
 package cn.codebro.fortresssystem.service.impl;
 
-import cn.codebro.fortresscommon.util.SystemBusinessExceptionUtil;
+import cn.codebro.fortress.common.util.SystemBusinessExceptionUtil;
 import cn.codebro.fortresssystem.config.FileUploadProperties;
 import cn.codebro.fortresssystem.controller.param.FileUploadParam;
 import cn.codebro.fortresssystem.persistence.mapper.FileMapper;

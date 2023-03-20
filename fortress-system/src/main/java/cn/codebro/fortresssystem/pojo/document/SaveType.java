@@ -1,6 +1,6 @@
 package cn.codebro.fortresssystem.pojo.document;
 
-import cn.codebro.fortresscore.exception.ModelException;
+import cn.codebro.fortress.common.exception.ModelException;
 
 /**
  * @author Guo wentao

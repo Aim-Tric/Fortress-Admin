@@ -1,4 +1,4 @@
-package cn.codebro.fortresscore.exception;
+package cn.codebro.fortress.common.exception;
 
 import cn.hutool.core.util.StrUtil;
 import org.slf4j.Logger;

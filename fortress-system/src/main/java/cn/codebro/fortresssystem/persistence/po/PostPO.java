@@ -1,6 +1,5 @@
 package cn.codebro.fortresssystem.persistence.po;
 
-import cn.codebro.fortresscore.model.Entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 

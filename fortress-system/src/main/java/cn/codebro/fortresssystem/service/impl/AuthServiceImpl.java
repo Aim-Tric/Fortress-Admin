@@ -1,8 +1,8 @@
 package cn.codebro.fortresssystem.service.impl;
 
-import cn.codebro.fortresscommon.tree.TreeUtil;
-import cn.codebro.fortresscommon.tree.Treetify;
-import cn.codebro.fortresscommon.util.SystemBusinessExceptionUtil;
+import cn.codebro.fortress.common.util.tree.TreeUtil;
+import cn.codebro.fortress.common.util.tree.Treeable;
+import cn.codebro.fortress.common.util.SystemBusinessExceptionUtil;
 import cn.codebro.fortresssystem.persistence.mapper.AuthMapper;
 import cn.codebro.fortresssystem.pojo.Auth;
 import cn.codebro.fortresssystem.service.IAuthService;
@@ -24,7 +24,7 @@ import java.util.List;
 public class AuthServiceImpl extends ServiceImpl<AuthMapper, Auth> implements IAuthService {
 
     @Override
-    public List<Treetify<String, Auth>> getAllAsTree() {
+    public List<Treeable<String, Auth>> getAllAsTree() {
         List<Auth> auths = baseMapper.selectList(new QueryWrapper<>(new Auth()));
         return TreeUtil.listToTree(auths);
     }

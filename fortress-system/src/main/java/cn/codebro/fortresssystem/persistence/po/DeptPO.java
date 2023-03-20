@@ -1,13 +1,10 @@
 package cn.codebro.fortresssystem.persistence.po;
 
-import cn.codebro.fortresscore.model.Entity;
-import cn.codebro.fortresssystem.pojo.Post;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author Guo wentao

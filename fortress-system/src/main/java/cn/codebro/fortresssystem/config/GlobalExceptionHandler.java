@@ -1,11 +1,9 @@
 package cn.codebro.fortresssystem.config;
 
-import cn.codebro.fortresscommon.Result;
+import cn.codebro.fortress.common.model.Result;
 import cn.dev33.satoken.exception.SaTokenException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Guo wentao

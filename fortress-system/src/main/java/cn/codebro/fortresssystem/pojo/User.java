@@ -1,7 +1,7 @@
 package cn.codebro.fortresssystem.pojo;
 
-import cn.codebro.fortresscore.exception.ModelException;
-import cn.codebro.fortresscore.model.Entity;
+import cn.codebro.fortress.common.exception.ModelException;
+import cn.codebro.fortress.common.model.Entity;
 
 import java.io.Serializable;
 import java.util.List;

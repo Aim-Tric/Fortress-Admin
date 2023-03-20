@@ -1,12 +1,10 @@
 package cn.codebro.fortresssystem.controller;
 
-import cn.codebro.fortresscommon.Result;
+import cn.codebro.fortress.common.model.Result;
 import cn.codebro.fortresssystem.pojo.Auth;
 import cn.codebro.fortresssystem.service.IAuthService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * @author Guo wentao

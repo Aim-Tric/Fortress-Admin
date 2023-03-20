@@ -1,7 +1,7 @@
 <template>
   <n-space :vertical="true" :size="16">
     <top-chart />
-    <data-card />
+    <parseResult-card />
     <bottom-part />
   </n-space>
 </template>

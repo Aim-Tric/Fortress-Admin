@@ -5,6 +5,7 @@
         <module>fortress-framework</module>
         <module>fortress-common</module>
         <module>fortress-system</module>
+        <module>fortress-spider</module>
     </modules>
 
     <parent>

@@ -1,4 +1,4 @@
-package cn.codebro.fortresscommon;
+package cn.codebro.fortress.common.model;
 
 /**
  * @author Guo wentao

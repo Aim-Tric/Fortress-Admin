@@ -1,6 +1,6 @@
 package cn.codebro.fortresssystem.pojo;
 
-import cn.codebro.fortresscore.model.Entity;
+import cn.codebro.fortress.common.model.Entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 

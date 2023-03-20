@@ -1,4 +1,4 @@
-package cn.codebro.fortresscommon.tree;
+package cn.codebro.fortress.common.util.tree;
 
 import java.util.Collection;
 
@@ -7,7 +7,7 @@ import java.util.Collection;
  * @project fortress
  * @date 2022-10-27 00:15:09
  */
-public interface Treetify<K, T> {
+public interface Treeable<K, T> {
 
     K getId();
 
@@ -15,8 +15,8 @@ public interface Treetify<K, T> {
 
     boolean hasChildren();
 
-    Collection<Treetify<K, T>> getChildren();
+    Collection<Treeable<K, T>> getChildren();
 
-    void addChildren(Treetify<K, T> obj);
+    void addChildren(Treeable<K, T> obj);
 
 }

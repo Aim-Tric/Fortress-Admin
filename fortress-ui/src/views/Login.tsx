@@ -17,7 +17,6 @@ export default defineComponent({
             if ($route.query.redirect) {
                 redirect = decodeURIComponent($route.query.redirect as string)
             }
-            console.log($router.getRoutes())
             $router.replace({ path: redirect })
         }
 
