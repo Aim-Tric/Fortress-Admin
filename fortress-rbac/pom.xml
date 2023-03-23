@@ -7,7 +7,7 @@
         <artifactId>fortress</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>fortress-system</artifactId>
+    <artifactId>fortress-rbac</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <dependencies>

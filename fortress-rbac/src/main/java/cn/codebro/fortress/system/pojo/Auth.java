@@ -14,7 +14,7 @@ import java.util.List;
  * @date 2022/10/9
  */
 @TableName(value = "F_AUTH", excludeProperty = {"children"})
-public class Auth extends BaseEntity<String> implements Serializable, Treeable<String, Auth> {
+public class Auth extends BaseEntity implements Serializable, Treeable<String, Auth> {
     @TableId
     private String id;
     private String parent;

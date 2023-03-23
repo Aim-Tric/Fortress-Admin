@@ -4,9 +4,13 @@
 package cn.codebro.fortress.system.persistence.po;
 
 import cn.codebro.fortress.common.model.BaseEntity;
+import cn.codebro.fortress.common.model.TreeableEntity;
+import cn.codebro.fortress.common.util.tree.Treeable;
 import org.sagacity.sqltoy.config.annotation.Column;
 import org.sagacity.sqltoy.config.annotation.Entity;
 import org.sagacity.sqltoy.config.annotation.Id;
+
+import java.util.Collection;
 
 /**
  * @author Guo Wentao
@@ -15,8 +19,7 @@ import org.sagacity.sqltoy.config.annotation.Id;
  * @project fortress-admin
  */
 @Entity(tableName = "f_auth", comment = "", pk_constraint = "PRIMARY")
-public class FAuthPO extends BaseEntity {
-
+public class FAuthPO extends TreeableEntity<String, FAuthPO> {
 
     /**
      * 主键
@@ -39,11 +42,6 @@ public class FAuthPO extends BaseEntity {
      */
     @Column(name = "identify", comment = "权限标识", length = 200L, type = java.sql.Types.VARCHAR, nullable = true)
     protected String identify;
-    /**
-     * 排序
-     */
-    @Column(name = "order_num", comment = "排序", length = 10L, type = java.sql.Types.INTEGER, nullable = true)
-    protected Integer orderNum;
 
     public String getId() {
         return id;
@@ -77,13 +75,4 @@ public class FAuthPO extends BaseEntity {
         this.identify = identify;
     }
 
-    @Override
-    public Integer getOrderNum() {
-        return orderNum;
-    }
-
-    @Override
-    public void setOrderNum(Integer orderNum) {
-        this.orderNum = orderNum;
-    }
 }

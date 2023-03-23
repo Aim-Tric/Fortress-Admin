@@ -12,7 +12,7 @@ import java.util.List;
  * @date 2022-11-02 17:35:54
  */
 public interface IMenuService extends IService<Menu> {
-    List<Treeable<String, Menu>> getAllAsTree();
+    List<Menu> getAllAsTree();
 
     void deleteMenuByRoleId(String id);
 

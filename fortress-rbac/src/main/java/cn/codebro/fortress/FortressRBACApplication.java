@@ -11,12 +11,12 @@ import org.springframework.core.env.ConfigurableEnvironment;
 
 
 @SpringBootApplication
-public class FortressSystemApplication {
+public class FortressRBACApplication {
 
-    private static final Logger logger = LoggerFactory.getLogger(FortressSystemApplication.class);
+    private static final Logger logger = LoggerFactory.getLogger(FortressRBACApplication.class);
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext context = SpringApplication.run(FortressSystemApplication.class, args);
+        ConfigurableApplicationContext context = SpringApplication.run(FortressRBACApplication.class, args);
         logger.info("正在检查系统初始化状态...");
         ISystemService systemService = context.getBean(ISystemService.class);
         if (!systemService.initialized()) {

@@ -1,6 +1,7 @@
 package cn.codebro.fortress.system.controller;
 
 import cn.codebro.fortress.common.model.Result;
+import cn.codebro.fortress.system.persistence.po.FAuthPO;
 import cn.codebro.fortress.system.pojo.Auth;
 import cn.codebro.fortress.system.service.IAuthService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -28,20 +29,18 @@ public class AuthController {
 
     @GetMapping("/{id}")
     public Result getById(@PathVariable String id) {
-        Auth auth = new Auth();
-        auth.setId(id);
-        return Result.success(authService.getOne(new QueryWrapper<>(auth)));
+        return Result.success(authService.getById(id));
     }
 
     @PostMapping
-    public Result add(@RequestBody Auth auth) {
-        authService.save(auth);
+    public Result add(@RequestBody FAuthPO fAuthPO) {
+        authService.save(fAuthPO);
         return Result.success();
     }
 
     @PutMapping
-    public Result update(@RequestBody Auth auth) {
-        authService.updateById(auth);
+    public Result update(@RequestBody FAuthPO fAuthPO) {
+        authService.update(fAuthPO);
         return Result.success();
     }
 

@@ -13,17 +13,17 @@ public class TreeUtil {
      * 将非树形的列表转换成树形结构
      *
      * @param nodeList 非树形列表
-     * @param <T>      转换的类型，需要实现Treetify接口
+     * @param <T>      转换的类型，需要实现Treeable接口
      * @return 树形数据列表
      * @see Treeable
      */
-    public static <T extends Treeable<K, T>, K> List<Treeable<K, T>> listToTree(List<T> nodeList) {
-        Map<Object, Treeable<K, T>> map = new LinkedHashMap<>();
+    public static <T extends Treeable<K, T>, K> List<T> listToTree(List<T> nodeList) {
+        Map<Object, T> map = new LinkedHashMap<>();
         nodeList.forEach(node -> {
             map.put(node.getId(), node);
         });
-        Set<Map.Entry<Object, Treeable<K, T>>> entries = map.entrySet();
-        for (Map.Entry<Object, Treeable<K, T>> entry : entries) {
+        Set<Map.Entry<Object, T>> entries = map.entrySet();
+        for (Map.Entry<Object, T> entry : entries) {
             Treeable<K, T> value = entry.getValue();
             Object parentId = value.getParent();
             if (parentId != null) {
@@ -33,7 +33,7 @@ public class TreeUtil {
                 }
             }
         }
-        List<Treeable<K, T>> result = new ArrayList<>();
+        List<T> result = new ArrayList<>();
         entries.forEach(entry -> {
             Object parent = entry.getValue().getParent();
             if (parent == null || ("".equals(parent))) {

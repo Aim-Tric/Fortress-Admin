@@ -25,7 +25,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
     private final Logger logger = LoggerFactory.getLogger(MenuServiceImpl.class);
 
     @Override
-    public List<Treeable<String, Menu>> getAllAsTree() {
+    public List<Menu> getAllAsTree() {
         QueryWrapper<Menu> wrapper = new QueryWrapper<>(new Menu());
         wrapper.orderByAsc("order_num");
         List<Menu> menus = baseMapper.selectList(wrapper);
