@@ -1,7 +1,7 @@
 package cn.codebro.fortress.system.service;
 
 import cn.codebro.fortress.system.controller.param.ChangePasswordParam;
-import cn.codebro.fortress.system.persistence.po.UserPO;
+import cn.codebro.fortress.system.persistence.po.FUserPO;
 import cn.codebro.fortress.system.pojo.User;
 
 /**
@@ -25,16 +25,7 @@ public interface IAccountService {
      *
      * @param user 注册的用户信息
      */
-    void register(UserPO user);
-
-    /**
-     * 申请重置密码，校验短信验证码
-     *
-     * @param username 重置密码的用户名
-     * @param phone    手机号
-     * @param smsCode  短信验证码
-     */
-    void resetPassword(String username, String phone, String smsCode);
+    void register(FUserPO user);
 
     /**
      * 获取当前登录的用户信息

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-    private static final int DEFAULT_PAGE_SIZE = 10;
 
     private final IAuthService authService;
 

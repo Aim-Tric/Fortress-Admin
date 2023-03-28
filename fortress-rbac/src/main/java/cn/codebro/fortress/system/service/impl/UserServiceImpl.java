@@ -7,7 +7,12 @@ import cn.codebro.fortress.system.controller.param.ChangePasswordParam;
 import cn.codebro.fortress.system.controller.param.UserInfoParam;
 import cn.codebro.fortress.common.util.SystemBusinessExceptionUtil;
 import cn.codebro.fortress.system.persistence.mapper.UserMapper;
+import cn.codebro.fortress.system.persistence.po.FRolePO;
+import cn.codebro.fortress.system.persistence.po.FUserPO;
 import cn.codebro.fortress.system.persistence.po.UserPO;
+import cn.codebro.fortress.system.persistence.repo.RoleRepo;
+import cn.codebro.fortress.system.persistence.repo.UserRepo;
+import cn.codebro.fortress.system.persistence.repo.UserRoleRepo;
 import cn.codebro.fortress.system.pojo.Role;
 import cn.codebro.fortress.system.pojo.User;
 import cn.codebro.fortress.system.service.IAccountService;
@@ -19,12 +24,14 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.sagacity.sqltoy.dao.SqlToyLazyDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,8 +43,15 @@ import java.util.List;
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserPO> implements IUserService, IAccountService {
 
     private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-
-    public final IRoleService roleService;
+    @Resource
+    private SqlToyLazyDao sqlToyLazyDao;
+    @Resource
+    private UserRepo userRepo;
+    @Resource
+    private UserRoleRepo userRoleRepo;
+    @Resource
+    private RoleRepo roleRepo;
+    private final IRoleService roleService;
 
     @Autowired
     public UserServiceImpl(IRoleService roleService) {
@@ -57,9 +71,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserPO> implements 
             } else {
                 throw SystemBusinessExceptionUtil.dump("不支持的登录类型：" + type);
             }
-            QueryWrapper<UserPO> query = new QueryWrapper<>();
-            query.eq(column, account);
-            UserPO user = baseMapper.selectOne(query);
+            FUserPO user = userRepo.selectByUsername(account);
             if (ObjectUtil.isNull(user)) {
                 throw new UnknownUserException(account);
             }
@@ -71,19 +83,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserPO> implements 
     }
 
     @Override
-    public void register(UserPO registerUser) {
-        QueryWrapper<UserPO> query = new QueryWrapper<>();
-        query.eq("username", registerUser.getUsername());
-        UserPO queryUser = baseMapper.selectOne(query);
+    public void register(FUserPO registerUser) {
+        FUserPO queryUser = userRepo.selectByUsername(registerUser.getUsername());
         if (ObjectUtil.isNotNull(queryUser)) {
             throw new UserExistException(registerUser.getUsername());
         }
-        baseMapper.insert(registerUser);
-    }
-
-    @Override
-    public void resetPassword(String username, String phone, String smsCode) {
-
+        userRepo.insert(registerUser);
     }
 
     @Override
@@ -105,24 +110,25 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserPO> implements 
     @Override
     public void changePassword(User user, ChangePasswordParam changePasswordParam) {
         user.changePassword(changePasswordParam.getOldPassword(), changePasswordParam.getNewPassword());
-        UserPO userPO = new UserPO();
+        FUserPO userPO = new FUserPO();
         BeanUtil.copyProperties(user, userPO);
-        baseMapper.updateById(userPO);
+        userRepo.update(userPO);
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void save(UserInfoParam userInfoParam) {
-        UserPO userPO = new UserPO();
+        FUserPO userPO = new FUserPO();
         BeanUtil.copyProperties(userInfoParam, userPO);
-        boolean saved = save(userPO);
+        boolean saved = userRepo.insert(userPO);
         if (!saved) {
             throw SystemBusinessExceptionUtil.dump("用户信息新增失败!");
         }
         List<String> roleStringList = userInfoParam.getRoles();
-        List<Role> roles = checkAndGetRoles(roleStringList);
+        List<FRolePO> roles = checkAndGetRoles(roleStringList);
+        String userId = userPO.getId();
         if (roles != null && roles.size() > 0) {
-            roleService.insertRoleByUserId(userInfoParam.getId(), roles);
+            userRoleRepo.insertByUserId(userId, roleStringList);
         }
     }
 
@@ -136,21 +142,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserPO> implements 
             throw SystemBusinessExceptionUtil.dump("用户信息更新失败!");
         }
         List<String> roleStringList = userInfoParam.getRoles();
-        List<Role> roles = checkAndGetRoles(roleStringList);
+        checkAndGetRoles(roleStringList);
         User user = baseMapper.selectFullUserInfo(userInfoParam.getId());
         if (user == null) {
             throw new RuntimeException("操作的角色不存在！");
         }
-        roleService.removeRoleByUserId(user.getId());
-        roleService.insertRoleByUserId(user.getId(), roles);
+        String userId = user.getId();
+        userRoleRepo.deleteByUserId(userId);
+        userRoleRepo.insertByUserId(userId, roleStringList);
     }
 
-    private List<Role> checkAndGetRoles(List<String> roleStringList) {
-        List<Role> roles = new ArrayList<>();
+    private List<FRolePO> checkAndGetRoles(List<String> roleStringList) {
+        List<FRolePO> roles = new ArrayList<>();
         if (roleStringList != null && roleStringList.size() > 0) {
-            QueryWrapper<Role> wrapper = new QueryWrapper<>();
-            wrapper.in("id", roleStringList);
-            roles = roleService.list(wrapper);
+            roles = roleRepo.selectInIds(roleStringList);
             if (roles.size() != roleStringList.size()) {
                 throw new RuntimeException("操作的角色异常！");
             }
