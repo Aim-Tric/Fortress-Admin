@@ -57,7 +57,7 @@ public class RoleController {
 
     @GetMapping("/menu/{id}")
     public Result getRoleMenu(@PathVariable String id) {
-        return Result.success(roleService.getRoleMenu(id));
+        return Result.success(roleService.getRoleWithMenus(id));
     }
 
     @PostMapping("/menu")
@@ -68,7 +68,7 @@ public class RoleController {
 
     @GetMapping("/auth/{id}")
     public Result getRoleAuth(@PathVariable String id) {
-        return Result.success(roleService.getRoleAuth(id));
+        return Result.success(roleService.getRoleWithAuths(id));
     }
 
     @PostMapping("/auth")

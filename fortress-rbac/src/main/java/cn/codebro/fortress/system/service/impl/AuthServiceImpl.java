@@ -4,7 +4,6 @@ import cn.codebro.fortress.common.util.tree.TreeUtil;
 import cn.codebro.fortress.common.util.SystemBusinessExceptionUtil;
 import cn.codebro.fortress.system.persistence.po.FAuthPO;
 import cn.codebro.fortress.system.persistence.po.FRoleAuthPO;
-import cn.codebro.fortress.system.pojo.Auth;
 import cn.codebro.fortress.system.service.IAuthService;
 import cn.hutool.core.util.IdUtil;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
@@ -35,10 +34,15 @@ public class AuthServiceImpl extends SqlToyCRUDServiceImpl implements IAuthServi
         return TreeUtil.listToTree(rows);
     }
 
+    @Override
+    public List<FAuthPO> getInIds(List<String> ids) {
+        return null;
+    }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void saveAuthByRoleId(String roleId, List<Auth> auths) {
-        for (Auth auth : auths) {
+    public void saveAuthByRoleId(String roleId, List<FAuthPO> auths) {
+        for (FAuthPO auth : auths) {
             FRoleAuthPO fRoleAuthPO = new FRoleAuthPO();
             fRoleAuthPO.setId(IdUtil.fastSimpleUUID());
             fRoleAuthPO.setRoleId(roleId);
@@ -50,7 +54,7 @@ public class AuthServiceImpl extends SqlToyCRUDServiceImpl implements IAuthServi
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void removeAuthByRoleId(String roleId) {
-        sqlToyLazyDao.executeSql("auth_delete_auth_role_id",
+        sqlToyLazyDao.executeSql("auth_delete_auth_by_role_id",
                 MapKit.keys("roleId").values(roleId));
     }
 
@@ -69,7 +73,7 @@ public class AuthServiceImpl extends SqlToyCRUDServiceImpl implements IAuthServi
         if (distributionCount > 0) {
             throw SystemBusinessExceptionUtil.dump("权限已经被分配了，不能执行删除操作！");
         }
-        Long effectRows = sqlToyLazyDao.executeSql("", MapKit.keys("authId").values(id));
+        Long effectRows = sqlToyLazyDao.executeSql("auth_delete_auth_by_auth_id", MapKit.keys("authId").values(id));
         return effectRows > 0;
     }
 

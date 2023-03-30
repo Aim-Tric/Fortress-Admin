@@ -1,7 +1,11 @@
 package cn.codebro.fortress.system.service.impl;
 
 import cn.codebro.fortress.system.persistence.mapper.RoleMapper;
-import cn.codebro.fortress.system.pojo.Auth;
+import cn.codebro.fortress.system.persistence.po.FAuthPO;
+import cn.codebro.fortress.system.persistence.po.FMenuPO;
+import cn.codebro.fortress.system.persistence.po.FRolePO;
+import cn.codebro.fortress.system.persistence.repo.RoleRepo;
+import cn.codebro.fortress.system.persistence.repo.UserRoleRepo;
 import cn.codebro.fortress.system.pojo.Menu;
 import cn.codebro.fortress.system.pojo.Role;
 import cn.codebro.fortress.system.controller.param.BindRoleParam;
@@ -11,10 +15,10 @@ import cn.codebro.fortress.system.service.IRoleService;
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,14 +28,16 @@ import java.util.List;
  */
 @Service
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IRoleService {
-    private final IMenuService menuService;
-    private final IAuthService authService;
+    @Resource
+    private IMenuService menuService;
+    @Resource
+    private IAuthService authService;
 
-    @Autowired
-    public RoleServiceImpl(IMenuService menuService, IAuthService authService) {
-        this.menuService = menuService;
-        this.authService = authService;
-    }
+    @Resource
+    private RoleRepo roleRepo;
+    @Resource
+    private UserRoleRepo userRoleRepo;
+
 
     @Override
     public void removeRoleByUserId(String userId) {
@@ -51,7 +57,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
                 throw new RuntimeException("操作的菜单异常！");
             }
         }
-        Role role = getRoleMenu(bindRoleParam.getId());
+        FRolePO role = roleRepo.selectById(bindRoleParam.getId());
         if (role == null) {
             throw new RuntimeException("操作的角色不存在！");
         }
@@ -63,17 +69,16 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
     @Override
     public void bindRoleAuth(BindRoleParam bindRoleParam) {
         List<String> authStringList = bindRoleParam.getAuths();
-        List<Auth> auths = new ArrayList<>();
+        List<FAuthPO> auths = new ArrayList<>();
         if (authStringList.size() > 0) {
-            QueryWrapper<Auth> wrapper = new QueryWrapper<>();
-            wrapper.in("id", authStringList);
-            auths = authService.list(wrapper);
+            auths = authService.getInIds(authStringList);
             if (auths.size() != authStringList.size()) {
                 throw new RuntimeException("操作的权限异常！");
             }
         }
         String roleId = bindRoleParam.getId();
-        Role role = baseMapper.selectRoleAuthByRoleId(roleId);
+
+        FRolePO role = roleRepo.selectById(roleId);
         if (role == null) {
             throw new RuntimeException("操作的角色不存在！");
         }
@@ -82,21 +87,19 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
     }
 
     @Override
-    public Role getRoleAuth(String id) {
-        return baseMapper.selectRoleAuthByRoleId(id);
+    public List<FAuthPO> getRoleWithAuths(String id) {
+        return roleRepo.selectAuthsByRoleId(id);
     }
 
     @Override
-    public Role getRoleMenu(String id) {
-        return baseMapper.selectRoleMenuByRoleId(id);
+    public List<FMenuPO> getRoleWithMenus(String id) {
+        return roleRepo.selectMenusByRoleId(id);
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void insertRoleByUserId(String userId, List<Role> roles) {
-        for (Role role : roles) {
-            baseMapper.insertRoleByUserId(IdUtil.fastSimpleUUID(), userId, role.getId());
-        }
+    public void insertRoleByUserId(String userId, List<String> roles) {
+        userRoleRepo.insertByUserId(userId, roles);
     }
 
 }

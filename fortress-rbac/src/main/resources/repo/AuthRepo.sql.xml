@@ -3,7 +3,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sagframe.com/schema/sqltoy http://www.sagframe.com/schema/sqltoy/sqltoy.xsd">
 
-    <sql id="auth_delete_auth_role_id">
+    <sql id="auth_delete_auth_by_role_id">
         <value>
             <![CDATA[
             DELETE
@@ -13,6 +13,15 @@
         </value>
     </sql>
 
+    <sql id="auth_delete_auth_by_auth_id">
+        <value>
+            <![CDATA[
+            DELETE
+            FROM F_ROLE_AUTH
+            WHERE auth_id = :authId
+            ]]>
+        </value>
+    </sql>
 
 
 </sqltoy>

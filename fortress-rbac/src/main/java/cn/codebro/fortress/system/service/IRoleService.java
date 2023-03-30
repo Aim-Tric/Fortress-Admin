@@ -1,5 +1,7 @@
 package cn.codebro.fortress.system.service;
 
+import cn.codebro.fortress.system.persistence.po.FAuthPO;
+import cn.codebro.fortress.system.persistence.po.FMenuPO;
 import cn.codebro.fortress.system.pojo.Role;
 import cn.codebro.fortress.system.controller.param.BindRoleParam;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -18,9 +20,9 @@ public interface IRoleService extends IService<Role> {
 
     void bindRoleAuth(BindRoleParam bindRoleParam);
 
-    Role getRoleAuth(String id);
+    List<FAuthPO> getRoleWithAuths(String id);
 
-    Role getRoleMenu(String id);
+    List<FMenuPO> getRoleWithMenus(String id);
 
-    void insertRoleByUserId(String id, List<Role> roles);
+    void insertRoleByUserId(String id, List<String> roles);
 }
